@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Data Structures in C and Rust",
   description: "Notes for Data Structures",
+  base: "/cs-notes/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
