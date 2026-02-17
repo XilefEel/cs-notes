@@ -9,10 +9,15 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Home", link: "/" },
+      { text: "Get Started", link: "/get-started" },
       { text: "Linked List", link: "/linked-list/intro" },
     ],
 
     sidebar: [
+      {
+        text: "Introduction",
+        items: [{ text: "Get Started", link: "/get-started" }],
+      },
       {
         text: "Linked List",
         items: [
@@ -62,8 +67,6 @@ export default defineConfig({
       },
     ],
 
-    socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
-    ],
+    socialLinks: [{ icon: "github", link: "https://github.com/XilefEel" }],
   },
 });
