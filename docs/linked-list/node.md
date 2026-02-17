@@ -1,55 +1,50 @@
----
-outline: deep
----
+# What is a Node?
 
-# Runtime API Examples
+A node is the building block of a linked list. Every node contains two things:
 
-This page demonstrates usage of some of the runtime APIs provided by VitePress.
+- The **data** you want to store
+- A **pointer** to the next node
 
-The main `useData()` API can be used to access site, theme, and page data for the current page. It works in both `.md` and `.vue` files:
+## In C
 
-```md
-<script setup>
-import { useData } from 'vitepress'
-
-const { theme, page, frontmatter } = useData()
-</script>
-
-## Results
-
-### Theme Data
-
-<pre>{{ theme }}</pre>
-
-### Page Data
-
-<pre>{{ page }}</pre>
-
-### Page Frontmatter
-
-<pre>{{ frontmatter }}</pre>
+```c
+typedef struct Node {
+    int data;
+    struct Node *next;
+} Node;
 ```
 
-<script setup>
-import { useData } from 'vitepress'
+`int data` is the actual data stored in each `Node` (for this example, its an integer).<br>
+`struct Node *next` is a raw pointer, a 64-bit integer representing a memory address. The pointer `next` either points to the next node or is `NULL` if there is no next node.
 
-const { site, theme, page, frontmatter } = useData()
-</script>
+::: warning
+C doesn't know if `next` points to a valid node, uninitialized junk memory, or `NULL`. If you dereference a `NULL` pointer, the program **crashes** (Segfault).
+:::
 
-## Results
+## In Rust
 
-### Theme Data
+```rust
+struct Node {
+    data: i32,
+    next: Option<Box<Node>>,
+}
+```
 
-<pre>{{ theme }}</pre>
+`data: i32`, just like in C, is the actual data stored in each `Node`. <br>
+`Option<Box<Node>>` is (basically) the rust way to write `struct Node *` in C:
 
-### Page Data
+- `Box<T>` is a heap allocated pointer, like `malloc` but owned. The value is automatically freed when it goes out of scope.
+- `Option<T>` is either `Some(value)` or `None`. This forces you to handle the "no next node" case explicitly.
 
-<pre>{{ page }}</pre>
+::: tip
+Unlike in C, the rust compiler forces you to handle `None` before you can use the value inside. The bug moves from runtime to compile time.
+:::
 
-### Page Frontmatter
+## Key Difference
 
-<pre>{{ frontmatter }}</pre>
-
-## More
-
-Check out the documentation for the [full list of runtime APIs](https://vitepress.dev/reference/runtime-api#usedata).
+|               | C                    | Rust                |
+| ------------- | -------------------- | ------------------- |
+| Pointer Type  | `struct Node *next`  | `Option<Box<Node>>` |
+| Valid Pointer | always valid pointer | `Some(Box<Node>)`   |
+| Nullability   | `NULL`               | `None`              |
+| Deallocation  | `free()`             | Automatic           |

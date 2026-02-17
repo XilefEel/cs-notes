@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "Data Structures in C and Rust"
-  text: "Notes for Data Structures"
+  name: "Data Structures Notes"
+  text: "Notes for Data Structures in C and Rust"
   tagline: My great project tagline
   actions:
     - theme: brand
@@ -22,4 +22,3 @@ features:
   - title: Feature C
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
-

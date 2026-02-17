@@ -2,21 +2,21 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Data Structures in C and Rust",
-  description: "Notes for Data Structures",
+  title: "Data Structures Notes",
+  description: "Notes for Data Structures in C and Rust",
   base: "/cs-notes/",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Home", link: "/" },
-      { text: "Linked List", link: "/linked-list" },
+      { text: "Linked List", link: "/linked-list/intro" },
     ],
 
     sidebar: [
       {
         text: "Linked List",
         items: [
-          { text: "What is a Linked List?", link: "/linked-list/index" },
+          { text: "What is a Linked List?", link: "/linked-list/intro" },
           { text: "What is a Node?", link: "/linked-list/node" },
           { text: "Creating a Linked List", link: "/linked-list/create" },
           {
