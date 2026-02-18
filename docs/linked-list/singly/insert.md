@@ -133,9 +133,9 @@ void insert_at_tail(Node **head, int data) {
 
 // Usage
 Node *head = NULL;
-insert_at_tail(&head, 10);  // [10]
-insert_at_tail(&head, 20);  // [10] -> [20]
-insert_at_tail(&head, 30);  // [10] -> [20] -> [30]
+insert_at_tail(&head, 10);  // HEAD -> [10] -> NULL
+insert_at_tail(&head, 20);  // HEAD -> [10] -> [20] -> NULL
+insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
 ```
 
 `while (current->next != NULL)` walks to the last node (the one whose `next` is `NULL`).<br>
@@ -173,14 +173,20 @@ impl Node {
 
 // Usage
 let mut head = None;
-head = Node::insert_at_tail(head, 10);  // [10]
-head = Node::insert_at_tail(head, 20);  // [10] -> [20]
-head = Node::insert_at_tail(head, 30);  // [10] -> [20] -> [30]
+head = Node::insert_at_tail(head, 10);  // HEAD -> [10] -> NONE
+head = Node::insert_at_tail(head, 20);  // HEAD -> [10] -> [20] -> NONE
+head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 ```
 
 `match head` handles both cases explicitly: empty list (if `head` is `None`) and non-empty list (if `head` is `Some`).<br>
 `while current.next.is_some()` is Rust's way of writing `while (current->next != NULL)` in C.<br>
 `current.next.as_mut().unwrap()` gives us a mutable reference to the next node so we can keep traversing.
+
+::: info What is .unwrap()?
+`.unwrap()` extracts the value from an `Option` or `Result`. If the value is `Some(x)`, it returns `x`. If it's `None`, the program panics (crashes). We use it here because we've already checked that the value exists — if it doesn't, we want the program to crash loudly rather than continue with invalid data.
+
+In production code, you'd typically handle `None` gracefully with `match` or `if let` instead of using `.unwrap()`.
+:::
 
 ::: tip
 Notice the difference: in C we modify through pointers. In Rust we borrow mutably (`&mut`) and traverse using `.as_mut()`. Same logic, different syntax.
@@ -238,9 +244,9 @@ void insert_at_index(Node **head, int data, int index) {
 
 // Usage
 Node *head = NULL;
-insert_at_head(&head, 10);      // [10]
-insert_at_head(&head, 20);      // [20] -> [10]
-insert_at_index(&head, 30, 1);  // [20] -> [30] -> [10]
+insert_at_head(&head, 10);      // HEAD -> [10] -> NULL
+insert_at_head(&head, 20);      // HEAD -> [20] -> [10] -> NULL
+insert_at_index(&head, 30, 1);  // HEAD -> [20] -> [30] -> [10] -> NULL
 ```
 
 We stop at `index - 1` because we need access to the node **before** the insertion point to rewire its `next` pointer.<br>
@@ -306,9 +312,9 @@ impl Node {
 
 // Usage
 let mut head = None;
-head = Node::insert_at_index(head, 10, 0);  // [10]
-head = Node::insert_at_index(head, 20, 0);  // [20] -> [10]
-head = Node::insert_at_index(head, 30, 1);  // [20] -> [30] -> [10]
+head = Node::insert_at_index(head, 10, 0);  // HEAD -> [10] -> NONE
+head = Node::insert_at_index(head, 20, 0);  // HEAD -> [20] -> [10] -> NONE
+head = Node::insert_at_index(head, 30, 1);  // HEAD -> [20] -> [30] -> [10] -> NONE
 ```
 
 `match head` handles both cases explicitly: if the list is empty (`None`), the new node becomes the head. If the list has nodes (`Some`), we traverse to the end.<br>
@@ -336,8 +342,8 @@ In C you check `current != NULL` to detect out of bounds. In Rust you check `cur
 
 ## Summary
 
-| Operation       | C Complexity | Rust Complexity | When to Use                                 |
-| --------------- | ------------ | --------------- | ------------------------------------------- |
-| Insert at head  | O(1)         | O(1)            | Building a list, stack operations           |
-| Insert at tail  | O(n)         | O(n)            | Queue behavior (better with tail pointer)   |
-| Insert at index | O(n)         | O(n)            | Rare — usually better data structures exist |
+| Operation       | C Complexity | Rust Complexity | When to Use                                |
+| --------------- | ------------ | --------------- | ------------------------------------------ |
+| Insert at head  | O(1)         | O(1)            | Building a list, stack operations          |
+| Insert at tail  | O(n)         | O(n)            | Queue behavior (better with tail pointer)  |
+| Insert at index | O(n)         | O(n)            | Rare, usually better data structures exist |
