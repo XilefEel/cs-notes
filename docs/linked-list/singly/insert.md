@@ -33,6 +33,7 @@ insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 ```
 
 `new_node->next = *head` makes the new node point to the old head.<br>
+
 `*head = new_node` updates the head pointer to point to the new node.
 
 ::: warning
@@ -41,7 +42,7 @@ Notice that we pass `Node **head` in the function signature (pointer to a pointe
 
 ### In Rust
 
-Unlike in C where we modify `head` in place, in Rust, we must **consume** the old head and **return** a new node that points to it. This might feel weird at first, but it's how Rust's ownership system works — you can't have two things owning/pointing the same node.
+Unlike in C where we modify `head` in place, in Rust, we must **consume** the old head and **return** a new node that points to it. This might feel weird at first, but it's how Rust's ownership system works, you can't have two things owning or pointing the same node.
 
 ```rust
 impl Node {
@@ -61,13 +62,17 @@ head = Node::insert_at_head(head, 20);  // HEAD -> [20] -> [10] -> NONE
 head = Node::insert_at_head(head, 30);  // HEAD -> [30] -> [20] -> [10] -> NONE
 ```
 
-`head: Option<Box<Node>>` means we're taking ownership (not borrowing with `&`).<br>
-When we pass `head` to the function, we **move** it — Rust transfers ownership to the function, so the old `head` variable can't be used anymore.<br>
-The function returns a new `Option<Box<Node>>` which we assign back to `head`, giving us a fresh binding to work with.
+`mut head` explicitly makes the head mutable as in Rust, variables are immutable by default. <br>
+
+In the function signature, `head: Option<Box<Node>>` means we're taking ownership (not borrowing with `&`).<br>
+
+When we pass `head` to the function, we **move** it. In Rust, we transfer ownership of `head` to the function, so the `head` variable can't be used anymore.<br>
+
+Since we moved `head`, we **return** a new `Option<Box<Node>>` which we assign back to `head` so that it can be used again.
 
 ::: tip
 In C you modify `head` in place with a double pointer (`Node **head`).<br>
-In Rust you consume the old head and return a new one — same result, different ownership model.
+In Rust you consume the old head and return a new one. It's the same result, just different ownership model.
 :::
 
 ::: details Alternative: Mutate in place
@@ -89,7 +94,7 @@ Node::insert_at_head(&mut head, 10);
 Node::insert_at_head(&mut head, 20);
 ```
 
-This is closer to how C does it with `Node **head`. Both approaches work — the consume-and-return pattern is more common in Rust, but the mutable reference version is perfectly valid too.
+This is closer to how C does it with `Node **head`. Both approaches work, but the consume-and-return pattern is more common in Rust.
 :::
 
 ### Key Difference
@@ -138,14 +143,19 @@ insert_at_tail(&head, 20);  // HEAD -> [10] -> [20] -> NULL
 insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
 ```
 
-`while (current->next != NULL)` walks to the last node (the one whose `next` is `NULL`).<br>
-`current->next = new_node` attaches the new node to the end.
+Here, we use `while (current->next != NULL)` to walk to the last node (the one whose `next` is `NULL`).<br>
+
+`current = current->next` reassigns the current node to the node after it. This is how we walk or traverse through the list.<br>
+
+Once we hit the last node, `current->next = new_node` attaches the new node to the end. <br>
 
 ::: warning
 Inserting at the tail n times in a row is O(n²) total, since each insert walks the entire list. If you're building a list from scratch, inserting at the head and reversing later is often faster.
 :::
 
 ### In Rust
+
+Unlike in C where we can modify current however we want, in Rust `current` is **immutable** by default. So we have to make sure to use `mut` to make `current` mutable.
 
 ```rust
 impl Node {
@@ -178,14 +188,23 @@ head = Node::insert_at_tail(head, 20);  // HEAD -> [10] -> [20] -> NONE
 head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 ```
 
-`match head` handles both cases explicitly: empty list (if `head` is `None`) and non-empty list (if `head` is `Some`).<br>
-`while current.next.is_some()` is Rust's way of writing `while (current->next != NULL)` in C.<br>
+Since head is a type `Option<Box<Node>>`, Rust forces us to handle both cases explicitly. <br>
+`match head` is used to handle if the list is empty (if `head` is `None`) and if the list is not empty (if `head` is `Some`).<br>
+
+`while current.next.is_some()` is Rust's way of writing `while (current->next != NULL)` in C. It loops so long as the node next to current has a value.<br>
+
 `current.next.as_mut().unwrap()` gives us a mutable reference to the next node so we can keep traversing.
 
 ::: info What is .unwrap()?
-`.unwrap()` extracts the value from an `Option` or `Result`. If the value is `Some(x)`, it returns `x`. If it's `None`, the program panics (crashes). We use it here because we've already checked that the value exists — if it doesn't, we want the program to crash loudly rather than continue with invalid data.
+`.unwrap()` extracts the value from an `Option` or `Result`. If the value is `Some(x)`, it returns `x`. If it's `None`, the program panics!. We use it here because we've already checked that the value exists. If it doesn't, we want the program to crash loudly rather than continue with invalid data.
 
-In production code, you'd typically handle `None` gracefully with `match` or `if let` instead of using `.unwrap()`.
+In production code, you'd typically handle `None` properly with `match` or `if let` instead of using `.unwrap()`.
+:::
+
+::: info What is panic!?
+`panic!` is Rust's way of saying "something went so wrong that we can't continue safely." When a panic happens, the program immediately stops and prints an error message. This is better than continuing with invalid data, which could cause crashes or security bugs later.
+
+In production code, you'd typically return a `Result` instead so the caller can decide how to handle the error gracefully.
 :::
 
 ::: tip
@@ -205,9 +224,9 @@ Notice the difference: in C we modify through pointers. In Rust we borrow mutabl
 
 ## Insert at Index
 
-Inserting at a specific index requires traversing to the node just before the target position, then rewiring the pointers.
+Inserting at a specific index is simmilar to inserting at the tail. But this time, we need to traverse to the node just **before** the target position, then rewiring the pointers so that the node before points to the new node and the new node points to the node after it.
 
-If the index is 0, this is the same as inserting at the head.
+If the index is 0, this is the same as inserting at the **head**.
 
 ### In C
 
@@ -317,12 +336,16 @@ head = Node::insert_at_index(head, 20, 0);  // HEAD -> [20] -> [10] -> NONE
 head = Node::insert_at_index(head, 30, 1);  // HEAD -> [20] -> [30] -> [10] -> NONE
 ```
 
-`match head` handles both cases explicitly: if the list is empty (`None`), the new node becomes the head. If the list has nodes (`Some`), we traverse to the end.<br>
-`.take()` moves the value out of `current.next` and leaves `None` behind. We need to do this because Rust doesn't allow two things to own the same node, By taking ownership from `current.next`, we can transfer it to `new_node.next` without violating the ownership rules.<br>
-We `panic!` if the index is out of bounds. In real code, you'd return a `Result` instead so the program doesn't stop.
+Just like before, we use `match head` to handles both cases explicitly. If the list is empty (`None`), the new node becomes the head. If the list has nodes (`Some`), we traverse to the end.<br>
+
+`.take()` moves the value out of `current.next` and leaves `None` behind. We need to do this because Rust doesn't allow two things to own or point the same node. By taking ownership from `current.next`, we can transfer it to `new_node.next` without violating ownership rules.<br>
 
 ::: tip
 In C you check `current != NULL` to detect out of bounds. In Rust you check `current.next.is_none()` — same concept, type-safe.
+:::
+
+::: warning
+If the index is out of bounds, this function panics!. In production code you'd want to return a `Result` instead so the program doesn't stop.
 :::
 
 ::: info Why not use Node::new() everywhere?

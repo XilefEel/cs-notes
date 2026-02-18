@@ -71,8 +71,10 @@ if let Some(node) = Node::get(&head, 2) {
 }
 ```
 
-`while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C.
+`while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C. <br>
+
 Once it hits `None` (the end of the list), the loop stops automatically.<br>
+
 We return `None` if the index is out of bounds, but unlike C, the caller **cannot** use the result without checking it first.
 
 ::: tip

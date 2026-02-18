@@ -39,9 +39,11 @@ insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 delete_at_head(&head);      // HEAD -> [20] -> [10] -> NULL
 ```
 
-`Node *temp = *head` saves a pointer to the node we're about to delete.<br>
-`*head = (*head)->next` moves the head pointer to the next node.<br>
-`free(temp)` deallocates the memory for the old head.
+Here, we use `Node *temp = *head` to save a pointer to the node we're about to delete. This is important because once we move the head pointer, we'll lose access to the old head.<br>
+
+`*head = (*head)->next` moves the head pointer forward to the next node.<br>
+
+`free(temp)` deallocates the memory for the old head, preventing a memory leak.
 
 ::: warning
 Notice that, just like inserting a node, we pass `Node **head` in the function signature (pointer to a pointer) and `&head` when calling it. This is because we need to modify the original `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address. If you used `Node *head` instead, the function would only modify a local copy, so the caller's head wouldn't change.
@@ -76,7 +78,9 @@ head = Node::insert_at_head(head, 30);  // HEAD -> [30] -> [20] -> [10] -> NONE
 head = Node::delete_at_head(head);      // HEAD -> [20] -> [10] -> NONE
 ```
 
-`match head` handles both cases: if the list is empty (`None`), we just return `None`. If it has nodes (`Some`), we return `node.next`.<br>
+Just like with insertion, we use `match head` to handle both cases. If the list is empty (`None`), we just return `None`. If it has nodes (`Some`), we return `node.next` to make the second node the new head.<br>
+
+In Rust, there is no `free()` function, but instead, Rust automatically drops or frees a value when it goes out of scope, so the old head node (`node`) is automatically freed! No manual cleanup needed.
 
 ::: tip
 In C you must explicitly `free()` the old head. In Rust, the old node is automatically dropped when `node` goes out of scope at the end of the `Some` branch. This makes memory leaks **impossible**.
@@ -84,20 +88,17 @@ In C you must explicitly `free()` the old head. In Rust, the old node is automat
 
 ### Key Difference
 
-|                    | C                                  | Rust                                                              |
-| ------------------ | ---------------------------------- | ----------------------------------------------------------------- |
-| Function signature | `void delete_at_head(Node **head)` | `fn delete_at_head(head: Option<Box<Node>>) -> Option<Box<Node>>` |
-| Empty check        | `if (*head == NULL)`               | `match head` with `None` branch                                   |
-| Free memory        | `free(temp)` manually              | Automatic when `node` goes out of scope                           |
-| Complexity         | O(1)                               | O(1)                                                              |
+|             | C                     | Rust                                    |
+| ----------- | --------------------- | --------------------------------------- |
+| Empty check | `if (*head == NULL)`  | `match head` with `None` branch         |
+| Free memory | `free(temp)` manually | Automatic when `node` goes out of scope |
+| Complexity  | O(1)                  | O(1)                                    |
 
 ---
 
 ## Delete at Tail
 
-Removing the last node requires traversing to the **second-to-last node** so you can update its `next` pointer to `NULL`.
-
-This makes it O(n).
+Unlike deleting at the head, removing the last node is more complex. We need to traverse to the **second-to-last node** so we can update its `next` pointer to `NULL`. This makes it O(n).
 
 ### In C
 
@@ -138,12 +139,14 @@ insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
 delete_at_tail(&head);      // HEAD -> [10] -> [20] -> NULL
 ```
 
-`while (current->next->next != NULL)` stops at the second-to-last node.<br>
-`free(current->next)` deallocates the last node (basically deleting it).<br>
-`current->next = NULL` Points the second-to-last node to NULL (becomes the new tail).
+Here, we have to use `while (current->next->next != NULL)`. This stops us at the second-to-last node so that we can access the node **before** the one we're deleting.<br>
+
+Once we're there, `free(current->next)` deallocates the last node.<br>
+
+Finally, `current->next = NULL` makes the second-to-last node (the one we're currently in) the new tail by pointing it to `NULL`.
 
 ::: warning
-We need to handle the single-node case separately because `current->next->next` would dereference `NULL` and **crash** if there's only one node.
+We need to handle the single-node case separately because `current->next->next` would try to dereference `NULL` and **crash** if there's only one node.
 :::
 
 ### In Rust
@@ -189,16 +192,19 @@ head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 head = Node::delete_at_tail(head);      // HEAD -> [10] -> [20] -> NONE
 ```
 
-`match head`, just like before, handles both cases: if the list is empty (`None`), we just return `None`. If it has nodes (`Some`), we can continue.<br>
-`if node.next.is_none()` checks if the next pointer is `None`, which we call `delete_at_head()` to delete it and returns `None` (empty list).<br>
-`while current.next.as_ref().unwrap().next.is_some()` checks if there's a node two steps ahead. This is Rust's verbose way of writing `while (current->next->next != NULL)` in C.<br>
-`current.next = None` sets the next node to be None, essentially removing the last node, which is then automatically dropped.
+Just like before, `match head` handles both cases: empty list (`None`) or a list with nodes (`Some`).<br>
 
-::: info What is .unwrap()?
-`.unwrap()` extracts the value from an `Option` or `Result`. If the value is `Some(x)`, it returns `x`. If it's `None`, the program panics (crashes). We use it here because we've already checked that the value exists. If it doesn't, we want the program to crash loudly rather than continue with invalid data.
+For the single-node case, we check `if node.next.is_none()` and call `delete_at_head()` to handle it.<br>
 
-In production code, you'd typically handle `None` with `match` or `if let` instead of using `.unwrap()`.
-:::
+`while current.next.as_ref().unwrap().next.is_some()` checks if there's a node two steps ahead. This is Rust's (verbose) way of writing `while (current->next->next != NULL)` in C.
+
+- `current.next` — the next node
+- `.as_ref()` — borrow it without taking ownership
+- `.unwrap()` — extract it from the `Option`
+- `.next` — get that node's next field (the node after it)
+- `.is_some()` — check if it's `Some` (not `None`)
+
+Once we're at the second-to-last node, we set `current.next = None`, which removes the last node and Rust will automatically drop it.
 
 ::: tip
 In C you explicitly `free()` the last node. In Rust, when you set `current.next = None`, the old `Some(Box<Node>)` that was there gets dropped automatically. This makes memory leaks **impossible**.
@@ -217,9 +223,9 @@ In C you explicitly `free()` the last node. In Rust, when you set `current.next 
 
 ## Delete at Index
 
-Deleting a node at a specific index requires traversing to the node just **before** the target, then rewiring pointers to skip over the target node.
+Deleting at a specific index is similar to deleting at the tail. We need to traverse to the node just **before** the target, then rewire pointers to skip over the node we're deleting.
 
-If the index is 0, this is the same as deleting at the head.
+If the index is 0, this is the same as deleting at the **head**.
 
 ### In C
 
@@ -262,19 +268,22 @@ void delete_at_index(Node **head, int index) {
 
 // Usage
 Node *head = NULL;
-insert_at_tail(&head, 10);       // HEAD -> [10] -> NULL
-insert_at_tail(&head, 20);       // HEAD -> [10] -> [20] -> NULL
-insert_at_tail(&head, 30);       // HEAD -> [10] -> [20] -> [30] -> NULL
-delete_at_index(&head, 1);       // HEAD -> [10] -> [30] -> NULL
+insert_at_tail(&head, 10);  // HEAD -> [10] -> NULL
+insert_at_tail(&head, 20);  // HEAD -> [10] -> [20] -> NULL
+insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
+delete_at_index(&head, 1);  // HEAD -> [10] -> [30] -> NULL
 ```
 
 We stop at `index - 1` because we need access to the node **before** the deletion point to rewire its `next` pointer.<br>
-`Node *temp = current->next` saves a pointer to the node we're deleting.<br>
-`current->next = temp->next` bypasses the node we're deleting, linking the previous node to the next node.<br>
-`free(temp)` deallocates the deleted node.
+
+`Node *temp = current->next` saves a pointer to the node we're deleting, just like in delete_at_head.<br>
+
+`current->next = temp->next` bypasses the node we're deleting by making `current` point directly to the node after `temp`.<br>
+
+Finally, `free(temp)` deallocates the deleted node.
 
 ::: warning
-If the index is out of bounds, this function just prints an error and returns. In production code you'd want to handle it properly.
+If the index is out of bounds, this function just prints an error and returns. In production code you'd want to return an error code or handle it properly so the caller knows what went wrong.
 :::
 
 ### In Rust
@@ -290,7 +299,7 @@ impl Node {
                 None
             }
             Some(mut node) => {
-                // If index is 0, delete at head (return the next node)
+                // If index is 0, delete at head
                 if index == 0 {
                     return Node::delete_at_head(Some(node));
                 }
@@ -330,9 +339,11 @@ head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 head = Node::delete_at_index(head, 1);  // HEAD -> [10] -> [30] -> NONE
 ```
 
-`if index == 0` handles deletion at the head, so we call `delete_at_head()`<br>
-`let target = current.next.take()` removes the target node from `current.next` and gives us ownership of it. In C, it's simmilar to `Node *temp = current->next`, except `.take()` also sets `current.next` to `None` automatically.<br>
-`current.next = target.unwrap().next` links `current` directly to the node after `target`. The `target` node is automatically dropped (freed) when it goes out of scope.
+For the special case where `index == 0`, we just call `delete_at_head()` to handle it. <br>
+
+`let target = current.next.take()` is doing two things at once: it removes the target node from `current.next` **and** gives us ownership of it. This is similar to `Node *temp = current->next` in C, except `.take()` also automatically sets `current.next` to `None`. <br>
+
+`current.next = target.unwrap().next` links `current` directly to the node after `target`, bypassing it. Once this line executes, `target` goes out of scope and is automatically dropped (freed).
 
 ### Key Difference
 

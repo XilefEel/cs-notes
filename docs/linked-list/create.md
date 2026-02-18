@@ -48,6 +48,7 @@ head --> [1 | next] --> [2 | next] --> [3 | NULL]
 ```
 
 `a->next = b` links node `a` to node `b` by storing `b`'s memory address in `a`'s next pointer. Same goes with node `b` and node `c`.<br>
+
 `head` is just a pointer that points to node `a`, it is not a node itself.
 
 ::: warning
@@ -90,8 +91,7 @@ After linking, the list looks like this:
 head --> [1 | Some] --> [2 | Some] --> [3 | None]
 ```
 
-Notice we link in **reverse order** in Rust (we wrote `b.next = Some(c)` before `a.next = Some(b)`).<br>
-This is because of a concept in Rust known as **ownership**. Once you move `b` into `a.next`, you can no longer access `b` directly to set its `next`.
+Notice that we link in **reverse order** (we wrote `b.next = Some(c)` before `a.next = Some(b)`). This is because of a concept in Rust known as **ownership**. Once you move `b` into `a.next`, you can no longer access `b` directly to set its `next`.
 
 ::: tip
 This reverse linking pattern is a good first glimpse into how Rust's ownership system affects the way you write code. The compiler won't let you use a value after you've moved it. To learn more about ownership in Rust, head over to the Rust Official Docs.

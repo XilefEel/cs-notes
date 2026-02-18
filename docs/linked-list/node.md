@@ -31,10 +31,11 @@ struct Node {
 ```
 
 `data: i32`, just like in C, is the actual data stored in each `Node`. <br>
-`Option<Box<Node>>` is (basically) the rust way to write `struct Node *` in C:
+
+`Option<Box<Node>>` is (basically) the rust way to write `struct Node *` in C.
 
 - `Box<T>` is a heap allocated pointer, like `malloc` but owned. The value is automatically freed when it goes out of scope.
-- `Option<T>` is either `Some(value)` or `None`. This forces you to handle the "no next node" case explicitly.
+- `Option<T>` is either `Some(value)` or `None`. This forces you to handle both cases explicitly (either there is a node, or there isn't a node).
 
 ::: tip
 Unlike in C, the rust compiler forces you to handle `None` before you can use the value inside. The bug moves from runtime to compile time.
