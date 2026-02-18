@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "Data Structures Notes"
+  name: "Data Structures"
   text: "Notes for Data Structures in C and Rust"
   tagline: Made by Felix Lee
   actions:

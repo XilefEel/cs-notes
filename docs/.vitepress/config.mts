@@ -2,7 +2,7 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Data Structures Notes",
+  title: "Data Structures",
   description: "Notes for Data Structures in C and Rust",
   base: "/cs-notes/",
   themeConfig: {

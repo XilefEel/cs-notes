@@ -7,23 +7,27 @@ This makes accessing a node **O(n)** in the worst case.
 ## In C
 
 ```c
-// Function that returns a pointer to the node at the given index, or NULL if out of bounds
+// Returns a pointer to the node at the given index, or NULL if out of bounds
 Node *get_node(Node *head, int index) {
     Node *current = head;
     int i = 0;
 
     // Traverse the linked list from node to node
     while (current != NULL) {
+        // If we've reached the target index, return the current node
         if (i == index) return current;
+
+        // Move to the next node
         current = current->next;
         i++;
     }
 
-    return NULL; // Index out of bounds
+    // Index out of bounds
+    return NULL;
 }
 
 // Usage
-Node *node = get_node(head, 2); // Get the third node
+Node *node = get_node(head, 2);  // Get the third node (index 2)
 if (node != NULL) {
     printf("%d\n", node->data);
 }
@@ -46,12 +50,18 @@ impl Node {
 
         // Traverse the linked list from node to node
         while let Some(node) = current {
-            if i == index return Some(node);
+            // If we've reached the target index, return the current node
+            if i == index {
+                return Some(node);
+            }
+
+            // Move to the next node
             current = &node.next;
             i += 1;
         }
 
-        None // Index out of bounds
+        // Index out of bounds
+        None
     }
 }
 
@@ -66,7 +76,7 @@ Once it hits `None` (the end of the list), the loop stops automatically.<br>
 We return `None` if the index is out of bounds, but unlike C, the caller **cannot** use the result without checking it first.
 
 ::: tip
-In C, forgetting to check for `NULL` is a easy mistake that crashes your program at runtime. In Rust, `Option` forces you to handle the empty case, since the compiler won't let you ignore it.
+In C, forgetting to check for `NULL` is an easy mistake that crashes your program at runtime. In Rust, `Option` forces you to handle the empty case, since the compiler won't let you ignore it.
 :::
 
 ## Key Difference
@@ -76,5 +86,5 @@ In C, forgetting to check for `NULL` is a easy mistake that crashes your program
 | Traverse         | `current = current->next`    | `current = &node.next` |
 | Out of bounds    | Returns `NULL`               | Returns `None`         |
 | Caller check     | Manual `if (node != NULL)`   | Forced by `Option`     |
-| Null dereference | Possible, crashes at runtime | Impossible, no crashes |
+| Null dereference | Possible, crashes at runtime | Impossible             |
 | Complexity       | O(n)                         | O(n)                   |

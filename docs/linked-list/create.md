@@ -10,15 +10,21 @@ An empty linked list is simply a head pointer that points to nothing.
 ## In C
 
 ```c
-// Function that creates a new node on the heap
+// Creates a new node on the heap
 Node *create_node(int data) {
+    // Allocate memory for a new node
     Node *node = (Node *)malloc(sizeof(Node));
+
+    // Set the data
     node->data = data;
+
+    // Initially, the node doesn't point to anything
     node->next = NULL;
+
     return node;
 }
 
-// Start with an empty list first, so just a head pointing to NULL
+// Start with an empty list — head pointing to NULL
 Node *head = NULL;
 
 // Create three nodes
@@ -27,12 +33,12 @@ Node *b = create_node(2);
 Node *c = create_node(3);
 
 // Link them together manually
-a->next = b;
-b->next = c;
+a->next = b;  // Node a points to node b
+b->next = c;  // Node b points to node c
 // c->next is already NULL, so c is the end of list
 
 // Point head at the first node
-Node *head = a;
+head = a;
 ```
 
 After linking, the linked list looks like this:
@@ -41,7 +47,7 @@ After linking, the linked list looks like this:
 head --> [1 | next] --> [2 | next] --> [3 | NULL]
 ```
 
-`a->next = b` links node `a` to node `b` by storing `b`'s memory address in `a`'s next pointer. Same goes with node `b` and node `c`. <br>
+`a->next = b` links node `a` to node `b` by storing `b`'s memory address in `a`'s next pointer. Same goes with node `b` and node `c`.<br>
 `head` is just a pointer that points to node `a`, it is not a node itself.
 
 ::: warning
@@ -70,9 +76,9 @@ let mut a = Node::new(1);
 let mut b = Node::new(2);
 let c = Node::new(3);
 
-// Link them together manually
-b.next = Some(c);
-a.next = Some(b);
+// Link them together manually (notice the reverse order)
+b.next = Some(c);  // Node b points to node c
+a.next = Some(b);  // Node a points to node b
 
 // head is just a pointer to the first node
 let head = Some(a);
