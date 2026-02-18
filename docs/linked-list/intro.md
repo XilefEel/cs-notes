@@ -1,6 +1,6 @@
 # What is a Linked List?
 
-A linked list is a data structure that stores a sequence of elements. Unlike an array, the elements are **not** stored in contiguous memory — instead, each element lives somewhere on the heap (dynamically allocated memory) and holds a **pointer** to the **next element**.
+A linked list is a data structure that stores a sequence of elements. Unlike an array, the elements are **not** stored in contiguous memory. Each element lives somewhere on the heap (dynamically allocated memory) and holds a **pointer** to the **next element**.
 
 ## Structure
 
@@ -27,7 +27,7 @@ The list keeps track of the **head** pointer, which is a pointer to the first no
 
 ## Types of Linked Lists
 
-- Singly Linked List: Each node points only to the next node. Traversal is one-way.
+- Singly Linked List: Each node points only has a next pointer. Traversal is one-way.
 - Doubly Linked List: Each node has next and prev pointers. Allows two-way traversal but increases memory overhead.
 
 ## When to use a Linked List

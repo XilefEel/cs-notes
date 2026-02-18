@@ -1,15 +1,12 @@
 # Accessing and Traversing a Linked List
 
-Since a linked list is not stored in contiguous memory, you **cannot access a node by index directly** like an array. Instead, you have to start at the head and follow the pointers one by one.
-
-There are two common traversal operations:
-
-- **Access by index** — find a specific node at position N (O(n))
-- **Traverse and print** — visit every node in the list (O(n))
+Since a linked list is not stored in contiguous memory, you **cannot access a node by index directly** like an array. Instead, you have to **traverse** the list by starting at the **head** and following the **pointers** one by one.
 
 ## Access by Index
 
 Getting a node at a specific index means walking through the list until we reach that position.
+
+Finding a specific node at position N takes **O(n)** since we have to through **every node**.
 
 ### In C
 
@@ -42,7 +39,9 @@ if (node != NULL) {
 }
 ```
 
-`current = current->next` reassigns the current node to the node after it. Essentially, we follow the pointer to the next node, moving one step forward through the list. This is how we walk or traverse through the list. <br>
+`while (current != NULL)` loops as long as `current` isn't `NULL`. If we reached the target `index`, then we return `current`.
+
+`current = current->next` is the line that let us traverse through the list. It reassigns the current node to the node after it. Essentially, we **follow** the pointer to the **next node**, moving one step forward through the list.
 
 We return `NULL` if the index is out of bounds, so the caller must always check before using the result.
 
@@ -81,9 +80,9 @@ if let Some(node) = Node::get(&head, 2) {
 }
 ```
 
-`while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C. <br>
+`while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C, but it also automatically unwraps the Option and gives us access to the current node safely.
 
-Once it hits `None` (the end of the list), the loop stops automatically. <br>
+Same with in C, if we reached the target `index`, then we return `Some(node)`.
 
 We return `None` if the index is out of bounds, but unlike C, the caller **cannot** use the result without checking it first.
 
@@ -133,7 +132,7 @@ void print_list(Node *head) {
 print_list(head);  // Output: 10 -> 20 -> 30
 ```
 
-Just like before, `current = current->next` traverses the list, but this time, we don't stop after reaching a certain index, rather we just go until the end of the list. <br>
+Just like before, `current = current->next` traverses the list, but this time, we are not going to stop after reaching a certain index, rather we just go until the end of the list.
 
 `if (current->next != NULL)` makes sure we don't print an arrow after the last node.
 
@@ -166,9 +165,13 @@ impl Node {
 Node::print_list(&head);  // Output: 10 -> 20 -> 30
 ```
 
-The `&` in `&Option<Box<Node>>` means that instead of taking ownership, we just want to **borrow** or **look at** the values, not modify or consume them. <br>
+The `&` in `&Option<Box<Node>>` means that instead of taking ownership, we just want to **borrow** or **look at** the values, not modify or consume them.
 
 `node.next.is_some()` checks if there's another node. In C, it's the same as `current->next != NULL`.
+
+::: info What is is_some() and is_none()?
+`is_some()` and `is_none()` are methods used to check whether an Option contains a value. `is_some()` returns `true` if the `Option` is `Some(...)` (has a value), while `is_none()` returns `true` if it is None (empty). These methods are useful when you only need to know whether a value **exists**, without accessing the value itself, and they help avoid unsafe operations like `unwrap()`.
+:::
 
 ::: tip
 Notice we're using `&head` when calling `print_list()`. This borrows the list instead of moving it. After printing, we can still use `head` because we never took ownership, we only borrowed its value.
@@ -214,7 +217,7 @@ traverse_apply(head, double_value);  // All values doubled
 print_list(head);  // Output: 20 -> 40 -> 60
 ```
 
-`void (*func)(int *)` is a **function pointer** so that we can pass any function we want to apply to each node in the list (so long as it follows the same type).<br>
+`void (*func)(int *)` is a **function pointer** so that we can pass any function we want to apply to each node in the list (so long as it follows the same type).
 
 The function receives an integer pointer to the data (`int *`), so it can modify the value directly in the node.
 
@@ -244,9 +247,9 @@ Node::traverse_apply(&mut head, |data| *data *= 2);  // All values doubled
 Node::print_list(&head);  // Output: 20 -> 40 -> 60
 ```
 
-`FnMut(&mut i32)` is a **generic function** that simply means "any function that takes a mutable reference to an `i32` or integer". <br>
+`FnMut(&mut i32)` is a **generic function** that simply accepts any function that takes a mutable reference to an `i32` or integer.
 
-`|data| *data *= 2` is a **closure** (Rust's version of an anonymous function). This lets us write the logic inline without having to define a separate function. We could also pass a named function if we wanted. <br>
+`|data| *data *= 2` is a **closure** (Rust's version of an anonymous function). This lets us write the logic inline without having to define a separate function. We could also pass a named function if we wanted.
 
 Notice we use `&mut head` because we're modifying the data inside the nodes.
 

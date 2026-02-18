@@ -39,9 +39,9 @@ insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 delete_at_head(&head);      // HEAD -> [20] -> [10] -> NULL
 ```
 
-Here, we use `Node *temp = *head` to save a pointer to the node we're about to delete. This is important because once we move the head pointer, we'll lose access to the old head.<br>
+`Node *temp = *head` is used to save a pointer to the node we're about to delete. This is important because once we move the head pointer, we'll lose access to the old head.
 
-`*head = (*head)->next` moves the head pointer forward to the next node.<br>
+`*head = (*head)->next` moves the head pointer forward to the next node.
 
 `free(temp)` deallocates the memory for the old head, preventing a memory leak.
 
@@ -78,7 +78,7 @@ head = Node::insert_at_head(head, 30);  // HEAD -> [30] -> [20] -> [10] -> NONE
 head = Node::delete_at_head(head);      // HEAD -> [20] -> [10] -> NONE
 ```
 
-Just like with insertion, we use `match head` to handle both cases. If the list is empty (`None`), we just return `None`. If it has nodes (`Some`), we return `node.next` to make the second node the new head.<br>
+Just like with insertion, we use `match head` to handle both cases. If the list is empty (`None`), we just return `None`. If it has nodes (`Some`), we return `node.next` to make the second node the new head.
 
 In Rust, there is no `free()` function, but instead, Rust automatically drops or frees a value when it goes out of scope, so the old head node (`node`) is automatically freed! No manual cleanup needed.
 
@@ -139,11 +139,11 @@ insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
 delete_at_tail(&head);      // HEAD -> [10] -> [20] -> NULL
 ```
 
-Here, we have to use `while (current->next->next != NULL)`. This stops us at the second-to-last node so that we can access the node **before** the one we're deleting.<br>
+`while (current->next->next != NULL)` is used to traverse through the list and stops at the second-to-last node so that we can access the node **before** the one we're deleting.
 
-Once we're there, `free(current->next)` deallocates the last node.<br>
+Once we're there, `free(current->next)` deallocates the last node.
 
-Finally, `current->next = NULL` makes the second-to-last node (the one we're currently in) the new tail by pointing it to `NULL`.
+`current->next = NULL` makes the second-to-last node the new tail by pointing it to `NULL`.
 
 ::: warning
 We need to handle the single-node case separately because `current->next->next` would try to dereference `NULL` and **crash** if there's only one node.
@@ -192,17 +192,15 @@ head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 head = Node::delete_at_tail(head);      // HEAD -> [10] -> [20] -> NONE
 ```
 
-Just like before, `match head` handles both cases: empty list (`None`) or a list with nodes (`Some`).<br>
+Just like before, `match head` handles both cases: empty list (`None`) or a list with nodes (`Some`).
 
-For the single-node case, we check `if node.next.is_none()` and call `delete_at_head()` to handle it.<br>
+For the single-node case, we check `if node.next.is_none()` and call `delete_at_head()` to handle it.
 
 `while current.next.as_ref().unwrap().next.is_some()` checks if there's a node two steps ahead. This is Rust's (verbose) way of writing `while (current->next->next != NULL)` in C.
 
-- `current.next` — the next node
-- `.as_ref()` — borrow it without taking ownership
-- `.unwrap()` — extract it from the `Option`
-- `.next` — get that node's next field (the node after it)
-- `.is_some()` — check if it's `Some` (not `None`)
+:::info What is as_ref()?
+`as_ref()` lets us borrow the value inside an `Option` instead of moving it out. This is useful when we only want to look at the data, not modify or take it. So instead of owning the value, we get a reference to it.
+:::
 
 Once we're at the second-to-last node, we set `current.next = None`, which removes the last node and Rust will automatically drop it.
 
@@ -272,13 +270,13 @@ insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
 delete_at_index(&head, 1);  // HEAD -> [10] -> [30] -> NULL
 ```
 
-We stop at `index - 1` because we need access to the node **before** the deletion point to rewire its `next` pointer.<br>
+We stop at `index - 1` because we need access to the node **before** the deletion point to rewire its `next` pointer.
 
-`Node *temp = current->next` saves a pointer to the node we're deleting, just like in delete_at_head.<br>
+`Node *temp = current->next` saves a pointer to the node we're deleting.
 
-`current->next = temp->next` bypasses the node we're deleting by making `current` point directly to the node after `temp`.<br>
+`current->next = temp->next` bypasses the node we're deleting by making `current` point directly to the node after `temp`.
 
-Finally, `free(temp)` deallocates the deleted node.
+`free(temp)` then deallocates the deleted node.
 
 ::: warning
 If the index is out of bounds, this function just prints an error and returns. In production code you'd want to return an error code or handle it properly so the caller knows what went wrong.
@@ -337,11 +335,13 @@ head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 head = Node::delete_at_index(head, 1);  // HEAD -> [10] -> [30] -> NONE
 ```
 
-For the special case where `index == 0`, we just call `delete_at_head()` to handle it. <br>
+For the special case where `index == 0`, we just call `delete_at_head()` to handle it.
 
-`let target = current.next.take()` is doing two things at once: it removes the target node from `current.next` **and** gives us ownership of it. This is similar to `Node *temp = current->next` in C, except `.take()` also automatically sets `current.next` to `None`. <br>
+`let target = current.next.take()` is doing two things at once: it removes the target node from `current.next` and gives us ownership of it. This is similar to `Node *temp = current->next` in C, except `.take()` also automatically sets `current.next` to `None`.
 
-`current.next = target.unwrap().next` links `current` directly to the node after `target`, bypassing it. Once this line executes, `target` goes out of scope and is automatically dropped (freed).
+`current.next = target.unwrap().next` links `current` directly to the node after `target`.
+
+After that, `target` goes out of scope and is automatically dropped (freed).
 
 ### Key Difference
 

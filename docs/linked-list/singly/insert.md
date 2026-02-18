@@ -32,17 +32,21 @@ insert_at_head(&head, 20);  // HEAD -> [20] -> [10] -> NULL
 insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 ```
 
-`new_node->next = *head` makes the new node point to the old head.<br>
+Notice that we pass `Node **head` in the function signature (pointer to a pointer) and `&head` when calling it. This is because we need to modify the original `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address.
+
+Before, when we traversed through a list, we only used `Node *head` because we were **not** changing where head points to. We were simply **moving** a local copy of the pointer through the list to read or print each node.
+
+`new_node->next = *head` makes the new node point to the old head.
 
 `*head = new_node` updates the head pointer to point to the new node.
 
 ::: warning
-Notice that we pass `Node **head` in the function signature (pointer to a pointer) and `&head` when calling it. This is because we need to modify the original `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address. If you used `Node *head` instead, the function would only modify a local copy, so the caller's head wouldn't change. This is a common C mistake.
+If you used `Node *head` instead, the function would only modify a local copy, so the caller's head wouldn't change.
 :::
 
 ### In Rust
 
-Unlike in C where we modify `head` in place, in Rust, we must **consume** the old head and **return** a new node that points to it. This might feel weird at first, but it's how Rust's ownership system works, you can't have two things owning or pointing the same node.
+Unlike in C where we modify `head` in place, in Rust, we must **consume** or **move** the old head and **return** a new node that points to it. This might feel weird at first, but it's how Rust's ownership system works, you can't have two things owning or pointing the same node.
 
 ```rust
 impl Node {
@@ -62,16 +66,16 @@ head = Node::insert_at_head(head, 20);  // HEAD -> [20] -> [10] -> NONE
 head = Node::insert_at_head(head, 30);  // HEAD -> [30] -> [20] -> [10] -> NONE
 ```
 
-`mut head` explicitly makes the head mutable as in Rust, variables are immutable by default. <br>
+`mut head` explicitly makes the head mutable as in Rust, variables are immutable by default.
 
-In the function signature, `head: Option<Box<Node>>` means we're taking ownership (not borrowing with `&`).<br>
+In the function signature, `head: Option<Box<Node>>` means we're taking ownership (not borrowing with `&`).
 
-When we pass `head` to the function, we **move** it. In Rust, we transfer ownership of `head` to the function, so the `head` variable can't be used anymore.<br>
+When we pass `head` to the function, we **move** it. In Rust, we transfer ownership of `head` to the function and the original `head` variable can't be used anymore.
 
-Since we moved `head`, we **return** a new `Option<Box<Node>>` which we assign back to `head` so that it can be used again.
+Since we moved `head`, we must **return** a new `Option<Box<Node>>` which we assign back to `head` so that it can be used again.
 
 ::: tip
-In C you modify `head` in place with a double pointer (`Node **head`).<br>
+In C you modify `head` in place with a double pointer (`Node **head`).
 In Rust you consume the old head and return a new one. It's the same result, just different ownership model.
 :::
 
@@ -94,7 +98,7 @@ Node::insert_at_head(&mut head, 10);
 Node::insert_at_head(&mut head, 20);
 ```
 
-This is closer to how C does it with `Node **head`. Both approaches work, but the consume-and-return pattern is more common in Rust.
+This is closer to how C does it with `Node **head`. Both approaches work, but the consume-and-return pattern is Rust's way of safely modifying data without using pointers or mutable references.
 :::
 
 ### Key Difference
@@ -141,9 +145,9 @@ insert_at_tail(&head, 20);  // HEAD -> [10] -> [20] -> NULL
 insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
 ```
 
-Here, we use `while (current->next != NULL)` to walk to the last node (the one whose `next` is `NULL`).<br>
+`while (current->next != NULL)` is used to walk to the last node (the one whose `next` is `NULL`).
 
-Once we hit the last node, `current->next = new_node` attaches the new node to the end. <br>
+Once we hit the last node, `current->next = new_node` attaches the new node to the end.
 
 ::: warning
 Inserting at the tail n times in a row is O(n²) total, since each insert walks the entire list. If you're building a list from scratch, inserting at the head and reversing later is often faster.
@@ -184,15 +188,19 @@ head = Node::insert_at_tail(head, 20);  // HEAD -> [10] -> [20] -> NONE
 head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 ```
 
-Since head is a type `Option<Box<Node>>`, Rust forces us to handle both cases explicitly. <br>
-`match head` is used to handle if the list is empty (if `head` is `None`) and if the list is not empty (if `head` is `Some`).<br>
+Since head is a type `Option<Box<Node>>`, Rust forces us to handle both cases explicitly.
+`match head` is used to handle if the list is empty (if `head` is `None`) and if the list is not empty (if `head` is `Some`).
 
-`while current.next.is_some()` is Rust's way of writing `while (current->next != NULL)` in C. It loops so long as the node next to current has a value.<br>
+`while current.next.is_some()` is Rust's way of writing `while (current->next != NULL)` in C. It loops so long as the node next to current has a value.
 
 `current.next.as_mut().unwrap()` gives us a mutable reference to the next node so we can keep traversing.
 
+::: info What is as_mut()?
+`as_mut()` is used to get a mutable reference to the value inside an `Option` without taking ownership of it.
+:::
+
 ::: info What is .unwrap()?
-`.unwrap()` extracts the value from an `Option` or `Result`. If the value is `Some(x)`, it returns `x`. If it's `None`, the program panics!. We use it here because we've already checked that the value exists. If it doesn't, we want the program to crash loudly rather than continue with invalid data.
+`.unwrap()` extracts the value from an `Option` or `Result`. If the value is `Some(x)`, it returns `x`. If it's `None`, then the program panics!. We can use it safely here because we've already checked that the value exists. If it doesn't, we want the program to crash loudly rather than continue with invalid data.
 
 In production code, you'd typically handle `None` properly with `match` or `if let` instead of using `.unwrap()`.
 :::
@@ -200,7 +208,7 @@ In production code, you'd typically handle `None` properly with `match` or `if l
 ::: info What is panic!?
 `panic!` is Rust's way of saying "something went so wrong that we can't continue safely." When a panic happens, the program immediately stops and prints an error message. This is better than continuing with invalid data, which could cause crashes or security bugs later.
 
-In production code, you'd typically return a `Result` instead so the caller can decide how to handle the error gracefully.
+In production code, you'd typically return a `Result` instead so the caller can decide how to handle the error.
 :::
 
 ::: tip
@@ -262,9 +270,11 @@ insert_at_head(&head, 20);      // HEAD -> [20] -> [10] -> NULL
 insert_at_index(&head, 30, 1);  // HEAD -> [20] -> [30] -> [10] -> NULL
 ```
 
-We stop at `index - 1` because we need access to the node **before** the insertion point to rewire its `next` pointer.<br>
-`new_node->next = current->next` makes the new node point to the node that was originally at the target index.<br>
-`current->next = new_node` inserts the new node into the list.
+We stop at `index - 1` because we need access to the node **before** the insertion point to rewire its `next` pointer.
+
+`new_node->next = current->next` makes the new node point to the node that was originally after `current`.
+
+`current->next = new_node` updates the previous node to point to the new node instead.
 
 ::: warning
 If the index is out of bounds, this function just prints an error and returns. In production code you'd want to handle it properly.
@@ -330,12 +340,12 @@ head = Node::insert_at_index(head, 20, 0);  // HEAD -> [20] -> [10] -> NONE
 head = Node::insert_at_index(head, 30, 1);  // HEAD -> [20] -> [30] -> [10] -> NONE
 ```
 
-Just like before, we use `match head` to handles both cases explicitly. If the list is empty (`None`), the new node becomes the head. If the list has nodes (`Some`), we traverse to the end.<br>
+Just like before, we use `match head` to handles both cases explicitly. If the list is empty (`None`), the new node becomes the head. If the list has nodes (`Some`), we traverse to the end.
 
-`.take()` moves the value out of `current.next` and leaves `None` behind. We need to do this because Rust doesn't allow two things to own or point the same node. By taking ownership from `current.next`, we can transfer it to `new_node.next` without violating ownership rules.<br>
+`.take()` moves the value out of `current.next` and leaves `None` behind. We need to do this because Rust doesn't allow two things to own or point the same node. By taking ownership from `current.next`, we can transfer it to `new_node.next`.
 
-::: tip
-In C you check `current != NULL` to detect out of bounds. In Rust you check `current.next.is_none()` — same concept, type-safe.
+::: info What is .take()?
+`take()` is used to move a value out of an `Option` (i.e. to another variable) and replace it with `None`. We use `take()` when we want to remove `ownership` of something from a variable or struct without breaking Rust's borrowing rules. It is similar to saving a pointer and then setting the original pointer to `NULL`.
 :::
 
 ::: warning

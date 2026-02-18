@@ -14,7 +14,8 @@ typedef struct Node {
 } Node;
 ```
 
-`int data` is the actual data stored in each `Node` (for this example, its an integer).<br>
+`int data` is the actual data stored in each `Node` (for this example, it's an integer).
+
 `struct Node *next` is a raw pointer, a 64-bit integer representing a memory address. The pointer `next` either points to the next node or is `NULL` if there is no next node.
 
 ::: warning
@@ -30,7 +31,7 @@ struct Node {
 }
 ```
 
-`data: i32`, just like in C, is the actual data stored in each `Node`. <br>
+`data: i32`, just like in C, is the actual data stored in each `Node`.
 
 `Option<Box<Node>>` is (basically) the rust way to write `struct Node *` in C.
 
@@ -38,7 +39,7 @@ struct Node {
 - `Option<T>` is either `Some(value)` or `None`. This forces you to handle both cases explicitly (either there is a node, or there isn't a node).
 
 ::: tip
-Unlike in C, the rust compiler forces you to handle `None` before you can use the value inside. The bug moves from runtime to compile time.
+Unlike in C, the rust compiler forces you to handle `None` before you can use the value inside. The prevents runtime errors and moves them to compile time.
 :::
 
 ## Key Difference
