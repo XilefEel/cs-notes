@@ -219,8 +219,6 @@ In C you explicitly `free()` the last node. In Rust, when you set `current.next 
 | Free last node     | `free(current->next)` manually        | Automatic when `current.next = None`                  |
 | Complexity         | O(n)                                  | O(n)                                                  |
 
----
-
 ## Delete at Index
 
 Deleting at a specific index is similar to deleting at the tail. We need to traverse to the node just **before** the target, then rewire pointers to skip over the node we're deleting.
@@ -354,8 +352,6 @@ For the special case where `index == 0`, we just call `delete_at_head()` to hand
 | Free node      | `free(temp)` manually                    | Automatic when `target` goes out of scope |
 | Out of bounds  | Print error or return                    | `panic!` or return `Result`               |
 | Complexity     | O(n)                                     | O(n)                                      |
-
----
 
 ## Summary
 

@@ -105,8 +105,6 @@ This is closer to how C does it with `Node **head`. Both approaches work, but th
 | Modify head        | `*head = new_node`                           | Return new head, caller assigns it                                           |
 | Complexity         | O(1)                                         | O(1)                                                                         |
 
----
-
 ## Insert at Tail
 
 Adding a node to the end requires traversing the entire list to find the last node. This makes it O(n).
@@ -144,8 +142,6 @@ insert_at_tail(&head, 30);  // HEAD -> [10] -> [20] -> [30] -> NULL
 ```
 
 Here, we use `while (current->next != NULL)` to walk to the last node (the one whose `next` is `NULL`).<br>
-
-`current = current->next` reassigns the current node to the node after it. This is how we walk or traverse through the list.<br>
 
 Once we hit the last node, `current->next = new_node` attaches the new node to the end. <br>
 
@@ -219,8 +215,6 @@ Notice the difference: in C we modify through pointers. In Rust we borrow mutabl
 | Move to next       | `current = current->next`       | `current = current.next.as_mut().unwrap()` |
 | Empty list check   | `if (*head == NULL)`            | Handle with `Option`                       |
 | Complexity         | O(n)                            | O(n)                                       |
-
----
 
 ## Insert at Index
 
@@ -360,8 +354,6 @@ If the index is out of bounds, this function panics!. In production code you'd w
 | Rewire next    | `new_node->next = current->next`   | `next: current.next.take()`            |
 | Out of bounds  | Print error or return code         | `panic!` or return `Result`            |
 | Complexity     | O(n)                               | O(n)                                   |
-
----
 
 ## Summary
 

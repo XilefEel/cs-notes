@@ -25,7 +25,7 @@ export default defineConfig({
           { text: "What is a Node?", link: "/linked-list/node" },
           { text: "Creating a Linked List", link: "/linked-list/create" },
           {
-            text: "Accessing a Node",
+            text: "Accessing and Traversing a Linked List",
             link: "/linked-list/access",
           },
           {
@@ -39,10 +39,6 @@ export default defineConfig({
                 text: "Deleting a Node",
                 link: "/linked-list/singly/delete",
               },
-              {
-                text: "Traversing a Linked List",
-                link: "/linked-list/singly/traverse",
-              },
             ],
           },
           {
@@ -55,10 +51,6 @@ export default defineConfig({
               {
                 text: "Deleting a Node",
                 link: "/linked-list/doubly/delete",
-              },
-              {
-                text: "Traversing a Linked List",
-                link: "/linked-list/doubly/traverse",
               },
             ],
           },
