@@ -94,8 +94,6 @@ In C you must explicitly `free()` the old head. In Rust, the old node is automat
 | Free memory | `free(temp)` manually | Automatic when `node` goes out of scope |
 | Complexity  | O(1)                  | O(1)                                    |
 
----
-
 ## Delete at Tail
 
 Unlike deleting at the head, removing the last node is more complex. We need to traverse to the **second-to-last node** so we can update its `next` pointer to `NULL`. This makes it O(n).

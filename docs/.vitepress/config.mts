@@ -39,6 +39,10 @@ export default defineConfig({
                 text: "Deleting a Node",
                 link: "/linked-list/singly/delete",
               },
+              {
+                text: "Bonus: Tail Pointer",
+                link: "/linked-list/singly/tail",
+              },
             ],
           },
           {
