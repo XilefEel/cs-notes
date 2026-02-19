@@ -60,6 +60,15 @@ void double_value(int *data) {
     *data *= 2;
 }
 
+void free_list(Node *head) {
+    Node *current = head;
+    while (current != NULL) {
+        Node *next = current->next;
+        free(current);
+        current = next;
+    }
+}
+
 void insert_at_head(Node **head, int data) {
     Node *new_node = create_node(data);
     new_node->next = *head;
@@ -103,6 +112,7 @@ void insert_at_index(Node **head, int data, int index) {
     new_node->next = current->next;
     current->next = new_node;
 }
+
 
 void delete_at_head(Node **head) {
     if (*head == NULL) {
@@ -189,5 +199,6 @@ int main() {
     delete_at_index(&head, 1); // HEAD -> [50] -> [10] -> NULL
     print_list(head);
 
+    free_list(head);
     return 0;
 }

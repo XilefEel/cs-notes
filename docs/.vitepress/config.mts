@@ -49,6 +49,10 @@ export default defineConfig({
             text: "Doubly Linked List",
             items: [
               {
+                text: "Nodes in Doubly Linked List",
+                link: "/linked-list/doubly/node",
+              },
+              {
                 text: "Inserting a Node",
                 link: "/linked-list/doubly/insert",
               },
