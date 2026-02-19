@@ -1,12 +1,10 @@
 import { defineConfig } from "vitepress";
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Data Structures",
   description: "Notes for Data Structures in C and Rust",
   base: "/cs-notes/",
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/get-started" },
@@ -68,5 +66,26 @@ export default defineConfig({
     ],
 
     socialLinks: [{ icon: "github", link: "https://github.com/XilefEel" }],
+
+    search: {
+      provider: "local",
+    },
+
+    editLink: {
+      pattern: "https://github.com/XilefEel/cs-notes/tree/main/docs/:path",
+      text: "Edit this page on GitHub",
+    },
+
+    footer: {
+      message: "Personal study notes for learning data structures",
+      copyright: "Made by Felix Lee © 2026",
+    },
+  },
+
+  markdown: {
+    theme: {
+      light: "catppuccin-latte",
+      dark: "one-dark-pro",
+    },
   },
 });
