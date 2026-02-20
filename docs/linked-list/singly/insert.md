@@ -10,6 +10,21 @@ There are three ways to insert a new node into a singly linked list:
 
 Adding a node to the front of the linked list is the simplest and fastest operation. You don't need to traverse the list at all, since the head is always accessible.
 
+```
+Before: HEAD -> [10] -> [20] -> NULL
+
+Step 1: Create a new node
+        [30]
+
+Step 2: Point the new node to the old head
+        [30] -> [10] -> [20] -> NULL
+                 ^
+                HEAD
+
+Step 3: Update the head to point to the new node
+HEAD -> [30] -> [10] -> [20] -> NULL
+```
+
 ### In C
 
 ```c
@@ -115,6 +130,21 @@ This is closer to how C does it with `Node **head`. Both approaches work, but th
 Adding a node to the end requires traversing the entire list to find the last node. This makes it O(n).
 
 If you track a **tail pointer**, you can make this O(1), but that adds a little more complexity to every other operation.
+
+```
+Before: HEAD -> [10] -> [20] -> NULL
+
+Step 1: Create a new node
+        [30]
+
+Step 2: Traverse to the last node
+HEAD -> [10] -> [20] -> NULL
+                 ^
+                current
+
+Step 3: Point current to the new node
+HEAD -> [10] -> [20] -> [30] -> NULL
+```
 
 ### In C
 
@@ -227,9 +257,29 @@ Notice the difference: in C we modify the pointers directly, but in Rust, we bor
 
 ## Insert at Index
 
-Inserting at a specific index is simmilar to inserting at the tail. But this time, we need to traverse to the node just **before** the target position, then rewiring the pointers so that the node before points to the new node and the new node points to the node after it.
+Inserting at a specific index is similar to inserting at the tail. But this time, we need to traverse to the node just **before** the target position, then rewiring the pointers so that the node before points to the new node and the new node points to the node after it.
 
 If the index is 0, this is the same as inserting at the **head**.
+
+```
+Before: HEAD -> [10] -> [20] -> NULL
+
+Step 1: Create a new node
+        [30]
+
+Step 2: Traverse to the node at index - 1 (target = 1)
+HEAD -> [10] -> [20] -> NULL
+         ^
+        current (index 0)
+
+Step 3: Point the new node to the node after current
+HEAD -> [10] -> [20] -> NULL
+         ^       ^
+        current [30]
+
+Step 4: Point current to the new node
+HEAD -> [10] -> [30] -> [20] -> NULL
+```
 
 ### In C
 

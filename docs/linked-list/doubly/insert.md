@@ -6,11 +6,31 @@ Just like in singly linked lists, there are three ways to insert a new node into
 - **Insert at tail** — add to the end (O(n) without tail pointer, O(1) with tail pointer)
 - **Insert at index** — add at a specific position (O(n))
 
----
-
 ## Insert at Head
 
 Adding a node to the front is slightly more complex than in a singly linked list because we need to update **both** the `next` and `prev` pointers.
+
+```
+Before: HEAD -> [10] <-> [20] -> NULL
+
+Step 1: Create a new node
+        [30]
+
+Step 2: Point the new node to the old head
+        [30] -> [10] <-> [20] -> NULL
+                 ^
+                HEAD
+
+Step 3: Point the old head back to the new node
+        [30] <-> [10] <-> [20] -> NULL
+                  ^
+                 HEAD
+
+Step 4: Update the head to point to the new node
+HEAD -> [30] <-> [10] <-> [20] -> NULL
+```
+
+### In C
 
 ```c
 // Insert a new node at the front of the list
@@ -35,9 +55,9 @@ void insert_at_head(Node **head, int data) {
 
 // Usage
 Node *head = NULL;
-insert_at_head(&head, 10);  // HEAD <-> [10] <-> NULL
-insert_at_head(&head, 20);  // HEAD <-> [20] <-> [10] <-> NULL
-insert_at_head(&head, 30);  // HEAD <-> [30] <-> [20] <-> [10] <-> NULL
+insert_at_head(&head, 10);  // HEAD -> [10] -> NULL
+insert_at_head(&head, 20);  // HEAD -> [20] <-> [10] -> NULL
+insert_at_head(&head, 30);  // HEAD -> [30] <-> [20] <-> [10] -> NULL
 ```
 
 `new_node->prev = NULL` because the head has no previous node.
@@ -51,6 +71,28 @@ Don't forget to update `prev` pointers! Forgetting this is a common bug that bre
 ## Insert at Tail
 
 Adding a node to the end requires traversing to the last node, then updating pointers in both directions.
+
+```
+Before: HEAD -> [10] <-> [20] -> NULL
+
+Step 1: Create a new node
+        [30]
+
+Step 2: Traverse to the last node
+HEAD -> [10] <-> [20] -> NULL
+                  ^
+                current
+
+Step 3: Point current to the new node
+HEAD -> [10] <-> [20] -> [30] -> NULL
+                  ^
+                current
+
+Step 4: Point the new node back to current
+HEAD -> [10] <-> [20] <-> [30] -> NULL
+```
+
+### In C
 
 ```c
 // Insert a new node at the end of the list
@@ -82,9 +124,9 @@ void insert_at_tail(Node **head, int data) {
 
 // Usage
 Node *head = NULL;
-insert_at_tail(&head, 10);  // HEAD <-> [10] <-> NULL
-insert_at_tail(&head, 20);  // HEAD <-> [10] <-> [20] <-> NULL
-insert_at_tail(&head, 30);  // HEAD <-> [10] <-> [20] <-> [30] <-> NULL
+insert_at_tail(&head, 10);  // HEAD -> [10] -> NULL
+insert_at_tail(&head, 20);  // HEAD -> [10] <-> [20] -> NULL
+insert_at_tail(&head, 30);  // HEAD -> [10] <-> [20] <-> [30] -> NULL
 ```
 
 Just like in singly linked lists, we traverse with `while (current->next != NULL)` to find the last node.
@@ -98,6 +140,36 @@ Inserting at the tail n times in a row is still O(n²) total, just like with sin
 ## Insert at Index
 
 Inserting at a specific index is similar to singly linked lists, but now we need to update **four** pointers instead of two.
+
+```
+Before: HEAD -> [10] <-> [20] -> NULL
+
+Step 1: Create a new node
+        [30]
+
+Step 2: Traverse to the node at index - 1 (target = 1)
+HEAD -> [10] <-> [20] -> NULL
+         ^
+        current (index 0)
+
+Step 3: Point the new node forward to the node after current
+        [30] -> [20]
+
+Step 4: Point the new node back to current
+HEAD -> [10] <- [30] -> [20] -> NULL
+         ^
+        current
+
+Step 5: Point the node after current back to the new node
+HEAD -> [10] <- [30] <-> [20] -> NULL
+         ^
+        current
+
+Step 6: Point current forward to the new node
+HEAD -> [10] <-> [30] <-> [20] -> NULL
+```
+
+### In C
 
 ```c
 // Insert a new node at a specific index
@@ -140,9 +212,9 @@ void insert_at_index(Node **head, int data, int index) {
 
 // Usage
 Node *head = NULL;
-insert_at_tail(&head, 10);      // HEAD <-> [10] <-> NULL
-insert_at_tail(&head, 30);      // HEAD <-> [10] <-> [30] <-> NULL
-insert_at_index(&head, 20, 1);  // HEAD <-> [10] <-> [20] <-> [30] <-> NULL
+insert_at_tail(&head, 10);      // HEAD -> [10] -> NULL
+insert_at_tail(&head, 30);      // HEAD -> [10] <-> [30] -> NULL
+insert_at_index(&head, 20, 1);  // HEAD -> [10] <-> [20] <-> [30] -> NULL
 ```
 
 We stop at `index - 1` because we need access to the node **before** the insertion point to rewire its pointers.

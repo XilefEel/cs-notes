@@ -328,13 +328,13 @@ Adding a tail pointer changes the performance and complexity:
 | Delete at tail  | O(n)         | O(n)       | Still need second-to-last node         |
 | Memory overhead | 1 pointer    | 2 pointers | Tracking both head and tail            |
 
-✅ **Use a tail pointer when:**
+**Use a tail pointer when:**
 
 - You frequently insert at the end (queue behavior)
 - O(1) tail insertion is worth the extra bookkeeping
 - You're implementing a queue or circular buffer
 
-❌ **Skip the tail pointer when:**
+**Skip the tail pointer when:**
 
 - You rarely insert at the tail
 - The extra complexity isn't worth it

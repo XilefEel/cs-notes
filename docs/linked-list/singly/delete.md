@@ -10,6 +10,23 @@ There are three ways to delete a node from a singly linked list:
 
 Removing the first node is the simplest operation. You just move the head pointer to the next node and free the old head.
 
+```
+Before: HEAD -> [10] -> [20] -> [30] -> NULL
+
+Step 1: Save the current head
+HEAD -> [10] -> [20] -> [30] -> NULL
+         ^
+        temp
+
+Step 2: Point the head to the next node
+        [10] -> [20] -> [30] -> NULL
+         ^       ^
+        temp    HEAD
+
+Step 3: Free temp
+HEAD -> [20] -> [30] -> NULL
+```
+
 ### In C
 
 ```c
@@ -97,6 +114,23 @@ In C you must explicitly `free()` the old head. In Rust, the old node is automat
 ## Delete at Tail
 
 Unlike deleting at the head, removing the last node is more complex. We need to traverse to the **second-to-last node** so we can update its `next` pointer to `NULL`. This makes it O(n).
+
+```
+Before: HEAD -> [10] -> [20] -> [30] -> NULL
+
+Step 1: Traverse to the second last node
+HEAD -> [10] -> [20] -> [30] -> NULL
+                 ^
+                current
+
+Step 2: Free the last node
+HEAD -> [10] -> [20] -> x
+                 ^
+                current
+
+Step 3: Point current to NULL
+HEAD -> [10] -> [20] -> NULL
+```
 
 ### In C
 
@@ -220,6 +254,28 @@ In C you explicitly `free()` the last node. In Rust, when you set `current.next 
 Deleting at a specific index is similar to deleting at the tail. We need to traverse to the node just **before** the target, then rewire pointers to **skip** over the node we're deleting.
 
 If the index is 0, this is the same as deleting at the **head**.
+
+```
+Before: HEAD -> [10] -> [20] -> [30] -> NULL
+
+Step 1: Traverse to the node at index - 1 (target = 1)
+HEAD -> [10] -> [20] -> [30] -> NULL
+         ^
+        current (index 0)
+
+Step 2: Save the node being deleted
+HEAD -> [10] -> [20] -> [30] -> NULL
+         ^       ^
+        current temp
+
+Step 3: Point current to the node after temp
+HEAD -> [10] -> [30] -> NULL
+         ^       ^
+        current [20] < temp
+
+Step 4: Free temp
+HEAD -> [10] -> [30] -> NULL
+```
 
 ### In C
 
