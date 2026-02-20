@@ -16,7 +16,7 @@ typedef struct Node {
 
 `int data` is the actual data stored in each `Node` (for this example, it's an integer).
 
-`struct Node *next` is a raw pointer, a 64-bit integer representing a memory address. The pointer `next` either points to the next node or is `NULL` if there is no next node.
+`struct Node *next` is a raw **pointer**, a 64-bit integer representing a memory address, that either points to the **next node** or is `NULL` if there is **no next node**.
 
 ::: warning
 C doesn't know if `next` points to a valid node, uninitialized junk memory, or `NULL`. If you dereference a `NULL` pointer, the program **crashes** (Segfault).
@@ -33,13 +33,17 @@ struct Node {
 
 `data: i32`, just like in C, is the actual data stored in each `Node`.
 
-`Option<Box<Node>>` is (basically) the rust way to write `struct Node *` in C.
+`Option<Box<Node>>` is Rust's way of representing `struct Node *` in C, but safer.
 
-- `Box<T>` is a heap allocated pointer, like `malloc` but owned. The value is automatically freed when it goes out of scope.
-- `Option<T>` is either `Some(value)` or `None`. This forces you to handle both cases explicitly (either there is a node, or there isn't a node).
+- **`Box<T>`** is a heap-allocated pointer (a type of smart pointer). Unlike `malloc`, the memory is **automatically freed** when the `Box` goes out of scope. No manual cleanup needed!
+- **`Option<T>`** is an enum that's either `Some(value)` or `None`. This forces you to explicitly **handle** both cases.
+
+::: info What is T?
+The `T` in `Box<T>` and `Option<T>` is a **generic type placeholder**. It means these types can hold any type, like integers, structs, strings, and etc. Here, `T` is the struct `Node`.
+:::
 
 ::: tip
-Unlike in C, the rust compiler forces you to handle `None` before you can use the value inside. The prevents runtime errors and moves them to compile time.
+Unlike in C, the Rust compiler forces you to handle `None` before you can access the value inside. This **prevents null pointer crashes** by catching the error at compile time instead of runtime.
 :::
 
 ## Key Difference

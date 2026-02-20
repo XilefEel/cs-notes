@@ -48,8 +48,6 @@ insert_at_head(&head, 30);  // HEAD <-> [30] <-> [20] <-> [10] <-> NULL
 Don't forget to update `prev` pointers! Forgetting this is a common bug that breaks backwards traversal.
 :::
 
----
-
 ## Insert at Tail
 
 Adding a node to the end requires traversing to the last node, then updating pointers in both directions.
@@ -91,13 +89,11 @@ insert_at_tail(&head, 30);  // HEAD <-> [10] <-> [20] <-> [30] <-> NULL
 
 Just like in singly linked lists, we traverse with `while (current->next != NULL)` to find the last node.
 
-`new_node->prev = current` creates the backwards link from the new node (new tail) to the old tail.
+`new_node->prev = current` points the new node (the new tail) back to the old tail.
 
 ::: warning
 Inserting at the tail n times in a row is still O(n²) total, just like with singly linked lists. If you're building a list from scratch, consider keeping a **tail pointer** or inserting at the head.
 :::
-
----
 
 ## Insert at Index
 
@@ -170,21 +166,6 @@ In doubly linked lists, we update **4 pointers** because we need to maintain bot
 ::: warning
 The `if (current->next != NULL)` check is crucial! If we're inserting at the end, there's no next node to update. Forgetting this check causes a segfault.
 :::
-
----
-
-## Key Differences from Singly Linked Lists
-
-| Operation          | Singly Linked     | Doubly Linked       | Why?                            |
-| ------------------ | ----------------- | ------------------- | ------------------------------- |
-| Pointers per node  | 1 (`next`)        | 2 (`next` + `prev`) | Need bidirectional traversal    |
-| Insert at head     | 2 pointer updates | 3 pointer updates   | Must update old head's `prev`   |
-| Insert at tail     | 2 pointer updates | 3 pointer updates   | Must link backwards             |
-| Insert at index    | 2 pointer updates | 4 pointer updates   | Both directions need updating   |
-| Memory overhead    | Lower             | Higher              | Extra `prev` pointer per node   |
-| Traverse backwards | Impossible        | O(n)                | Main advantage of doubly linked |
-
----
 
 ## Summary
 

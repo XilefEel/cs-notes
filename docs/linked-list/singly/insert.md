@@ -32,16 +32,18 @@ insert_at_head(&head, 20);  // HEAD -> [20] -> [10] -> NULL
 insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 ```
 
-Notice that we pass `Node **head` in the function signature (pointer to a pointer) and `&head` when calling it. This is because we need to modify the original `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address.
+Notice that we pass `Node **head` (a pointer to a pointer) in the function signature and `&head` (an address) when calling it. This is because we need to modify the **original** `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address.
 
-Before, when we traversed through a list, we only used `Node *head` because we were **not** changing where head points to. We were simply **moving** a local copy of the pointer through the list to read or print each node.
+:::tip
+Before, when we traversed through a list, we only used `Node *head` because we were **not** changing where head points to. We were simply **moving** a local copy of the pointer through the list to read or print each node. If you used `Node *head` instead, the function would only modify a local copy, so the caller's head wouldn't change.
+:::
 
 `new_node->next = *head` makes the new node point to the old head.
 
 `*head = new_node` updates the head pointer to point to the new node.
 
-::: warning
-If you used `Node *head` instead, the function would only modify a local copy, so the caller's head wouldn't change.
+::: warning Order matters!
+You **must** set `new_node->next = *head` before updating `*head = new_node`. If you update `*head` first, you lose access to the old head, and the new node will point to itself instead of the rest of the list.
 :::
 
 ### In Rust
@@ -66,17 +68,16 @@ head = Node::insert_at_head(head, 20);  // HEAD -> [20] -> [10] -> NONE
 head = Node::insert_at_head(head, 30);  // HEAD -> [30] -> [20] -> [10] -> NONE
 ```
 
-`mut head` explicitly makes the head mutable as in Rust, variables are immutable by default.
+`let mut head` explicitly makes the head mutable as in Rust, as variables are immutable by default.
 
-In the function signature, `head: Option<Box<Node>>` means we're taking ownership (not borrowing with `&`).
+In the function signature, `head: Option<Box<Node>>` means we're taking ownership (not borrowing with `&` like before).
 
 When we pass `head` to the function, we **move** it. In Rust, we transfer ownership of `head` to the function and the original `head` variable can't be used anymore.
 
 Since we moved `head`, we must **return** a new `Option<Box<Node>>` which we assign back to `head` so that it can be used again.
 
 ::: tip
-In C you modify `head` in place with a double pointer (`Node **head`).
-In Rust you consume the old head and return a new one. It's the same result, just different ownership model.
+In C you modify `head` in place with a double pointer (`Node **head`). In Rust you consume the old head and return a new one.
 :::
 
 ::: details Alternative: Mutate in place
@@ -191,7 +192,7 @@ head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 Since head is a type `Option<Box<Node>>`, Rust forces us to handle both cases explicitly.
 `match head` is used to handle if the list is empty (if `head` is `None`) and if the list is not empty (if `head` is `Some`).
 
-`while current.next.is_some()` is Rust's way of writing `while (current->next != NULL)` in C. It loops so long as the node next to current has a value.
+`while current.next.is_some()` is Rust's way of writing `while (current->next != NULL)` in C. It loops so long as the node next to current has a value (`Some`).
 
 `current.next.as_mut().unwrap()` gives us a mutable reference to the next node so we can keep traversing.
 
@@ -212,7 +213,7 @@ In production code, you'd typically return a `Result` instead so the caller can 
 :::
 
 ::: tip
-Notice the difference: in C we modify through pointers. In Rust we borrow mutably (`&mut`) and traverse using `.as_mut()`. Same logic, different syntax.
+Notice the difference: in C we modify the pointers directly, but in Rust, we borrow mutably (`&mut`) and traverse using `.as_mut()`.
 :::
 
 ### Key Difference

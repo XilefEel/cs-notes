@@ -139,7 +139,7 @@ delete_at_tail(&head);      // HEAD -> [10] -> [20] -> NULL
 
 `while (current->next->next != NULL)` is used to traverse through the list and stops at the second-to-last node so that we can access the node **before** the one we're deleting.
 
-Once we're there, `free(current->next)` deallocates the last node.
+`free(current->next)` deallocates the last node.
 
 `current->next = NULL` makes the second-to-last node the new tail by pointing it to `NULL`.
 
@@ -197,7 +197,7 @@ For the single-node case, we check `if node.next.is_none()` and call `delete_at_
 `while current.next.as_ref().unwrap().next.is_some()` checks if there's a node two steps ahead. This is Rust's (verbose) way of writing `while (current->next->next != NULL)` in C.
 
 :::info What is as_ref()?
-`as_ref()` lets us borrow the value inside an `Option` instead of moving it out. This is useful when we only want to look at the data, not modify or take it. So instead of owning the value, we get a reference to it.
+`as_ref()` lets us borrow the value inside an `Option` instead of moving it out. This is useful when we only want to **look** at the data, not modify or take it. So instead of owning the value, we get a **reference** to it.
 :::
 
 Once we're at the second-to-last node, we set `current.next = None`, which removes the last node and Rust will automatically drop it.
@@ -217,7 +217,7 @@ In C you explicitly `free()` the last node. In Rust, when you set `current.next 
 
 ## Delete at Index
 
-Deleting at a specific index is similar to deleting at the tail. We need to traverse to the node just **before** the target, then rewire pointers to skip over the node we're deleting.
+Deleting at a specific index is similar to deleting at the tail. We need to traverse to the node just **before** the target, then rewire pointers to **skip** over the node we're deleting.
 
 If the index is 0, this is the same as deleting at the **head**.
 

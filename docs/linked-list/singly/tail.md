@@ -2,18 +2,6 @@
 
 We've seen that operations like `insert_at_tail` require O(n) time because we have to traverse the entire list to find the last node. But what if we kept track of both the **head** and the **tail**?
 
-## The Trade-off
-
-Adding a tail pointer changes the performance and complexity:
-
-| Operation       | Without Tail | With Tail  | Notes                                  |
-| --------------- | ------------ | ---------- | -------------------------------------- |
-| Insert at head  | O(1)         | O(1)       | Must update tail if list was empty     |
-| Insert at tail  | O(n)         | O(1)       | Direct access to last node!            |
-| Delete at head  | O(1)         | O(1)       | Must update tail if list becomes empty |
-| Delete at tail  | O(n)         | O(n)       | Still need second-to-last node         |
-| Memory overhead | 1 pointer    | 2 pointers | Tracking both head and tail            |
-
 ## The Structure
 
 ### In C
@@ -70,7 +58,7 @@ The `tail` must be a **raw pointer** (`*mut Node`) because `head` already owns t
 ::: danger Why raw pointers?
 Normally, Rust guarantees memory safety at compile time. But with a tail pointer, we'd have two owners which violates Rust's single-ownership rule!
 
-Raw pointers let us bypass this restriction, but we lose Rust's safety guarantees and have to use `unsafe` blocks. The compiler can't verify we're using the tail pointer correctly, just like how C can't guarantee that we use pointers correctly.
+Raw pointers let us bypass this restriction, but we **lose** Rust's safety guarantees and have to use `unsafe` blocks. The compiler can't verify we're using the tail pointer correctly, just like how C can't guarantee that we use pointers correctly.
 
 In production Rust code, you'd either:
 
@@ -78,6 +66,19 @@ In production Rust code, you'd either:
 - Redesign with a `VecDeque` or ring buffer (what Rust's stdlib does)
 
 For this section, raw pointers are useful because they show where Rust's safety model conflicts with certain data structure patterns.
+:::
+
+::: info What is std::ptr::null_mut()?
+`std::ptr::null_mut()` creates a null mutable raw pointer. It's like `NULL` in C, but specifically for mutable raw pointers (`*mut T`).
+
+You can check if a raw pointer is null with `.is_null()`:
+
+```rust
+if self.tail.is_null() {
+    // tail points to nothing
+}
+```
+
 :::
 
 ## Insert at Head
@@ -99,7 +100,7 @@ void insert_at_head(LinkedList *list, int data) {
 }
 ```
 
-Before, we just simply inserted a new node at the head, but now we have to check `if (list->tail == NULL)`, which handles the empty list case.
+Now, we also have to check `if (list->tail == NULL)`, which handles the empty list case.
 
 ### In Rust
 
@@ -201,7 +202,7 @@ We need `unsafe` here because we're dereferencing the raw tail pointer.
 - Access mutable static variables
 - Implement unsafe traits
 
-In C, The whole language is a giant `unsafe` block, since the compiler trusts you completely. In Rust, unsafe is explicit and localized to specific blocks, making it easier to audit where things could go wrong.
+In C, The whole language is a giant `unsafe` block, since the compiler trusts you completely. In Rust, unsafe is explicit and localized to specific blocks, making it easier to see where things could go wrong.
 :::
 
 ## Delete at Head
@@ -248,19 +249,6 @@ impl LinkedList {
     }
 }
 ```
-
-::: info What is std::ptr::null_mut()?
-`std::ptr::null_mut()` creates a null mutable raw pointer. It's like `NULL` in C, but specifically for mutable raw pointers (`*mut T`).
-
-You can check if a raw pointer is null with `.is_null()`:
-
-```rust
-if self.tail.is_null() {
-    // tail points to nothing
-}
-```
-
-:::
 
 ## Delete at Tail
 
@@ -329,6 +317,16 @@ impl LinkedList {
 ```
 
 ## Summary
+
+Adding a tail pointer changes the performance and complexity:
+
+| Operation       | Without Tail | With Tail  | Notes                                  |
+| --------------- | ------------ | ---------- | -------------------------------------- |
+| Insert at head  | O(1)         | O(1)       | Must update tail if list was empty     |
+| Insert at tail  | O(n)         | O(1)       | Direct access to last node!            |
+| Delete at head  | O(1)         | O(1)       | Must update tail if list becomes empty |
+| Delete at tail  | O(n)         | O(n)       | Still need second-to-last node         |
+| Memory overhead | 1 pointer    | 2 pointers | Tracking both head and tail            |
 
 ✅ **Use a tail pointer when:**
 

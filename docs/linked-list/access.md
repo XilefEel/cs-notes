@@ -6,7 +6,7 @@ Since a linked list is not stored in contiguous memory, you **cannot access a no
 
 Getting a node at a specific index means walking through the list until we reach that position.
 
-Finding a specific node at position N takes **O(n)** since we have to through **every node**.
+Finding a specific node at position N takes **O(n)** since worse case scenario, we have to through **every node**.
 
 ### In C
 
@@ -25,6 +25,8 @@ Node *get_node(Node *head, int index) {
 
         // Move to the next node
         current = current->next;
+
+        // Increment i
         i++;
     }
 
@@ -39,9 +41,11 @@ if (node != NULL) {
 }
 ```
 
-`while (current != NULL)` loops as long as `current` isn't `NULL`. If we reached the target `index`, then we return `current`.
+`while (current != NULL)` loops as long as `current` isn't `NULL`.
 
-`current = current->next` is the line that let us traverse through the list. It reassigns the current node to the node after it. Essentially, we **follow** the pointer to the **next node**, moving one step forward through the list.
+If we reached the target `index`, then we return `current`, which is the node we are currently in.
+
+`current = current->next` is the line that let us traverse through the list. It reassigns the node we are **currently** in to the node after it. Essentially, we **follow** the pointer to the **next node**, moving one step forward through the list.
 
 We return `NULL` if the index is out of bounds, so the caller must always check before using the result.
 
@@ -66,6 +70,8 @@ impl Node {
 
             // Move to the next node
             current = &node.next;
+
+            // Increment i
             i += 1;
         }
 
@@ -82,7 +88,7 @@ if let Some(node) = Node::get(&head, 2) {
 
 `while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C, but it also automatically unwraps the Option and gives us access to the current node safely.
 
-Same with in C, if we reached the target `index`, then we return `Some(node)`.
+Just like in C, if we reached the target `index`, then we return `Some(node)`.
 
 We return `None` if the index is out of bounds, but unlike C, the caller **cannot** use the result without checking it first.
 
@@ -132,7 +138,7 @@ void print_list(Node *head) {
 print_list(head);  // Output: 10 -> 20 -> 30
 ```
 
-Just like before, `current = current->next` traverses the list, but this time, we are not going to stop after reaching a certain index, rather we just go until the end of the list.
+Just like before, `current = current->next` traverses the list, but this time, instead of stopping after reaching a certain index, we just traverse the **entire** list.
 
 `if (current->next != NULL)` makes sure we don't print an arrow after the last node.
 
@@ -219,7 +225,7 @@ print_list(head);  // Output: 20 -> 40 -> 60
 
 `void (*func)(int *)` is a **function pointer** so that we can pass any function we want to apply to each node in the list (so long as it follows the same type).
 
-The function receives an integer pointer to the data (`int *`), so it can modify the value directly in the node.
+The function receives an integer pointer to the data (`int *`), so it can modify the value directly in the node instead of making a local copy.
 
 ### In Rust
 
@@ -251,7 +257,7 @@ Node::print_list(&head);  // Output: 20 -> 40 -> 60
 
 `|data| *data *= 2` is a **closure** (Rust's version of an anonymous function). This lets us write the logic inline without having to define a separate function. We could also pass a named function if we wanted.
 
-Notice we use `&mut head` because we're modifying the data inside the nodes.
+`&mut head` is used because we're modifying the data inside the nodes.
 
 ::: tip
 Although we could just **define** a function beforehand and use it in the traversal directly, making the function a parameter means you can pass **any** function, like doubling values, incrementing counters, filtering, mapping, or even complex logic, so long as it matches the generic function type. This pattern makes `traverse_apply` much more flexible.

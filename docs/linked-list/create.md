@@ -24,7 +24,7 @@ Node *create_node(int data) {
     return node;
 }
 
-// Start with an empty list — head pointing to NULL
+// Start with head pointing to NULL
 Node *head = NULL;
 
 // Create three nodes
@@ -32,7 +32,7 @@ Node *a = create_node(1);
 Node *b = create_node(2);
 Node *c = create_node(3);
 
-// Link them together manually
+// Link them together
 a->next = b;  // Node a points to node b
 b->next = c;  // Node b points to node c
 // c->next is already NULL, so c is the end of list
@@ -44,12 +44,12 @@ head = a;
 After linking, the linked list looks like this:
 
 ```
-head --> [1 | next] --> [2 | next] --> [3 | NULL]
+HEAD --> [1 | next] --> [2 | next] --> [3 | NULL]
 ```
 
 `a->next = b` links node `a` to node `b` by storing `b`'s memory address in `a`'s next pointer. Same goes with node `b` and node `c`.
 
-`head` is just a pointer that points to node `a`, it is not a node itself.
+`head` is just a pointer that points to node `a`.
 
 ::: warning
 `malloc` can fail and return `NULL` if the system is out of memory. In production code you should always check:
@@ -77,11 +77,11 @@ let mut a = Node::new(1);
 let mut b = Node::new(2);
 let c = Node::new(3);
 
-// Link them together manually (notice the reverse order)
+// Link them together
 b.next = Some(c);  // Node b points to node c
 a.next = Some(b);  // Node a points to node b
 
-// head is just a pointer to the first node
+// Point head at the first node
 let head = Some(a);
 ```
 
@@ -92,6 +92,28 @@ head --> [1 | Some] --> [2 | Some] --> [3 | None]
 ```
 
 Notice that we link the nodes in **reverse order** (we wrote `b.next = Some(c)` before `a.next = Some(b)`). This is because of a concept in Rust known as **ownership**. Once you move `b` into `a.next`, you can no longer access `b` directly to set its `next`.
+
+::: info What is impl?
+`impl` stands for "implementation". It lets you define **methods** (functions) that belong to a specific **type**.
+
+In C, if you want functions for a `Node`, you write standalone functions like:
+
+```c
+Node *create_node(int data) { ... }
+void insert_node(Node **head, int data) { ... }
+```
+
+In Rust, you can group these functions inside an `impl` block:
+
+```rust
+impl Node {
+    fn new(data: i32) -> Box<Node> { ... }
+    fn insert(&mut self, data: i32) { ... }
+}
+```
+
+This makes it clear these functions "belong to" `Node`. Instead of calling `create_node(data)`, you call `Node::new(data)`. It's cleaner and more organized.
+:::
 
 ## Key Difference
 
