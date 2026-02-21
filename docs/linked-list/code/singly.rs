@@ -182,7 +182,6 @@ impl Node {
         let mut prev = None;
         let mut curr = head;
 
-        // Traverse and reverse each pointer
         while let Some(mut node) = curr {
             let next = node.next.take();
 
@@ -193,6 +192,29 @@ impl Node {
         }
 
         prev
+    }
+
+    fn has_cycle(head: &Option<Box<Node>>) -> bool {
+        if head.is_none() {
+            return false;
+        }
+
+        let mut slow = head.as_ref();
+        let mut fast = head.as_ref();
+
+        while fast.is_some() && fast.unwrap().next.is_some() {
+            slow = slow.unwrap().next.as_ref();
+            fast = fast.unwrap().next.as_ref()
+                       .unwrap().next.as_ref();
+
+            if let (Some(s), Some(f)) = (slow, fast) {
+                if std::ptr::eq(s.as_ref(), f.as_ref()) {
+                    return true;
+                }
+            }
+        }
+
+        false
     }
 }
 
@@ -222,4 +244,6 @@ fn main() {
 
     head = Node::reverse(head); // HEAD -> [10] -> [50] -> NONE
     Node::print_list(&head);
+
+    println!("Has cycle: {}", Node::has_cycle(&head)); // Has cycle: false
 }

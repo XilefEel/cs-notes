@@ -198,6 +198,26 @@ Node *reverse_list(Node *head) {
     return prev;
 }
 
+int has_cycle(Node *head) {
+    if (head == NULL || head->next == NULL) {
+        return 0;
+    }
+
+    Node *slow = head;
+    Node *fast = head;
+
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
+
 int main() {
     Node *head = NULL;
 
@@ -226,5 +246,24 @@ int main() {
     print_list(head);
 
     free_list(head);
+
+    insert_at_tail(&head, 1);
+    insert_at_tail(&head, 2);
+    insert_at_tail(&head, 3);
+    insert_at_tail(&head, 4);
+
+    Node *second = head->next;
+    Node *last = head;
+    while (last->next != NULL) {
+        last = last->next;
+    }
+    last->next = second; 
+
+    if (has_cycle(head)) {
+        printf("Cycle detected!\n"); 
+    } else {
+        printf("No cycle\n");
+    }
+
     return 0;
 }
