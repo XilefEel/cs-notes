@@ -239,22 +239,20 @@ In doubly linked lists, we update **4 pointers** because we need to maintain bot
 The `if (current->next != NULL)` check is crucial! If we're inserting at the end, there's no next node to update. Forgetting this check causes a segfault.
 :::
 
+## Key Differences from Singly Linked Lists
+
+| Operation         | Singly Linked     | Doubly Linked       | Why?                          |
+| ----------------- | ----------------- | ------------------- | ----------------------------- |
+| Pointers per node | 1 (`next`)        | 2 (`next` + `prev`) | Need bidirectional links      |
+| Insert at head    | 2 pointer updates | 3 pointer updates   | Must update old head's `prev` |
+| Insert at tail    | 2 pointer updates | 3 pointer updates   | Must link backward            |
+| Insert at index   | 2 pointer updates | 4 pointer updates   | Both directions need updating |
+| Memory overhead   | Lower             | Higher              | Extra `prev` pointer per node |
+
 ## Summary
 
-Doubly linked lists give you **bidirectional traversal** at the cost of:
-
-- More complex insertion logic (more pointers to update)
-- Higher memory usage (extra `prev` pointer per node)
-- More potential for bugs (forgetting to update `prev` pointers)
-
-**When to use:**
-
-- You need to traverse backwards frequently
-- You're implementing a deque (double-ended queue)
-- You need to delete nodes in the middle efficiently (easier with `prev` access)
-
-**When to skip:**
-
-- You only traverse forward (use singly linked list)
-- Memory is tight (the extra pointers add up)
-- You're using Rust 🦀
+| Operation       | C Complexity | Notes                                    |
+| --------------- | ------------ | ---------------------------------------- |
+| Insert at head  | O(1)         | Must update old head's `prev` pointer    |
+| Insert at tail  | O(n)         | Must link both forward and backward      |
+| Insert at index | O(n)         | Must update 4 pointers (both directions) |

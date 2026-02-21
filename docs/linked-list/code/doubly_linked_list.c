@@ -103,6 +103,78 @@ void insert_at_index(Node **head, int data, int index) {
     current->next = new_node;
 }
 
+
+void delete_at_head(Node **head) {
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    Node *temp = *head;
+
+    *head = (*head)->next;
+
+    if (*head != NULL) {
+        (*head)->prev = NULL;
+    }
+
+    free(temp);
+}
+
+void delete_at_tail(Node **head) {
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    if ((*head)->next == NULL) {
+        free(*head);
+        *head = NULL;
+        return;
+    }
+
+    Node *current = *head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+
+    current->prev->next = NULL;
+
+    free(current);
+}
+
+void delete_at_index(Node **head, int index) {
+    if (*head == NULL) {
+        printf("List is empty\n");
+        return;
+    }
+
+    if (index == 0) {
+        delete_at_head(head);
+        return;
+    }
+
+    Node *current = *head;
+    for (int i = 0; i < index && current != NULL; i++) {
+        current = current->next;
+    }
+
+    if (current == NULL) {
+        printf("Index out of bounds\n");
+        return;
+    }
+
+    if (current->prev != NULL) {
+        current->prev->next = current->next;
+    }
+
+    if (current->next != NULL) {
+        current->next->prev = current->prev;
+    }
+
+    free(current);
+}
+
 int main() {
     Node *head = NULL;
 
@@ -116,6 +188,15 @@ int main() {
     print_list(head);
 
     insert_at_index(&head, 50, 2);  // HEAD <-> [30] <-> [20] <-> [50] <-> [10] <-> [40] <-> NULL
+    print_list(head);
+
+    delete_at_head(&head);  // HEAD <-> [20] <-> [50] <-> [10] <-> [40] <-> NULL
+    print_list(head);
+
+    delete_at_tail(&head);  // HEAD <-> [20] <-> [50] <-> [10] <-> NULL
+    print_list(head);
+
+    delete_at_index(&head, 1);  // HEAD <-> [20] <-> [10] <-> NULL
     print_list(head);
 
     free_list(head);
