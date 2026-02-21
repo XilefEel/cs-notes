@@ -177,6 +177,23 @@ impl Node {
             }
         }
     }
+
+    fn reverse(head: Option<Box<Node>>) -> Option<Box<Node>> {
+        let mut prev = None;
+        let mut curr = head;
+
+        // Traverse and reverse each pointer
+        while let Some(mut node) = curr {
+            let next = node.next.take();
+
+            node.next = prev;
+
+            prev = Some(node);
+            curr = next;
+        }
+
+        prev
+    }
 }
 
 fn main() {
@@ -201,5 +218,8 @@ fn main() {
     Node::print_list(&head);
 
     head = Node::delete_at_index(head, 1); // HEAD -> [50] -> [10] -> NONE
+    Node::print_list(&head);
+
+    head = Node::reverse(head); // HEAD -> [10] -> [50] -> NONE
     Node::print_list(&head);
 }

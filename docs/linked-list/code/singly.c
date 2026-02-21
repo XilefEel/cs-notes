@@ -175,6 +175,29 @@ void delete_at_index(Node **head, int index) {
     free(temp);
 }
 
+
+Node *reverse_list(Node *head) {
+    Node *prev = NULL;
+    Node *curr = head;
+    Node *next = NULL;
+
+    // Traverse and reverse each pointer
+    while (curr != NULL) {
+        // Save the next node
+        next = curr->next;
+
+        // Reverse the current node's pointer
+        curr->next = prev;
+
+        // Move prev and curr one step forward
+        prev = curr;
+        curr = next;
+    }
+
+    // prev is now the new head
+    return prev;
+}
+
 int main() {
     Node *head = NULL;
 
@@ -197,6 +220,9 @@ int main() {
     print_list(head);
 
     delete_at_index(&head, 1); // HEAD -> [50] -> [10] -> NULL
+    print_list(head);
+
+    head = reverse_list(head); // HEAD -> [10] -> [50] -> NULL
     print_list(head);
 
     free_list(head);

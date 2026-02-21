@@ -60,6 +60,31 @@ export default defineConfig({
               },
             ],
           },
+          {
+            text: "Common Problems and Solutions",
+            items: [
+              {
+                text: "Reversing a Linked List",
+                link: "/linked-list/problems/reverse",
+              },
+              {
+                text: "Detecting a Cycle",
+                link: "/linked-list/problems/detect-cycle",
+              },
+              {
+                text: "Finding the Middle Node",
+                link: "/linked-list/problems/find-middle",
+              },
+              {
+                text: "Merging Two Sorted Linked Lists",
+                link: "/linked-list/problems/merge-sorted",
+              },
+              {
+                text: "Removing Duplicates",
+                link: "/linked-list/problems/remove-duplicates",
+              },
+            ],
+          },
           { text: "C vs Rust Summary", link: "/linked-list/summary" },
         ],
       },
