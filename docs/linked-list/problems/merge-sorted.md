@@ -15,7 +15,7 @@ Merged: [1] -> [2] -> [3] -> [4] -> [5] -> [6] -> NULL
 
 ## The Approach
 
-We use two pointers to traverse both lists at the same time, always choosing the smaller value to add to the merged list. We essentially splice the two lists together into a new merged list.
+We use two pointers to traverse both lists at the same time, always choosing the smaller value to add to the merged list. We are essentially **splicing** the two lists together into a new merged list.
 
 ```
 Step 1: Compare heads
@@ -193,9 +193,9 @@ merge([1,3], [2,4])
 ```
 
 ::: info Why recursion in Rust?
-The C version uses iteration with a dummy node, but in Rust, we use recursion because it's cleaner with ownership, since we don't have to deal with mutable references to build the list.
+The C version uses iteration with a dummy node, but in Rust, we use recursion because it's **cleaner** with ownership, since we don't have to deal with mutable references to build the list.
 
-You could write an iterative version in Rust, but it would require more `.take()` and tons of mutable reference gymnastics.
+We _could_ write an iterative version in Rust, but it would require more `.take()` and tons of mutable references.
 :::
 
 ## Complexity

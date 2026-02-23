@@ -136,7 +136,7 @@ Node::print_list(&head);  // 3 -> 2 -> 1
 ::: info Understanding ownership in the loop
 The `while let Some(mut node) = curr` unwraps the `Option`, giving us `node` with type `Box<Node>`. Since `prev` is declared as `Option<Box<Node>>`, we need to wrap `node` back in `Some()` when assigning to it.
 
-We can directly assign `next` to `curr` because `next` is already `Option<Box<Node>>` (the same type as `curr`). This transfers ownership from `next` to `curr`.
+We can directly assign `next` to `curr` because `next` is already `Option<Box<Node>>` (the same type as `curr`). This transfers **ownership** from `next` to `curr`.
 :::
 
 ## Complexity

@@ -2,9 +2,9 @@
 
 A linked list can have a **cycle**.
 
-A cycle in a linked list occurs when a node's `next` pointer points back to a **previous** node, creating a **loop**. This means you can keep following `next` pointers forever without reaching `NULL`.
+A cycle in a linked list occurs when a node's `next` pointer points back to a **previous** node, creating a **loop**. This means we can keep following `next` pointers forever without reaching `NULL`.
 
-Our job is to detect wheter a given linked list contains a cycle without using extra space (like a hash table to track visited nodes).
+Our job is to detect wheter a given linked list contains a **cycle** without using **extra space** (like a hash table to track visited nodes).
 
 For example:
 
@@ -112,7 +112,7 @@ if (has_cycle(head)) {
 `if (slow == fast)` checks if they've met. If so, then there's a cycle.
 
 ::: warning
-We must check `fast->next != NULL` because `fast->next->next` can dereference `NULL`. If we only checked `fast != NULL`, we'd crash when trying to access `next->next` on the last node.
+We must check `fast->next != NULL` because `fast->next->next` can dereference `NULL`. If we only checked `fast != NULL`, we'd **crash** when trying to access `next->next` on the last node.
 :::
 
 ## In Rust

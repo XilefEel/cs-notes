@@ -52,7 +52,7 @@ HEAD --> [1 | next] --> [2 | next] --> [3 | NULL]
 `head` is just a pointer that points to node `a`.
 
 ::: warning
-`malloc` can fail and return `NULL` if the system is out of memory. In production code you should always check:
+`malloc` can fail and return `NULL` if the system is out of memory. In production code we should always check:
 
 ```c
 if (node == NULL) {
@@ -91,19 +91,19 @@ After linking, the list looks like this:
 head --> [1 | Some] --> [2 | Some] --> [3 | None]
 ```
 
-Notice that we link the nodes in **reverse order** (we wrote `b.next = Some(c)` before `a.next = Some(b)`). This is because of a concept in Rust known as **ownership**. Once you move `b` into `a.next`, you can no longer access `b` directly to set its `next`.
+Notice that we link the nodes in **reverse order** (we wrote `b.next = Some(c)` before `a.next = Some(b)`). This is because of a concept in Rust known as **ownership**. Once we move `b` into `a.next`, we can no longer access `b` directly to set its `next`.
 
 ::: info What is impl?
-`impl` stands for "implementation". It lets you define **methods** (functions) that belong to a specific **type**.
+`impl` stands for "implementation". It lets we define **methods** (functions) that belong to a specific **type**.
 
-In C, if you want functions for a `Node`, you write standalone functions like:
+In C, if we want functions for a `Node`, we write standalone functions like this:
 
 ```c
 Node *create_node(int data) { ... }
 void insert_node(Node **head, int data) { ... }
 ```
 
-In Rust, you can group these functions inside an `impl` block:
+In Rust, we can group these functions inside an `impl` block:
 
 ```rust
 impl Node {
@@ -112,7 +112,7 @@ impl Node {
 }
 ```
 
-This makes it clear these functions "belong to" `Node`. Instead of calling `create_node(data)`, you call `Node::new(data)`. It's cleaner and more organized.
+This makes it clear these functions "belong to" `Node`. Instead of calling `create_node(data)`, we call `Node::new(data)`. It's cleaner and more organized.
 :::
 
 ## Key Difference

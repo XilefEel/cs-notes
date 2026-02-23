@@ -133,10 +133,6 @@ Just like in singly linked lists, we traverse with `while (current->next != NULL
 
 `new_node->prev = current` points the new node (the new tail) back to the old tail.
 
-::: warning
-Inserting at the tail n times in a row is still O(n²) total, just like with singly linked lists. If you're building a list from scratch, consider keeping a **tail pointer** or inserting at the head.
-:::
-
 ## Insert at Index
 
 Inserting at a specific index is similar to singly linked lists, but now we need to update **four** pointers instead of two.
@@ -248,11 +244,3 @@ The `if (current->next != NULL)` check is crucial! If we're inserting at the end
 | Insert at tail    | 2 pointer updates | 3 pointer updates   | Must link backward            |
 | Insert at index   | 2 pointer updates | 4 pointer updates   | Both directions need updating |
 | Memory overhead   | Lower             | Higher              | Extra `prev` pointer per node |
-
-## Summary
-
-| Operation       | C Complexity | Notes                                    |
-| --------------- | ------------ | ---------------------------------------- |
-| Insert at head  | O(1)         | Must update old head's `prev` pointer    |
-| Insert at tail  | O(n)         | Must link both forward and backward      |
-| Insert at index | O(n)         | Must update 4 pointers (both directions) |

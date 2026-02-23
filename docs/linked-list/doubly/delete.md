@@ -246,11 +246,3 @@ Always check `if (current->prev != NULL)` and `if (current->next != NULL)` to av
 | Delete at tail  | 2 pointer updates | 3 pointer updates | Can access second-to-last via `prev` |
 | Delete at index | 2 pointer updates | 4 pointer updates | Both directions need updating        |
 | Memory overhead | Lower             | Higher            | Extra `prev` pointer per node        |
-
-## Summary
-
-| Operation       | C Complexity | Notes                                       |
-| --------------- | ------------ | ------------------------------------------- |
-| Delete at head  | O(1)         | Must update new head's `prev` to NULL       |
-| Delete at tail  | O(n)         | Can access second-to-last via `prev`        |
-| Delete at index | O(n)         | Must update both `prev` and `next` pointers |

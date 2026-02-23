@@ -20,7 +20,7 @@ HEAD --> [data | next] --> [data | next] --> [data | next] --> NULL
 
 `NULL` means there is nothing. The last node will always point to `NULL`.
 
-Each node only points forward to the next node. You can only traverse in one direction.
+Each node only points forward to the next node. We can only traverse in one direction.
 
 ### Doubly Linked List
 
@@ -32,7 +32,7 @@ NULL <-- [prev | data | next] <-> [prev | data | next] <-> [prev | data | next] 
 
 `prev` is a pointer (just like `head`) that points to the previous node.
 
-Each node points both forward (`next`) and backward (`prev`). You can traverse in both directions.
+Each node points both forward (`next`) and backward (`prev`). We can traverse in both directions.
 
 ## Singly vs Doubly Linked Lists
 

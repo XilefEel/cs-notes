@@ -21,7 +21,7 @@ Yeah imma be honest, I tried to implement this in Rust, but then Ferris (the Rus
 So... for doubly linked lists, no Rust version.
 
 ::: tip Why Doubly Linked Lists Break Rust
-Each node needs both `next` and `prev` pointers. But if Node A points to Node B's `next`, and Node B points to Node A's `prev`, you have **circular ownership**.
+Each node needs both `next` and `prev` pointers. But if Node A points to Node B's `next`, and Node B points to Node A's `prev`, we'd have **circular ownership**.
 
-Rust's entire safety model is built on **single ownership**. Doubly linked lists fundamentally violate this. You _can_ make them work with `Rc<RefCell<Node>>` or raw pointers, but it's very painful and un-idiomatic.
+Rust's entire safety model is built on **single ownership**. Doubly linked lists fundamentally violate this. It _is_ possible to make them work with `Rc<RefCell<Node>>` or raw pointers, but it's very painful and un-idiomatic.
 :::

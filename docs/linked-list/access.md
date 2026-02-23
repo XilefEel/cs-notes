@@ -1,6 +1,6 @@
 # Accessing and Traversing a Linked List
 
-Since a linked list is not stored in contiguous memory, you **cannot access a node by index directly** like an array. Instead, you have to **traverse** the list by starting at the **head** and following the **pointers** one by one.
+Since a linked list is not stored in contiguous memory, we **cannot access a node by index directly** like an array. Instead, we have to **traverse** the list by starting at the **head** and following the **pointers** one by one.
 
 ## Access by Index
 
@@ -50,7 +50,7 @@ If we reached the target `index`, then we return `current`, which is the node we
 We return `NULL` if the index is out of bounds, so the caller must always check before using the result.
 
 ::: warning
-If you forget to check for `NULL` before using the returned pointer, dereferencing it will **crash** your program with a segfault.
+Forgetting to check for `NULL` before using the returned pointer and dereferencing it will **crash** the program with a segfault.
 :::
 
 ### In Rust
@@ -93,7 +93,7 @@ Just like in C, if we reached the target `index`, then we return `Some(node)`.
 We return `None` if the index is out of bounds, but unlike C, the caller **cannot** use the result without checking it first.
 
 ::: tip
-In C, forgetting to check for `NULL` is an easy mistake that crashes your program at runtime. In Rust, `Option` forces you to handle the empty case, since the compiler won't let you ignore it.
+In C, forgetting to check for `NULL` is an easy mistake that can crash our program at runtime. In Rust, `Option` forces us to handle the empty case, since the compiler won't let us ignore it.
 :::
 
 ### Key Difference
@@ -108,7 +108,7 @@ In C, forgetting to check for `NULL` is an easy mistake that crashes your progra
 
 ## Traverse and Print
 
-Sometimes, usually for visualizing or debugging, you want to visit every node in order and print its value.
+Sometimes, usually for visualizing or debugging, we want to visit every node in order and print its value.
 
 ### In C
 
@@ -176,7 +176,7 @@ The `&` in `&Option<Box<Node>>` means that instead of taking ownership, we just 
 `node.next.is_some()` checks if there's another node. In C, it's the same as `current->next != NULL`.
 
 ::: info What is is_some() and is_none()?
-`is_some()` and `is_none()` are methods used to check whether an Option contains a value. `is_some()` returns `true` if the `Option` is `Some(...)` (has a value), while `is_none()` returns `true` if it is None (empty). These methods are useful when you only need to know whether a value **exists**, without accessing the value itself, and they help avoid unsafe operations like `unwrap()`.
+`is_some()` and `is_none()` are methods used to check whether an Option contains a value. `is_some()` returns `true` if the `Option` is `Some(...)` (has a value), while `is_none()` returns `true` if it is None (empty). These methods are useful when we only need to know whether a value **exists**, without accessing the value itself, and they help avoid unsafe operations like `unwrap()`.
 :::
 
 ::: tip
@@ -194,7 +194,7 @@ Notice we're using `&head` when calling `print_list()`. This borrows the list in
 
 ## Traverse and Apply a Function
 
-A more powerful use of traversal is applying a function to each node's data. For example, you might want to double every value, or mark certain nodes as "visited".
+A more powerful use of traversal is applying a function to each node's data. For example, we might want to double every value, or mark certain nodes as "visited".
 
 ### In C
 
@@ -260,7 +260,7 @@ Node::print_list(&head);  // Output: 20 -> 40 -> 60
 `&mut head` is used because we're modifying the data inside the nodes.
 
 ::: tip
-Although we could just **define** a function beforehand and use it in the traversal directly, making the function a parameter means you can pass **any** function, like doubling values, incrementing counters, filtering, mapping, or even complex logic, so long as it matches the generic function type. This pattern makes `traverse_apply` much more flexible.
+Although we _could_ just **define** a function beforehand and use it in the traversal directly, making the function a parameter means we can pass **any** function, like doubling values, incrementing counters, filtering, mapping, or even complex logic, so long as it matches the generic function type. This pattern makes `traverse_apply` much more flexible.
 :::
 
 ### Key Difference
@@ -271,7 +271,3 @@ Although we could just **define** a function beforehand and use it in the traver
 | Syntax           | `traverse_apply(head, double_value)`      | `Node::traverse_apply(&mut head, \|data\| ...)` |
 | Inline functions | Not available (need to define separately) | Closures allow inline logic                     |
 | Complexity       | O(n)                                      | O(n)                                            |
-
-## Summary
-
-Both operations are O(n) because you have to walk through nodes one by one, there's no way around it with a singly linked list. This is why arrays are faster for random access (O(1)), but linked lists shine when you need fast insertion/deletion at the front.

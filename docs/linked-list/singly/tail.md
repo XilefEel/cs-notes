@@ -60,7 +60,7 @@ Normally, Rust guarantees memory safety at compile time. But with a tail pointer
 
 Raw pointers let us bypass this restriction, but we **lose** Rust's safety guarantees and have to use `unsafe` blocks. The compiler can't verify we're using the tail pointer correctly, just like how C can't guarantee that we use pointers correctly.
 
-In production Rust code, you'd either:
+In production Rust code, we'd either:
 
 - Use `Rc<RefCell<Node>>` for shared ownership (adds runtime overhead)
 - Redesign with a `VecDeque` or ring buffer (what Rust's stdlib does)
@@ -71,7 +71,7 @@ For this section, raw pointers are useful because they show where Rust's safety 
 ::: info What is std::ptr::null_mut()?
 `std::ptr::null_mut()` creates a null mutable raw pointer. It's like `NULL` in C, but specifically for mutable raw pointers (`*mut T`).
 
-You can check if a raw pointer is null with `.is_null()`:
+We can check if a raw pointer is null with `.is_null()`:
 
 ```rust
 if self.tail.is_null() {
@@ -121,7 +121,7 @@ impl LinkedList {
 ```
 
 ::: info What is self?
-`self` is similar to `this` in other languages, like C++ and Java. `self` refers to the current instance of the struct. But Rust's ownership system makes it more explicit:
+`self` is similar to `this` in other languages, like C++ and Java. `self` refers to the **current instance** of the struct. But Rust's ownership system makes it more explicit:
 
 **`&self`** — borrows the instance (read-only)
 
@@ -141,7 +141,7 @@ fn insert(&mut self, data: i32) { ... }  // Modifying the list
 fn consume(self) { ... }  // Caller can't use it after this
 ```
 
-In our linked list methods, we use `&mut self` so that we want to modify the list, but we still want the caller to own it. If we used just `self`, the list would be consumed and unusable after calling the method!
+In our linked list methods, we use `&mut self` so that we want to modify the list, but we still want the caller to **own** it. If we used just `self`, the list would be **consumed** and unusable after calling the method!
 :::
 
 ## Insert at Tail
@@ -195,14 +195,14 @@ impl LinkedList {
 We need `unsafe` here because we're dereferencing the raw tail pointer.
 
 ::: info What is unsafe?
-`unsafe` is Rust's escape hatch that says "I'm taking responsibility for memory safety here, compiler can't help me." Inside an `unsafe` block, you can:
+`unsafe` is Rust's escape hatch that lets us **bypass** some of the compiler's **safety checks**. Inside an `unsafe` block, we can:
 
 - Dereference raw pointers
 - Call unsafe functions
 - Access mutable static variables
 - Implement unsafe traits
 
-In C, The whole language is a giant `unsafe` block, since the compiler trusts you completely. In Rust, unsafe is explicit and localized to specific blocks, making it easier to see where things could go wrong.
+In C, The whole language is a giant `unsafe` block, since the compiler trusts us completely. In Rust, `unsafe` is explicit and localized to specific blocks, making it easier to see where things could go wrong.
 :::
 
 ## Delete at Head

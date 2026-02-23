@@ -8,7 +8,7 @@ There are three ways to delete a node from a singly linked list:
 
 ## Delete at Head
 
-Removing the first node is the simplest operation. You just move the head pointer to the next node and free the old head.
+Removing the first node is the simplest operation. We just move the head pointer to the next node and free the old head.
 
 ```
 Before: HEAD -> [10] -> [20] -> [30] -> NULL
@@ -56,14 +56,14 @@ insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 delete_at_head(&head);      // HEAD -> [20] -> [10] -> NULL
 ```
 
-`Node *temp = *head` is used to save a pointer to the node we're about to delete. This is important because once we move the head pointer, we'll lose access to the old head.
+`Node *temp = *head` is used to save a pointer to the node we're about to delete. This is important because once we move the head pointer, we'll lose **access** to the old head.
 
 `*head = (*head)->next` moves the head pointer forward to the next node.
 
 `free(temp)` deallocates the memory for the old head, preventing a memory leak.
 
 ::: warning
-Notice that, just like inserting a node, we pass `Node **head` in the function signature (pointer to a pointer) and `&head` when calling it. This is because we need to modify the original `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address. If you used `Node *head` instead, the function would only modify a local copy, so the caller's head wouldn't change.
+Notice that, just like inserting a node, we pass `Node **head` in the function signature (pointer to a pointer) and `&head` when calling it. This is because we need to modify the **original** `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address. If we used `Node *head` instead, the function would only modify a **local copy**, so the caller's head wouldn't change.
 :::
 
 ### In Rust
@@ -97,10 +97,10 @@ head = Node::delete_at_head(head);      // HEAD -> [20] -> [10] -> NONE
 
 Just like with insertion, we use `match head` to handle both cases. If the list is empty (`None`), we just return `None`. If it has nodes (`Some`), we return `node.next` to make the second node the new head.
 
-In Rust, there is no `free()` function, but instead, Rust automatically drops or frees a value when it goes out of scope, so the old head node (`node`) is automatically freed! No manual cleanup needed.
+In Rust, there is no `free()` function, but instead, Rust **automatically drops or frees** a value when it goes out of scope, so the old head node (`node`) is automatically freed! No manual cleanup needed.
 
 ::: tip
-In C you must explicitly `free()` the old head. In Rust, the old node is automatically dropped when `node` goes out of scope at the end of the `Some` branch. This makes memory leaks **impossible**.
+In C we must explicitly `free()` the old head. In Rust, the old node is automatically dropped when `node` goes out of scope at the end of the `Some` branch. This makes memory leaks **impossible**.
 :::
 
 ### Key Difference
@@ -237,7 +237,7 @@ For the single-node case, we check `if node.next.is_none()` and call `delete_at_
 Once we're at the second-to-last node, we set `current.next = None`, which removes the last node and Rust will automatically drop it.
 
 ::: tip
-In C you explicitly `free()` the last node. In Rust, when you set `current.next = None`, the old `Some(Box<Node>)` that was there gets dropped automatically. This makes memory leaks **impossible**.
+In C, we explicitly `free()` the last node. In Rust, when we set `current.next = None`, the old `Some(Box<Node>)` that was there gets dropped automatically. This makes memory leaks **impossible**.
 :::
 
 ### Key Difference
@@ -328,12 +328,12 @@ We stop at `index - 1` because we need access to the node **before** the deletio
 
 `Node *temp = current->next` saves a pointer to the node we're deleting.
 
-`current->next = temp->next` bypasses the node we're deleting by making `current` point directly to the node after `temp`.
+`current->next = temp->next` bypasses the node we're deleting by making `current` point **directly** to the node after `temp`.
 
 `free(temp)` then deallocates the deleted node.
 
 ::: warning
-If the index is out of bounds, this function just prints an error and returns. In production code you'd want to return an error code or handle it properly so the caller knows what went wrong.
+If the index is out of bounds, this function just prints an error and returns. In production code we'd want to return an error code or handle it properly so the caller knows what went wrong.
 :::
 
 ### In Rust
@@ -406,11 +406,3 @@ After that, `target` goes out of scope and is automatically dropped (freed).
 | Free node      | `free(temp)` manually                    | Automatic when `target` goes out of scope |
 | Out of bounds  | Print error or return                    | `panic!` or return `Result`               |
 | Complexity     | O(n)                                     | O(n)                                      |
-
-## Summary
-
-| Operation       | C Complexity | Rust Complexity | Notes                                    |
-| --------------- | ------------ | --------------- | ---------------------------------------- |
-| Delete at head  | O(1)         | O(1)            | Just move head pointer                   |
-| Delete at tail  | O(n)         | O(n)            | Must traverse to the second-to-last node |
-| Delete at index | O(n)         | O(n)            | Must traverse to the node before target  |
