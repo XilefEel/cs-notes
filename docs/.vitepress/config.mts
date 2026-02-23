@@ -72,10 +72,6 @@ export default defineConfig({
                 link: "/linked-list/problems/detect-cycle",
               },
               {
-                text: "Finding the Middle Node",
-                link: "/linked-list/problems/find-middle",
-              },
-              {
                 text: "Merging Two Sorted Linked Lists",
                 link: "/linked-list/problems/merge-sorted",
               },
