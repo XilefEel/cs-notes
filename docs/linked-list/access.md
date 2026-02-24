@@ -35,7 +35,7 @@ Node *get_node(Node *head, int index) {
 }
 
 // Usage
-Node *node = get_node(head, 2);  // Get the third node (index 2)
+Node *node = get_node(head, 2);     // Get the third node (index 2)
 if (node != NULL) {
     printf("%d\n", node->data);
 }

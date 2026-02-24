@@ -220,10 +220,10 @@ void delete_at_index(Node **head, int index) {
 
 // Usage
 Node *head = NULL;
-insert_at_tail(&head, 10);       // NULL <- [10] -> NULL
-insert_at_tail(&head, 20);       // NULL <- [10] <-> [20] -> NULL
-insert_at_tail(&head, 30);       // NULL <- [10] <-> [20] <-> [30] -> NULL
-delete_at_index(&head, 1);       // NULL <- [10] <-> [30] -> NULL
+insert_at_tail(&head, 10);  // NULL <- [10] -> NULL
+insert_at_tail(&head, 20);  // NULL <- [10] <-> [20] -> NULL
+insert_at_tail(&head, 30);  // NULL <- [10] <-> [20] <-> [30] -> NULL
+delete_at_index(&head, 1);  // NULL <- [10] <-> [30] -> NULL
 ```
 
 Unlike singly linked lists where we stop at `index - 1`, we traverse directly to `index` because we have `prev` pointers to access the node before it.

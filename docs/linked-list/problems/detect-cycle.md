@@ -130,8 +130,8 @@ impl Node {
 
         // Move pointers at different speeds
         while fast.is_some() && fast.unwrap().next.is_some() {
-            slow = slow.unwrap().next.as_ref();           // Move 1 step
-            fast = fast.unwrap().next.as_ref()            // Move 2 steps
+            slow = slow.unwrap().next.as_ref();     // Move 1 step
+            fast = fast.unwrap().next.as_ref()      // Move 2 steps
                        .unwrap().next.as_ref();
 
             // If they meet, there's a cycle
@@ -157,7 +157,7 @@ head = Node::insert_at_tail(head, 4);
 if Node::has_cycle(&head) {
     println!("Cycle detected!");
 } else {
-    println!("No cycle");  // Prints this
+    println!("No cycle");   // Prints this
 }
 
 // Note: Creating cycles in safe Rust requires Rc<RefCell<T>>

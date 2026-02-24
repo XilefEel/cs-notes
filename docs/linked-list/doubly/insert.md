@@ -104,7 +104,7 @@ void insert_at_tail(Node **head, int data) {
 
     // If list is empty, new node becomes the head
     if (*head == NULL) {
-        new_node->prev = NULL; // Don't forget to update prev
+        new_node->prev = NULL;  // Don't forget to update prev
         *head = new_node;
         return;
     }

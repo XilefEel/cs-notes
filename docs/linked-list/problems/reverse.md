@@ -73,10 +73,10 @@ Node *head = NULL;
 insert_at_tail(&head, 1);
 insert_at_tail(&head, 2);
 insert_at_tail(&head, 3);
-print_list(head);  // 1 -> 2 -> 3
+print_list(head);   // 1 -> 2 -> 3
 
 head = reverse_list(head);
-print_list(head);  // 3 -> 2 -> 1
+print_list(head);   // 3 -> 2 -> 1
 ```
 
 `next = curr->next` saves the next node before we lose access to it.
@@ -119,10 +119,10 @@ let mut head = None;
 head = Node::insert_at_tail(head, 1);
 head = Node::insert_at_tail(head, 2);
 head = Node::insert_at_tail(head, 3);
-Node::print_list(&head);  // 1 -> 2 -> 3
+Node::print_list(&head);    // 1 -> 2 -> 3
 
 head = Node::reverse(head);
-Node::print_list(&head);  // 3 -> 2 -> 1
+Node::print_list(&head);    // 3 -> 2 -> 1
 ```
 
 `while let Some(mut node) = curr` unwraps each node as we traverse.

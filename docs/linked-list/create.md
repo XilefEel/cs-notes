@@ -33,8 +33,8 @@ Node *b = create_node(2);
 Node *c = create_node(3);
 
 // Link them together
-a->next = b;  // Node a points to node b
-b->next = c;  // Node b points to node c
+a->next = b;    // Node a points to node b
+b->next = c;    // Node b points to node c
 // c->next is already NULL, so c is the end of list
 
 // Point head at the first node
@@ -78,8 +78,8 @@ let mut b = Node::new(2);
 let c = Node::new(3);
 
 // Link them together
-b.next = Some(c);  // Node b points to node c
-a.next = Some(b);  // Node a points to node b
+b.next = Some(c);   // Node b points to node c
+a.next = Some(b);   // Node a points to node b
 
 // Point head at the first node
 let head = Some(a);

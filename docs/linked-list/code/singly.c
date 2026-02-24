@@ -218,31 +218,57 @@ int has_cycle(Node *head) {
     return 0;
 }
 
+Node *merge_sorted(Node *list1, Node *list2) {
+    Node dummy;
+    dummy.next = NULL;
+    Node *tail = &dummy;
+
+    while (list1 != NULL && list2 != NULL) {
+        if (list1->data <= list2->data) {
+            tail->next = list1;
+            list1 = list1->next;
+        } else {
+            tail->next = list2;
+            list2 = list2->next;
+        }
+        tail = tail->next;
+    }
+
+    if (list1 != NULL) {
+        tail->next = list1;
+    } else {
+        tail->next = list2;
+    }
+
+    return dummy.next;
+}
+
+
 int main() {
     Node *head = NULL;
 
-    insert_at_head(&head, 10); // HEAD -> [10] -> NULL
-    insert_at_head(&head, 20); // HEAD -> [20] -> [10] -> NULL
-    insert_at_head(&head, 30); // HEAD -> [30] -> [20] -> [10] -> NULL
+    insert_at_head(&head, 10);  // HEAD -> [10] -> NULL
+    insert_at_head(&head, 20);  // HEAD -> [20] -> [10] -> NULL
+    insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 
     print_list(head);
 
-    insert_at_tail(&head, 40); // HEAD -> [30] -> [20] -> [10] -> [40] -> NULL
+    insert_at_tail(&head, 40);  // HEAD -> [30] -> [20] -> [10] -> [40] -> NULL
     print_list(head);
 
-    insert_at_index(&head, 50, 2); // HEAD -> [30] -> [20] -> [50] -> [10] -> [40] -> NULL
+    insert_at_index(&head, 50, 2);  // HEAD -> [30] -> [20] -> [50] -> [10] -> [40] -> NULL
     print_list(head);
 
-    delete_at_head(&head); // HEAD -> [50] -> [20] -> [10] -> [40] -> NULL
+    delete_at_head(&head);  // HEAD -> [50] -> [20] -> [10] -> [40] -> NULL
     print_list(head);
 
-    delete_at_tail(&head); // HEAD -> [50] -> [20] -> [10] -> NULL
+    delete_at_tail(&head);  // HEAD -> [50] -> [20] -> [10] -> NULL
     print_list(head);
 
-    delete_at_index(&head, 1); // HEAD -> [50] -> [10] -> NULL
+    delete_at_index(&head, 1);  // HEAD -> [50] -> [10] -> NULL
     print_list(head);
 
-    head = reverse_list(head); // HEAD -> [10] -> [50] -> NULL
+    head = reverse_list(head);  // HEAD -> [10] -> [50] -> NULL
     print_list(head);
 
     free_list(head);
@@ -264,6 +290,19 @@ int main() {
     } else {
         printf("No cycle\n");
     }
+
+    Node *list1 = NULL;
+    insert_at_tail(&list1, 1);
+    insert_at_tail(&list1, 3);
+    insert_at_tail(&list1, 5);
+
+    Node *list2 = NULL;
+    insert_at_tail(&list2, 2);
+    insert_at_tail(&list2, 4);
+    insert_at_tail(&list2, 6);
+
+    Node *merged = merge_sorted(list1, list2);
+    print_list(merged); // HEAD -> [1] -> [2] -> [3] -> [4] -> [5] -> [6] -> NONE
 
     return 0;
 }

@@ -40,7 +40,7 @@ struct Node {
 // Now we track both head and tail
 struct LinkedList {
     head: Option<Box<Node>>,
-    tail: *mut Node,  // Raw pointer to avoid ownership issues
+    tail: *mut Node,    // Raw pointer to avoid ownership issues
 }
 
 impl LinkedList {
@@ -126,19 +126,19 @@ impl LinkedList {
 **`&self`** — borrows the instance (read-only)
 
 ```rust
-fn print(&self) { ... }  // Just looking, not modifying
+fn print(&self) { ... }     // Just looking, not modifying
 ```
 
 **`&mut self`** — borrows the instance mutably (can modify)
 
 ```rust
-fn insert(&mut self, data: i32) { ... }  // Modifying the list
+fn insert(&mut self, data: i32) { ... }     // Modifying the list
 ```
 
 **`self`** — takes ownership (consumes the instance)
 
 ```rust
-fn consume(self) { ... }  // Caller can't use it after this
+fn consume(self) { ... }    // Caller can't use it after this
 ```
 
 In our linked list methods, we use `&mut self` so that we want to modify the list, but we still want the caller to **own** it. If we used just `self`, the list would be **consumed** and unusable after calling the method!
@@ -280,7 +280,7 @@ void delete_at_tail(LinkedList *list) {
     // Delete the tail
     free(list->tail);
     current->next = NULL;
-    list->tail = current;  // Update tail to second-to-last
+    list->tail = current;   // Update tail to second-to-last
 }
 ```
 
