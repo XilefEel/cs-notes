@@ -235,6 +235,34 @@ impl Node {
             }
         }
     }
+
+    fn remove_nth_from_end(head: Option<Box<Node>>, n: usize) -> Option<Box<Node>> {
+        let mut dummy = Box::new(Node {
+            data: 0,
+            next: head,
+        });
+
+        let mut fast: *mut Node = &mut *dummy;
+        let mut slow: *mut Node = &mut *dummy;
+
+        unsafe {
+            for _ in 0..n {
+                fast = (*fast).next.as_mut().map(|n| &mut **n).unwrap();
+            }
+
+            while (*fast).next.is_some() {
+                slow = (*slow).next.as_mut().map(|n| &mut **n).unwrap();
+                fast = (*fast).next.as_mut().map(|n| &mut **n).unwrap();
+            }
+
+            let temp = (*slow).next.take();
+            if let Some(mut node) = temp {
+                (*slow).next = node.next.take();
+            }
+        }
+
+        dummy.next
+    }
 }
 
 fn main() {
@@ -278,4 +306,14 @@ fn main() {
 
     let merged = Node::merge_sorted(list1, list2);
     Node::print_list(&merged);  // HEAD -> [1] -> [2] -> [3] -> [4] -> [5] -> [6] -> NONE
+
+    let mut head = None;
+    head = Node::insert_at_tail(head, 1);
+    head = Node::insert_at_tail(head, 2);
+    head = Node::insert_at_tail(head, 3);
+    head = Node::insert_at_tail(head, 4);
+    head = Node::insert_at_tail(head, 5);
+
+    head = Node::remove_nth_from_end(head, 2);
+    Node::print_list(&head);    // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
 }

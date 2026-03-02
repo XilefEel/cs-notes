@@ -76,8 +76,8 @@ export default defineConfig({
                 link: "/linked-list/problems/merge-sorted",
               },
               {
-                text: "Removing Duplicates",
-                link: "/linked-list/problems/remove-duplicates",
+                text: "Removing the Nth Node From the End",
+                link: "/linked-list/problems/remove-nth-node",
               },
             ],
           },

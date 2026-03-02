@@ -243,6 +243,28 @@ Node *merge_sorted(Node *list1, Node *list2) {
     return dummy.next;
 }
 
+Node *remove_nth_from_end(Node *head, int n) {
+    Node dummy;
+    dummy.next = head;
+
+    Node *fast = &dummy;
+    Node *slow = &dummy;
+
+    for (int i = 0; i < n; i++) {
+        fast = fast->next;
+    }
+
+    while (fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next;
+    }
+
+    Node *temp = slow->next;
+    slow->next = slow->next->next;
+    free(temp);
+
+    return dummy.next;
+}
 
 int main() {
     Node *head = NULL;
@@ -303,6 +325,16 @@ int main() {
 
     Node *merged = merge_sorted(list1, list2);
     print_list(merged); // HEAD -> [1] -> [2] -> [3] -> [4] -> [5] -> [6] -> NONE
+
+    Node *head = NULL;
+    insert_at_tail(&head, 1);
+    insert_at_tail(&head, 2);
+    insert_at_tail(&head, 3);
+    insert_at_tail(&head, 4);
+    insert_at_tail(&head, 5);
+
+    head = remove_nth_from_end(head, 2);
+    print_list(head);   // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
 
     return 0;
 }
