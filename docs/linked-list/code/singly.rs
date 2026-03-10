@@ -263,6 +263,41 @@ impl Node {
 
         dummy.next
     }
+
+    fn is_palindrome(head: Option<Box<Node>>) -> bool {
+        if head.is_none() {
+            return true;
+        }
+
+        let mut len = 0;
+        let mut curr = head.as_ref();
+        while let Some(node) = curr {
+            len += 1;
+            curr = node.next.as_ref();
+        }
+
+        let mut left = head;
+        let mut walker = &mut left;
+        for _ in 0..(len + 1) / 2 {
+            walker = &mut walker.as_mut().unwrap().next;
+        }
+        let second = walker.take();
+
+        let right = Node::reverse(second);
+
+        let mut l = left.as_ref();
+        let mut r = right.as_ref();
+
+        while r.is_some() {
+            if l.unwrap().data != r.unwrap().data {
+                return false;
+            }
+            l = l.unwrap().next.as_ref();
+            r = r.unwrap().next.as_ref();
+        }
+
+        true
+    }
 }
 
 fn main() {
@@ -316,4 +351,17 @@ fn main() {
 
     head = Node::remove_nth_from_end(head, 2);
     Node::print_list(&head);    // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
+
+    let mut head = None;
+    head = Node::insert_at_tail(head, 1);
+    head = Node::insert_at_tail(head, 2);
+    head = Node::insert_at_tail(head, 3);
+    head = Node::insert_at_tail(head, 2);
+    head = Node::insert_at_tail(head, 1);
+
+    if Node::is_palindrome(head) {
+        println!("Palindrome!")     // Prints this
+    } else {
+        println!("Not a palindrome");
+    }
 }

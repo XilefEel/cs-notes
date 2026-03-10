@@ -79,6 +79,10 @@ export default defineConfig({
                 text: "Removing the Nth Node From the End",
                 link: "/linked-list/problems/remove-nth-node",
               },
+              {
+                text: "Check if Palindrome",
+                link: "/linked-list/problems/palindrome",
+              },
             ],
           },
           { text: "C vs Rust Summary", link: "/linked-list/summary" },

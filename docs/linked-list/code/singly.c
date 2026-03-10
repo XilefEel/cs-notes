@@ -266,6 +266,43 @@ Node *remove_nth_from_end(Node *head, int n) {
     return dummy.next;
 }
 
+int is_palindrome(Node *head) {
+    if (head == NULL || head->next == NULL) {
+        return 1;
+    }
+
+    // Step 1: Find the middle
+    Node *slow = head;
+    Node *fast = head;
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    // Step 2: Reverse the second half
+    Node *second = reverse_list(slow);
+    Node *copy = second;  // Keep a copy to restore later
+
+    // Step 3: Compare both halves
+    Node *left = head;
+    Node *right = second;
+
+    int result = 1;
+    while (right != NULL) {
+        if (left->data != right->data) {
+            result = 0;
+            break;
+        }
+        left = left->next;
+        right = right->next;
+    }
+
+    // Restore the list
+    reverse_list(copy);
+
+    return result;
+}
+
 int main() {
     Node *head = NULL;
 
@@ -305,10 +342,10 @@ int main() {
     while (last->next != NULL) {
         last = last->next;
     }
-    last->next = second; 
+    last->next = second;
 
     if (has_cycle(head)) {
-        printf("Cycle detected!\n"); 
+        printf("Cycle detected!\n");
     } else {
         printf("No cycle\n");
     }
@@ -326,15 +363,28 @@ int main() {
     Node *merged = merge_sorted(list1, list2);
     print_list(merged); // HEAD -> [1] -> [2] -> [3] -> [4] -> [5] -> [6] -> NONE
 
-    Node *head = NULL;
-    insert_at_tail(&head, 1);
-    insert_at_tail(&head, 2);
-    insert_at_tail(&head, 3);
-    insert_at_tail(&head, 4);
-    insert_at_tail(&head, 5);
+    Node *head_2 = NULL;
+    insert_at_tail(&head_2, 1);
+    insert_at_tail(&head_2, 2);
+    insert_at_tail(&head_2, 3);
+    insert_at_tail(&head_2, 4);
+    insert_at_tail(&head_2, 5);
 
-    head = remove_nth_from_end(head, 2);
-    print_list(head);   // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
+    head_2 = remove_nth_from_end(head_2, 2);
+    print_list(head_2);   // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
+
+    Node *head_3 = NULL;
+    insert_at_tail(&head_3, 1);
+    insert_at_tail(&head_3, 2);
+    insert_at_tail(&head_3, 3);
+    insert_at_tail(&head_3, 2);
+    insert_at_tail(&head_3, 1);
+
+    if (is_palindrome(head_3)) {
+        printf("Palindrome!\n");    // Prints this
+    } else {
+        printf("Not a palindrome\n");
+    }
 
     return 0;
 }
