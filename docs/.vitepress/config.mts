@@ -9,6 +9,7 @@ export default defineConfig({
       { text: "Home", link: "/" },
       { text: "Get Started", link: "/get-started" },
       { text: "Linked List", link: "/linked-list/intro" },
+      { text: "Stack", link: "/stack/intro" },
     ],
 
     sidebar: [
@@ -85,7 +86,23 @@ export default defineConfig({
               },
             ],
           },
-          { text: "C vs Rust Summary", link: "/linked-list/summary" },
+        ],
+      },
+      {
+        text: "Stack",
+        items: [
+          { text: "What is a Stack?", link: "/stack/intro" },
+          { text: "Creating a Stack", link: "/stack/create" },
+          { text: "Pushing an Element", link: "/stack/push" },
+          { text: "Popping an Element", link: "/stack/pop" },
+          {
+            text: "Peeking and Checking if Empty",
+            link: "/stack/peek-isempty",
+          },
+          {
+            text: "Common Problems and Solutions",
+            items: [],
+          },
         ],
       },
     ],
