@@ -86,7 +86,7 @@ if let Some(node) = Node::get(&head, 2) {
 }
 ```
 
-`while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C, but it also automatically unwraps the Option and gives us access to the current node safely.
+`while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C, but it also automatically **unwraps** the `Option<Box<Node>>` and gives us access to the current **node** safely.
 
 Just like in C, if we reached the target `index`, then we return `Some(node)`.
 

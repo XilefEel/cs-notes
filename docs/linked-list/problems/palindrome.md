@@ -20,7 +20,7 @@ Since we can't traverse a singly linked list backwards, the idea is to:
 2. **Reverse the second half** of the list
 3. **Compare** both halves node by node
 
-If all values match, then it's a palindrome.
+If all values match, then it's a **palindrome**.
 
 ```
 Step 1: Find the middle using fast and slow pointers
@@ -120,7 +120,7 @@ We only iterate until `right != NULL` rather than checking both `left` and `righ
 
 ## In Rust
 
-Checking for a palindrome in Rust is harder than in C, since we can't have two mutable references to the same list at the same time, which makes it tricky to reverse the second half while still having access to the first half for comparison. So we must do a slightly different approach.
+Checking for a palindrome in Rust is harder than in C, since we can't have **two mutable reference**s to the same list at the same time, which makes it tricky to reverse the second half while still having access to the first half for comparison. So we must do a slightly different approach.
 
 ```rust
 impl Node {

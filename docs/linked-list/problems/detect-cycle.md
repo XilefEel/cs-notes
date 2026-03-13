@@ -88,7 +88,7 @@ insert_at_tail(&head, 2);
 insert_at_tail(&head, 3);
 insert_at_tail(&head, 4);
 
-// Create a cycle, make node 4 point back to node 2
+// Make node 4 point back to node 2 to create a cycle
 Node *second = head->next;
 Node *last = head;
 while (last->next != NULL) {

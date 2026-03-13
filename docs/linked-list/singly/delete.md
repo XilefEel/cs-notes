@@ -8,7 +8,7 @@ There are three ways to delete a node from a singly linked list:
 
 ## Delete at Head
 
-Removing the first node is the simplest operation. We just move the head pointer to the next node and free the old head.
+Removing the first node is the simplest operation. We just move `head` to the next node and **free** the old head.
 
 ```
 Before: HEAD -> [10] -> [20] -> [30] -> NULL
@@ -56,7 +56,7 @@ insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 delete_at_head(&head);      // HEAD -> [20] -> [10] -> NULL
 ```
 
-`Node *temp = *head` is used to save a pointer to the node we're about to delete. This is important because once we move the head pointer, we'll lose **access** to the old head.
+`Node *temp = *head` is used to save a pointer to the node we're about to delete. This is important because once we move the head pointer, we'll **lose access** to the old head.
 
 `*head = (*head)->next` moves the head pointer forward to the next node.
 
@@ -97,7 +97,7 @@ head = Node::delete_at_head(head);      // HEAD -> [20] -> [10] -> NONE
 
 Just like with insertion, we use `match head` to handle both cases. If the list is empty (`None`), we just return `None`. If it has nodes (`Some`), we return `node.next` to make the second node the new head.
 
-In Rust, there is no `free()` function, but instead, Rust **automatically drops or frees** a value when it goes out of scope, so the old head node (`node`) is automatically freed! No manual cleanup needed.
+In Rust, there is no `free()` function, but instead, Rust **automatically drops or frees** a value when it goes out of scope, so the old head node (`node`) is automatically freed!
 
 ::: tip
 In C we must explicitly `free()` the old head. In Rust, the old node is automatically dropped when `node` goes out of scope at the end of the `Some` branch. This makes memory leaks **impossible**.
@@ -224,17 +224,17 @@ head = Node::insert_at_tail(head, 30);  // HEAD -> [10] -> [20] -> [30] -> NONE
 head = Node::delete_at_tail(head);      // HEAD -> [10] -> [20] -> NONE
 ```
 
-Just like before, `match head` handles both cases: empty list (`None`) or a list with nodes (`Some`).
+Just like before, `match head` handles both cases: if the list is empty (`None`) or if the list has nodes (`Some`).
 
 For the single-node case, we check `if node.next.is_none()` and call `delete_at_head()` to handle it.
 
 `while current.next.as_ref().unwrap().next.is_some()` checks if there's a node two steps ahead. This is Rust's (verbose) way of writing `while (current->next->next != NULL)` in C.
 
+Once we're at the second-to-last node, we set `current.next = None`, which removes the last node and Rust will automatically drop it.
+
 :::info What is as_ref()?
 `as_ref()` lets us borrow the value inside an `Option` instead of moving it out. This is useful when we only want to **look** at the data, not modify or take it. So instead of owning the value, we get a **reference** to it.
 :::
-
-Once we're at the second-to-last node, we set `current.next = None`, which removes the last node and Rust will automatically drop it.
 
 ::: tip
 In C, we explicitly `free()` the last node. In Rust, when we set `current.next = None`, the old `Some(Box<Node>)` that was there gets dropped automatically. This makes memory leaks **impossible**.
@@ -395,7 +395,7 @@ For the special case where `index == 0`, we just call `delete_at_head()` to hand
 
 `current.next = target.unwrap().next` links `current` directly to the node after `target`.
 
-After that, `target` goes out of scope and is automatically dropped (freed).
+After that, `target` goes out of scope and is automatically freed.
 
 ### Key Difference
 

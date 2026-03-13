@@ -184,7 +184,7 @@ Node::print_list(&head);    // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
 
 - `.unwrap()` extracts the `&mut Node` from the `Option`, which Rust will then automatically coerces into `*mut Node` to assign back to `fast`.
 
-`(*slow).next.take()` removes the target node from the list by taking ownership of it — Rust drops it automatically at the end of the block.
+`(*slow).next.take()` removes the target node from the list by taking ownership of it, which Rust will then drop it automatically at the end of the block.
 
 ::: danger Why unsafe?
 Rust's borrow checker doesn't allow two mutable references into the **same** data structure at the same time. Since both slow and fast point into the same list, and we need to mutate `slow->next` at the end, the borrow checker would **reject** this, even though we know the two pointers never actually conflict.

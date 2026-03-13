@@ -8,7 +8,7 @@ There are three ways to insert a new node into a singly linked list:
 
 ## Insert at Head
 
-Adding a node to the front of the linked list is the simplest and fastest operation. We don't need to traverse the list at all, since the head is always accessible using our head pointer.
+Adding a node to the front of the linked list is the simplest and fastest operation. We don't need to traverse the list at all, since  `head` is always accessible using our **head pointer**.
 
 ```
 Before: HEAD -> [10] -> [20] -> NULL
@@ -90,10 +90,6 @@ In the function signature, `head: Option<Box<Node>>` means we're taking **owners
 When we pass `head` to the function, we **move** it. In Rust, we transfer ownership of `head` to the function and the original `head` variable can't be used anymore.
 
 Since we moved `head`, we must **return** a new `Option<Box<Node>>` which we assign back to `head` so that it can be used again.
-
-::: tip
-In C we modify `head` in place with a double pointer (`Node **head`). In Rust we consume the old head and return a new one.
-:::
 
 ::: details Alternative: Mutate in place
 We _could_ also write this as a void function that modifies `head` directly using a mutable reference:
@@ -257,7 +253,7 @@ Notice the difference: in C we modify the pointers directly, but in Rust, we bor
 
 ## Insert at Index
 
-Inserting at a specific index is similar to inserting at the tail. But this time, we need to traverse to the node just **before** the target position, then rewiring the pointers so that the node before points to the new node and the new node points to the node after it.
+Inserting at a specific index is similar to inserting at the tail. But this time, we need to traverse to the node just **before** the target position, then rewiring the pointers so that the **node before** points to the **new node** and the **new node** points to the **node after** it.
 
 If the index is 0, this is the same as inserting at the **head**.
 

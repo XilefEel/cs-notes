@@ -56,7 +56,7 @@ impl LinkedList {
 The `tail` must be a **raw pointer** (`*mut Node`) because `head` already owns the entire chain through Box and so if `tail` was also `Option<Box<Node>>`, it would try to own the last node too.
 
 ::: danger Why raw pointers?
-Normally, Rust guarantees memory safety at compile time. But with a tail pointer, we'd have two owners which violates Rust's single-ownership rule!
+Normally, Rust guarantees memory safety at compile time. But with a tail pointer, we'd have two owners which **violates** Rust's single-ownership rule!
 
 Raw pointers let us bypass this restriction, but we **lose** Rust's safety guarantees and have to use `unsafe` blocks. The compiler can't verify we're using the tail pointer correctly, just like how C can't guarantee that we use pointers correctly.
 
@@ -167,7 +167,7 @@ void insert_at_tail(LinkedList *list, int data) {
 }
 ```
 
-No traversal needed! We directly access `list->tail` and link the new node, so the complexity becomes **O(1) instead of O(n).**
+With a tail pointer, we can directly access `list->tail` and link the new node, so the complexity becomes **O(1) instead of O(n).** No need to traverse the entire list to find the last node!
 
 ### In Rust
 

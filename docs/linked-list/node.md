@@ -31,7 +31,7 @@ struct Node {
 }
 ```
 
-`data: i32`, just like in C, is the actual data stored in each `Node`.
+`data: i32` is the actual data stored in each `Node`, just like in C.
 
 `Option<Box<Node>>` is Rust's way of representing `struct Node *` in C, but safer.
 
@@ -43,7 +43,7 @@ The `T` in `Box<T>` and `Option<T>` is a **generic type placeholder**. It means 
 :::
 
 ::: tip
-Unlike in C, the Rust compiler forces us to handle `None` before we can access the value inside. This **prevents null pointer crashes** by catching the error at compile time instead of runtime.
+Unlike in C, the Rust compiler forces us to handle `None` before we can access the value inside. This prevents **null pointer crashes** by catching the error at **compile time** instead of runtime.
 :::
 
 ## Key Difference

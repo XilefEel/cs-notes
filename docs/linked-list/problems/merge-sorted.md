@@ -1,8 +1,8 @@
 # Merging Two Sorted Linked Lists
 
-Another common problem in linked list is merging.
+Another common problem in linked list is **merging**.
 
-Given two sorted linked lists, we want to merge them into one sorted list.
+Given two sorted linked lists, we want to **merge** them into **one sorted list**.
 
 For example:
 

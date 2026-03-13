@@ -7,8 +7,8 @@ A doubly linked node is similar to a singly linked node, but instead of only hav
 ```c
 typedef struct Node {
     int data;
-    struct Node *next;  // Pointer to next node
-    struct Node *prev;  // Pointer to previous node
+    struct Node *next;  // Pointer to the next node
+    struct Node *prev;  // Pointer to the previous node
 } Node;
 ```
 
@@ -16,9 +16,9 @@ The `prev` pointer lets us traverse backwards through the list, which is the mai
 
 ## In Rust?
 
-Yeah imma be honest, I tried to implement this in Rust, but then Ferris (the Rust mascot) broke into my house at 3 AM and told me to stop cuz I was violating every rule known in Rust.
+Yeah imma be honest, I tried to implement this in Rust, but then John Rust (Ferris) broke into my house at 3 AM and told me to stop cuz I was violating every rule known in Rust.
 
-So... for doubly linked lists, no Rust version.
+So... for doubly linked lists, **no Rust version**.
 
 ::: tip Why Doubly Linked Lists Break Rust
 Each node needs both `next` and `prev` pointers. But if Node A points to Node B's `next`, and Node B points to Node A's `prev`, we'd have **circular ownership**.

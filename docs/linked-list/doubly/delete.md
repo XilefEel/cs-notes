@@ -89,8 +89,8 @@ NULL <- [10] <-> [20] <-> [30] -> NULL
 
 Step 2: Move to second-to-last via prev
 NULL <- [10] <-> [20] <-> [30] -> NULL
-                           ^
-                          current
+                  ^        ^
+            current.prev  current
 
 Step 3: Set second-to-last's next to NULL
 NULL <- [10] <-> [20] -> NULL
@@ -226,7 +226,7 @@ insert_at_tail(&head, 30);  // NULL <- [10] <-> [20] <-> [30] -> NULL
 delete_at_index(&head, 1);  // NULL <- [10] <-> [30] -> NULL
 ```
 
-Unlike singly linked lists where we stop at `index - 1`, we traverse directly to `index` because we have `prev` pointers to access the node before it.
+Unlike singly linked lists where we stop at `index - 1`, we can traverse directly to `index` because we have `prev` pointers to access the node **before** it.
 
 `current->prev->next = current->next` points the previous node to the next node.
 

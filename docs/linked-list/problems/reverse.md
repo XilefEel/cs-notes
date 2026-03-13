@@ -81,11 +81,11 @@ print_list(head);   // 3 -> 2 -> 1
 
 `next = curr->next` saves the next node before we lose access to it.
 
-`curr->next = prev` flips the pointer to point backward.
+`curr->next = prev` flips the pointer to point backward to the previous node.
 
 `prev = curr` moves prev forward, and `curr = next` moves curr forward.
 
-When the loop ends, `curr` is NULL and `prev` now points to what was the last node (now the new head).
+When the loop ends, `curr` is `NULL` and `prev` now points to what was the last node (now the new head).
 
 ## In Rust
 

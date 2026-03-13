@@ -220,19 +220,10 @@ The four pointer updates happen in this order:
 1. `new_node->next = current->next` makes `new node` point forward to the node `current` was pointing to.
 2. `new_node->prev = current` updates `new node` to point backward to `current`.
 3. `current->next->prev = new_node` makes the node after `new node` point back to it.
-4. finally, `current->next = new_node` points `current` forward to the `new node`.
-
-::: tip
-For comparison, in singly linked lists, we only update:
-
-- `new_node->next = current->next`
-- `current->next = new_node`
-
-In doubly linked lists, we update **4 pointers** because we need to maintain both forward and backward links.
-:::
+4. Finally, `current->next = new_node` points `current` forward to the `new node`.
 
 ::: warning
-The `if (current->next != NULL)` check is crucial! If we're inserting at the end, there's no next node to update. Forgetting this check causes a segfault.
+The `if (current->next != NULL)` check is crucial! If we're inserting at the end, there's no next node to update and we'll be dereferencing a null pointer, leading to a crash.
 :::
 
 ## Key Differences from Singly Linked Lists

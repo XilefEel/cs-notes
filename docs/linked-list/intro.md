@@ -18,7 +18,7 @@ HEAD --> [data | next] --> [data | next] --> [data | next] --> NULL
 
 `HEAD` is a special pointer. It points to the head of the linked list. It is **NOT** a node.
 
-`NULL` means there is nothing. The last node will always point to `NULL`.
+`NULL` means there is nothing.
 
 Each node only points forward to the next node. We can only traverse in one direction.
 

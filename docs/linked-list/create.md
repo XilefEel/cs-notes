@@ -52,13 +52,7 @@ HEAD --> [1 | next] --> [2 | next] --> [3 | NULL]
 `head` is just a pointer that points to node `a`.
 
 ::: warning
-`malloc` can fail and return `NULL` if the system is out of memory. In production code we should always check:
-
-```c
-if (node == NULL) {
-    // handle error
-}
-```
+`malloc` can fail and return `NULL` if the system is out of memory. In production code we should always check if `node` is `NULL` before using it to avoid dereferencing a `NULL` pointer, which would crash the program.
 
 :::
 
@@ -112,7 +106,7 @@ impl Node {
 }
 ```
 
-This makes it clear these functions "belong to" `Node`. Instead of calling `create_node(data)`, we call `Node::new(data)`. It's cleaner and more organized.
+This makes it clear these functions "belong to" `Node`. Instead of calling `create_node(data)`, we call `Node::new(data)`. We _could_ create standalone functions in Rust, but using `impl` is cleaner and more organized.
 :::
 
 ## Key Difference
