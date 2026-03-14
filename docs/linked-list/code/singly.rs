@@ -115,7 +115,6 @@ impl Node {
         }
     }
 
-
     fn delete_at_head(head: Option<Box<Node>>) -> Option<Box<Node>> {
         match head {
             None => {
@@ -179,7 +178,6 @@ impl Node {
         }
     }
 
-
     fn reverse(head: Option<Box<Node>>) -> Option<Box<Node>> {
         let mut prev = None;
         let mut curr = head;
@@ -206,8 +204,7 @@ impl Node {
 
         while fast.is_some() && fast.unwrap().next.is_some() {
             slow = slow.unwrap().next.as_ref();
-            fast = fast.unwrap().next.as_ref()
-                       .unwrap().next.as_ref();
+            fast = fast.unwrap().next.as_ref().unwrap().next.as_ref();
 
             if let (Some(s), Some(f)) = (slow, fast) {
                 if std::ptr::eq(s.as_ref(), f.as_ref()) {
@@ -303,31 +300,31 @@ impl Node {
 fn main() {
     let mut head = None;
 
-    head = Node::insert_at_head(head, 10);  // HEAD -> [10] -> NONE
-    head = Node::insert_at_head(head, 20);  // HEAD -> [20] -> [10] -> NONE
-    head = Node::insert_at_head(head, 30);  // HEAD -> [30] -> [20] -> [10] -> NONE
+    head = Node::insert_at_head(head, 10); // HEAD -> [10] -> NONE
+    head = Node::insert_at_head(head, 20); // HEAD -> [20] -> [10] -> NONE
+    head = Node::insert_at_head(head, 30); // HEAD -> [30] -> [20] -> [10] -> NONE
 
     Node::print_list(&head);
 
-    head = Node::insert_at_tail(head, 40);  // HEAD -> [30] -> [20] -> [10] -> [40] -> NONE
+    head = Node::insert_at_tail(head, 40); // HEAD -> [30] -> [20] -> [10] -> [40] -> NONE
     Node::print_list(&head);
 
-    head = Node::insert_at_index(head, 50, 2);  // HEAD -> [30] -> [20] -> [50] -> [10] -> [40] -> NONE
+    head = Node::insert_at_index(head, 50, 2); // HEAD -> [30] -> [20] -> [50] -> [10] -> [40] -> NONE
     Node::print_list(&head);
 
-    head = Node::delete_at_head(head);  // HEAD -> [50] -> [20] -> [10] -> [40] -> NONE
+    head = Node::delete_at_head(head); // HEAD -> [50] -> [20] -> [10] -> [40] -> NONE
     Node::print_list(&head);
 
-    head = Node::delete_at_tail(head);  // HEAD -> [50] -> [20] -> [10] -> NONE
+    head = Node::delete_at_tail(head); // HEAD -> [50] -> [20] -> [10] -> NONE
     Node::print_list(&head);
 
-    head = Node::delete_at_index(head, 1);  // HEAD -> [50] -> [10] -> NONE
+    head = Node::delete_at_index(head, 1); // HEAD -> [50] -> [10] -> NONE
     Node::print_list(&head);
 
     head = Node::reverse(head); // HEAD -> [10] -> [50] -> NONE
     Node::print_list(&head);
 
-    println!("Has cycle: {}", Node::has_cycle(&head));  // Has cycle: false
+    println!("Has cycle: {}", Node::has_cycle(&head)); // Has cycle: false
 
     let mut list1 = None;
     list1 = Node::insert_at_tail(list1, 1);
@@ -340,7 +337,7 @@ fn main() {
     list2 = Node::insert_at_tail(list2, 6);
 
     let merged = Node::merge_sorted(list1, list2);
-    Node::print_list(&merged);  // HEAD -> [1] -> [2] -> [3] -> [4] -> [5] -> [6] -> NONE
+    Node::print_list(&merged); // HEAD -> [1] -> [2] -> [3] -> [4] -> [5] -> [6] -> NONE
 
     let mut head = None;
     head = Node::insert_at_tail(head, 1);
@@ -350,7 +347,7 @@ fn main() {
     head = Node::insert_at_tail(head, 5);
 
     head = Node::remove_nth_from_end(head, 2);
-    Node::print_list(&head);    // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
+    Node::print_list(&head); // HEAD -> 1 -> 2 -> 3 -> 5 -> NULL
 
     let mut head = None;
     head = Node::insert_at_tail(head, 1);
@@ -360,7 +357,7 @@ fn main() {
     head = Node::insert_at_tail(head, 1);
 
     if Node::is_palindrome(head) {
-        println!("Palindrome!")     // Prints this
+        println!("Palindrome!") // Prints this
     } else {
         println!("Not a palindrome");
     }
