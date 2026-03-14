@@ -20,11 +20,19 @@ TOP -> [30] -> [10] -> [20] -> NULL
 ## In C
 
 ```c
+// Push a new node at the top of the list
 void push(Stack *s, int data) {
+    // Create a new node
     Node *node = (Node *)malloc(sizeof(Node));
     node->data = data;
+    
+    // Point the new node to the old top
     node->next = s->top;
+    
+    // Update top to point to the new node
     s->top = node;
+    
+    // Increment the size
     s->size++;
 }
 
@@ -52,11 +60,16 @@ push(&s, 30);    // TOP -> [30] -> [20] -> [10] -> NULL
 ```rust
 impl Stack {
     fn push(&mut self, data: i32) {
+        // Create a new node
         let node = Box::new(Node {
             data,
-            next: self.top.take(),
+            next: self.top.take(), // Take ownership of the current top and set it as the next node
         });
+        
+        // Update top to point to the new node
         self.top = Some(node);
+        
+        // Increment the size
         self.size += 1;
     }
 }

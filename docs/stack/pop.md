@@ -24,18 +24,30 @@ return 30
 ## In C
 
 ```c
+// Pop the top node and return its data
 int pop(Stack *s) {
+    // If the stack is empty, there is nothing to pop
     if (s->top == NULL) {
         printf("Stack is empty\n");
         return -1;
     }
-
+    
+    // Save the current top
     Node *temp = s->top;
+    
+    // Save the data to return later
     int data = temp->data;
+    
+    // Point top to the next node
     s->top = s->top->next;
+    
+    // Decrement the size
     s->size--;
+    
+    // Free the old top
     free(temp);
-
+    
+    // Return the popped data
     return data;
 }
 
@@ -74,9 +86,16 @@ We return `-1` when the stack is empty, but this can be a problem if the stack c
 ```rust
 impl Stack {
     fn pop(&mut self) -> Option<i32> {
+        // Take ownership of the top node, return None if the stack is empty
         let node = self.top.take()?;
+
+        // Point top to the next node
         self.top = node.next;
+
+        // Decrement the size
         self.size -= 1;
+
+        // Return the popped data
         Some(node.data)
     }
 }
