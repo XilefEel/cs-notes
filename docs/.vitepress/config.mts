@@ -101,7 +101,12 @@ export default defineConfig({
           },
           {
             text: "Common Problems and Solutions",
-            items: [],
+            items: [
+              {
+                text: "Valid Parentheses",
+                link: "/stack/problems/valid-parentheses",
+              },
+            ],
           },
         ],
       },
