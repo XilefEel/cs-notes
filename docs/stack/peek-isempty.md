@@ -75,6 +75,10 @@ let b = s.peek();       // b = Some(30), stack unchanged
 Since we only want to read the top node and not modify it, we use `&self` instead of `&mut self`. Only needing a reference means that we can call `peek()` multiple times without any issues.
 :::
 
+::: info Why return `Option<&i32>` and not `Option<i32>`?
+Returning `Option<&i32>` lets us read the value without moving ownership. If it returned `Option<i32>`, it would have to move the value out of the stack, which would break it.
+:::
+
 ::: info Why do we need .map()?
 When we call `self.top.as_ref()`, we get an `Option<&Box<Node>>`. But `peek()` needs to return an `Option<i32>`, so we use `.map()` to transform the `Option<&Box<Node>>` into an `Option<i32>`. The closure `|node| node.data` takes the reference to the node and returns its data, basically unwrapping the node while keeping the `Option` wrapper intact.
 

@@ -106,6 +106,10 @@ export default defineConfig({
                 text: "Valid Parentheses",
                 link: "/stack/problems/valid-parentheses",
               },
+              {
+                text: "Min Stack",
+                link: "/stack/problems/min-stack",
+              },
             ],
           },
         ],

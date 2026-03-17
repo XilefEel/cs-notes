@@ -125,6 +125,42 @@ int is_balanced(char *str) {
     return char_is_empty(&s);
 }
 
+typedef struct {
+    Stack stack;
+    Stack min_stack;
+} MinStack;
+
+MinStack create_min_stack() {
+    MinStack ms;
+    ms.stack = create_stack();
+    ms.min_stack = create_stack();
+    return ms;
+}
+
+void min_push(MinStack *ms, int data) {
+    push(&ms->stack, data);
+
+    if (is_empty(&ms->min_stack) || data <= peek(&ms->min_stack)) {
+        push(&ms->min_stack, data);
+    }
+}
+
+int min_pop(MinStack *ms) {
+    int data = pop(&ms->stack);
+
+    if (data == peek(&ms->min_stack)) {
+        pop(&ms->min_stack);
+    }
+
+    return data;
+}
+
+int get_min(MinStack *ms) {
+    if (is_empty(&ms->min_stack)) return -1;
+
+    return peek(&ms->min_stack);
+}
+
 int main() {
     Stack s = create_stack();
     push(&s, 10);       // TOP -> [10] -> NULL
@@ -154,6 +190,20 @@ int main() {
     printf("%d\n", is_balanced("([{}])"));  // 1 (true)
     printf("%d\n", is_balanced("([)]"));    // 0 (false)
     printf("%d\n", is_balanced("((("));     // 0 (false)
+
+    MinStack ms = create_min_stack();
+    min_push(&ms, 3);   // stack: [3],          min: [3]
+    min_push(&ms, 5);   // stack: [3, 5],       min: [3]
+    min_push(&ms, 2);   // stack: [3, 5, 2],    min: [3, 2]
+    min_push(&ms, 1);   // stack: [3, 5, 2, 1], min: [3, 2, 1]
+
+    printf("%d\n", get_min(&ms));   // 1
+
+    min_pop(&ms);                   // stack: [3, 5, 2],    min: [3, 2]
+    printf("%d\n", get_min(&ms));   // 2
+
+    min_pop(&ms);                   // stack: [3, 5],       min: [3]
+    printf("%d\n", get_min(&ms));   // 3
 
     return 0;
 }

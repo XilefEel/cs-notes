@@ -62,6 +62,42 @@ fn is_balanced(str: &str) -> bool {
     s.is_empty()
 }
 
+struct MinStack {
+    stack: Stack<i32>,
+    min_stack: Stack<i32>,
+}
+
+impl MinStack {
+    fn new() -> MinStack {
+        MinStack {
+            stack: Stack::<i32>::new(),
+            min_stack: Stack::<i32>::new(),
+        }
+    }
+
+    fn push(&mut self, data: i32) {
+        self.stack.push(data);
+
+        if self.min_stack.is_empty() || data <= *self.min_stack.peek().unwrap() {
+            self.min_stack.push(data);
+        }
+    }
+
+    fn pop(&mut self) -> Option<i32> {
+        let data = self.stack.pop()?;
+
+        if Some(&data) == self.min_stack.peek() {
+            self.min_stack.pop();
+        }
+
+        Some(data)
+    }
+
+    fn get_min(&self) -> Option<&i32> {
+        self.min_stack.peek()
+    }
+}
+
 fn main() {
     let mut s = Stack::<i32>::new();
 
@@ -101,4 +137,18 @@ fn main() {
     println!("{}", is_balanced("([{}])")); // true
     println!("{}", is_balanced("([)]")); // false
     println!("{}", is_balanced("(((")); // false
+
+    let mut ms = MinStack::new();
+    ms.push(3); // stack: [3],          min: [3]
+    ms.push(5); // stack: [3, 5],       min: [3]
+    ms.push(2); // stack: [3, 5, 2],    min: [3, 2]
+    ms.push(1); // stack: [3, 5, 2, 1], min: [3, 2, 1]
+
+    println!("{:?}", ms.get_min()); // Some(1)
+
+    ms.pop(); // stack: [3, 5, 2],    min: [3, 2]
+    println!("{:?}", ms.get_min()); // Some(2)
+
+    ms.pop(); // stack: [3, 5],       min: [3]
+    println!("{:?}", ms.get_min()); // Some(3)
 }
