@@ -118,6 +118,28 @@ export default defineConfig({
           },
         ],
       },
+      {
+        text: "Queue",
+        items: [
+          { text: "What is a Queue?", link: "/queue/intro" },
+          { text: "Creating a Queue", link: "/queue/create" },
+          { text: "Enqueuing an Element", link: "/queue/enqueue" },
+          { text: "Dequeuing an Element", link: "/queue/dequeue" },
+          {
+            text: "Peeking and Checking if Empty",
+            link: "/queue/peek-isempty",
+          },
+          {
+            text: "Common Problems and Solutions",
+            items: [
+              {
+                text: "Circular Queue",
+                link: "/queue/problems/circular-queue",
+              },
+            ],
+          },
+        ],
+      },
     ],
 
     socialLinks: [{ icon: "github", link: "https://github.com/XilefEel" }],
