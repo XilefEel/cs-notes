@@ -98,6 +98,52 @@ impl MinStack {
     }
 }
 
+struct TwoStackQueue {
+    in_stack: Stack<i32>,
+    out_stack: Stack<i32>,
+}
+
+impl TwoStackQueue {
+    fn new() -> TwoStackQueue {
+        TwoStackQueue {
+            in_stack: Stack::new(),
+            out_stack: Stack::new(),
+        }
+    }
+
+    // Add an element to the back of the queue
+    fn enqueue(&mut self, data: i32) {
+        // Always push onto in_stack
+        self.in_stack.push(data);
+    }
+
+    // Remove and return the front element of the queue
+    fn dequeue(&mut self) -> Option<i32> {
+        // If out_stack is empty, pour in_stack into out_stack
+        if self.out_stack.is_empty() {
+            while let Some(data) = self.in_stack.pop() {
+                // Pop from in_stack and push onto out_stack
+                self.out_stack.push(data);
+            }
+        }
+
+        // Pop from out_stack
+        self.out_stack.pop()
+    }
+
+    fn peek(&mut self) -> Option<&i32> {
+        // If out_stack is empty, pour in_stack into out_stack
+        if self.out_stack.is_empty() {
+            while let Some(data) = self.in_stack.pop() {
+                self.out_stack.push(data);
+            }
+        }
+
+        // Peek from out_stack
+        self.out_stack.peek()
+    }
+}
+
 fn main() {
     let mut s = Stack::<i32>::new();
 
@@ -151,4 +197,18 @@ fn main() {
 
     ms.pop(); // stack: [3, 5],       min: [3]
     println!("{:?}", ms.get_min()); // Some(3)
+
+    // Usage
+    let mut q = TwoStackQueue::new();
+    q.enqueue(1); // [1]
+    q.enqueue(2); // [1, 2]
+    q.enqueue(3); // [1, 2, 3]
+
+    println!("{:?}", q.dequeue()); // Some(1)
+    println!("{:?}", q.dequeue()); // Some(2)
+
+    q.enqueue(4); // [3, 4]
+
+    println!("{:?}", q.dequeue()); // Some(3)
+    println!("{:?}", q.dequeue()); // Some(4)
 }

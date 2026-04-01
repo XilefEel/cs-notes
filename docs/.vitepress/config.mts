@@ -110,6 +110,10 @@ export default defineConfig({
                 text: "Min Stack",
                 link: "/stack/problems/min-stack",
               },
+              {
+                text: "Implement Queue using Stacks",
+                link: "/stack/problems/queue-using-stacks",
+              },
             ],
           },
         ],

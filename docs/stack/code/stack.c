@@ -161,6 +161,51 @@ int get_min(MinStack *ms) {
     return peek(&ms->min_stack);
 }
 
+typedef struct {
+    Stack in_stack;
+    Stack out_stack;
+} TwoStackQueue;
+
+TwoStackQueue create_queue() {
+    TwoStackQueue q;
+    q.in_stack = create_stack();
+    q.out_stack = create_stack();
+    return q;
+}
+
+// Add an element to the back of the queue
+void enqueue(TwoStackQueue *q, int data) {
+    // Always push onto in_stack
+    push(&q->in_stack, data);
+}
+
+// Remove and return the front element of the queue
+int dequeue(TwoStackQueue *q) {
+    // If out_stack is empty, pour in_stack into out_stack
+    if (is_empty(&q->out_stack)) {
+        while (!is_empty(&q->in_stack)) {
+            // Pop from in_stack and push onto out_stack
+            push(&q->out_stack, pop(&q->in_stack));
+        }
+    }
+
+    // Pop from out_stack
+    return pop(&q->out_stack);
+}
+
+int queue_peek(TwoStackQueue *q) {
+    // If out_stack is empty, pour in_stack into out_stack
+    if (is_empty(&q->out_stack)) {
+        while (!is_empty(&q->in_stack)) {
+            push(&q->out_stack, pop(&q->in_stack));
+        }
+    }
+
+    // Peek from out_stack
+    return peek(&q->out_stack);
+}
+
+
 int main() {
     Stack s = create_stack();
     push(&s, 10);       // TOP -> [10] -> NULL
@@ -204,6 +249,20 @@ int main() {
 
     min_pop(&ms);                   // stack: [3, 5],       min: [3]
     printf("%d\n", get_min(&ms));   // 3
+
+    // Usage
+    TwoStackQueue q = create_queue();
+    enqueue(&q, 1);     // [1]
+    enqueue(&q, 2);     // [1, 2]
+    enqueue(&q, 3);     // [1, 2, 3]
+
+    printf("%d\n", dequeue(&q));    // 1
+    printf("%d\n", dequeue(&q));    // 2
+
+    enqueue(&q, 4);     // [3, 4]
+
+    printf("%d\n", dequeue(&q));    // 3
+    printf("%d\n", dequeue(&q));    // 4
 
     return 0;
 }
