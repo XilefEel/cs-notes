@@ -173,35 +173,27 @@ TwoStackQueue create_queue() {
     return q;
 }
 
-// Add an element to the back of the queue
 void enqueue(TwoStackQueue *q, int data) {
-    // Always push onto in_stack
     push(&q->in_stack, data);
 }
 
-// Remove and return the front element of the queue
 int dequeue(TwoStackQueue *q) {
-    // If out_stack is empty, pour in_stack into out_stack
     if (is_empty(&q->out_stack)) {
         while (!is_empty(&q->in_stack)) {
-            // Pop from in_stack and push onto out_stack
             push(&q->out_stack, pop(&q->in_stack));
         }
     }
 
-    // Pop from out_stack
     return pop(&q->out_stack);
 }
 
 int queue_peek(TwoStackQueue *q) {
-    // If out_stack is empty, pour in_stack into out_stack
     if (is_empty(&q->out_stack)) {
         while (!is_empty(&q->in_stack)) {
             push(&q->out_stack, pop(&q->in_stack));
         }
     }
 
-    // Peek from out_stack
     return peek(&q->out_stack);
 }
 
