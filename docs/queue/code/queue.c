@@ -36,10 +36,37 @@ void enqueue(Queue *q, int data) {
     q->size++;
 }
 
+int dequeue(Queue *q) {
+    if (q->front == NULL) {
+        printf("Queue is empty\n");
+        return -1;
+    }
+
+    Node *temp = q->front;
+    int data = temp->data;
+
+    q->front = q->front->next;
+
+    if (q->front == NULL) {
+        q->back = NULL;
+    }
+
+    free(temp);
+    q->size--;
+
+    return data;
+}
+
 int main() {
     Queue q = create_queue();
-    enqueue(&q, 10);    // FRONT -> [10] <- BACK
-    enqueue(&q, 20);    // FRONT -> [10] -> [20] <- BACK
-    enqueue(&q, 30);    // FRONT -> [10] -> [20] -> [30] <- BACK
+    enqueue(&q, 10);     // FRONT -> [10] <- BACK
+    enqueue(&q, 20);     // FRONT -> [10] -> [20] <- BACK
+    enqueue(&q, 30);     // FRONT -> [10] -> [20] -> [30] <- BACK
+
+    int a = dequeue(&q);    // a = 1, FRONT -> [20] -> [30] <- BACK
+    int b = dequeue(&q);    // b = 2, FRONT -> [30] <- BACK
+    int c = dequeue(&q);    // c = 3, FRONT -> NULL <- BACK
+
+    printf("Dequeued values: %d, %d, %d\n", a, b, c); // Output: Dequeued values: 10, 20, 30
     return 0;
 }

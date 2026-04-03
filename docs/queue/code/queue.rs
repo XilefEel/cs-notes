@@ -36,6 +36,20 @@ impl<T> Queue<T> {
 
         self.size += 1;
     }
+
+    fn dequeue(&mut self) -> Option<T> {
+        let node = self.front.take()?;
+
+        self.front = node.next;
+
+        if self.front.is_none() {
+            self.back = std::ptr::null_mut();
+        }
+
+        self.size -= 1;
+
+        Some(node.data)
+    }
 }
 
 fn main() {
@@ -43,4 +57,10 @@ fn main() {
     q.enqueue(10); // FRONT -> [10] <- BACK
     q.enqueue(20); // FRONT -> [10] -> [20] <- BACK
     q.enqueue(30); // FRONT -> [10] -> [20] -> [30] <- BACK
+
+    let a = q.dequeue(); // Some(10), FRONT -> [20] -> [30] <- BACK
+    let b = q.dequeue(); // Some(20), FRONT -> [30] <- BACK
+    let c = q.dequeue(); // Some(30), FRONT -> None <- BACK
+
+    println!("Dequeued values: {:?}, {:?}, {:?}", a, b, c); // Output: Dequeued values: Some(10), Some(20), Some(30)
 }
