@@ -129,12 +129,71 @@ export default defineConfig({
             text: "Peeking and Checking if Empty",
             link: "/queue/peek-isempty",
           },
+        ],
+      },
+      {
+        text: "Binary Tree",
+        items: [
+          { text: "What is a Binary Tree?", link: "/binary-tree/intro" },
+          { text: "Types of Binary Trees", link: "/binary-tree/types" },
+          { text: "What is a BST?", link: "/binary-tree/bst" },
+          { text: "Creating a BST", link: "/binary-tree/create" },
+          {
+            text: "Operations on a BST",
+            items: [
+              {
+                text: "Inserting a Node",
+                link: "/binary-tree/operations/insert",
+              },
+              {
+                text: "Searching for a Node",
+                link: "/binary-tree/operations/search",
+              },
+              {
+                text: "Deleting a Node",
+                link: "/binary-tree/operations/delete",
+              },
+            ],
+          },
+          {
+            text: "Traversing a Binary Tree",
+            items: [
+              {
+                text: "Preorder Traversal",
+                link: "/binary-tree/traversal/preorder",
+              },
+              {
+                text: "Inorder Traversal",
+                link: "/binary-tree/traversal/inorder",
+              },
+              {
+                text: "Postorder Traversal",
+                link: "/binary-tree/traversal/postorder",
+              },
+              {
+                text: "Level Order Traversal (BFS)",
+                link: "/binary-tree/traversal/level-order",
+              },
+            ],
+          },
           {
             text: "Common Problems and Solutions",
             items: [
               {
-                text: "Circular Queue",
-                link: "/queue/problems/circular-queue",
+                text: "Finding the Height of a Binary Tree",
+                link: "/binary-tree/problems/height",
+              },
+              {
+                text: "Checking if a Tree is Balanced",
+                link: "/binary-tree/problems/balanced",
+              },
+              {
+                text: "Lowest Common Ancestor (LCA)",
+                link: "/binary-tree/problems/lca",
+              },
+              {
+                text: "Checking if a Tree is a Valid BST",
+                link: "/binary-tree/problems/valid-bst",
               },
             ],
           },
