@@ -50,17 +50,35 @@ impl<T> Queue<T> {
 
         Some(node.data)
     }
+
+    fn peek(&self) -> Option<&T> {
+        self.front.as_ref().map(|node| &node.data)
+    }
+
+    fn is_empty(&self) -> bool {
+        self.size == 0
+    }
 }
 
 fn main() {
     let mut q: Queue<i32> = Queue::new();
+
+    q.is_empty(); // true
+
     q.enqueue(10); // FRONT -> [10] <- BACK
     q.enqueue(20); // FRONT -> [10] -> [20] <- BACK
     q.enqueue(30); // FRONT -> [10] -> [20] -> [30] <- BACK
 
-    let a = q.dequeue(); // Some(10), FRONT -> [20] -> [30] <- BACK
-    let b = q.dequeue(); // Some(20), FRONT -> [30] <- BACK
-    let c = q.dequeue(); // Some(30), FRONT -> None <- BACK
+    let a = q.peek(); // a = Some(10), queue unchanged
+    let b = q.peek(); // b = Some(10), queue unchanged
 
-    println!("Dequeued values: {:?}, {:?}, {:?}", a, b, c); // Output: Dequeued values: Some(10), Some(20), Some(30)
+    println!("Peeked values: {:?}, {:?}", a, b); // Output: Peeked values: Some(10), Some(10)
+
+    q.is_empty(); // false
+
+    let d = q.dequeue(); // Some(10), FRONT -> [20] -> [30] <- BACK
+    let e = q.dequeue(); // Some(20), FRONT -> [30] <- BACK
+    let f = q.dequeue(); // Some(30), FRONT -> None <- BACK
+
+    println!("Dequeued values: {:?}, {:?}, {:?}", d, e, f); // Output: Dequeued values: Some(10), Some(20), Some(30)
 }

@@ -57,16 +57,39 @@ int dequeue(Queue *q) {
     return data;
 }
 
+int peek(Queue *q) {
+    if (q->front == NULL) {
+        printf("Queue is empty\n");
+        return -1;
+    }
+
+    return q->front->data;
+}
+
+int is_empty(Queue *q) {
+    return q->size == 0;
+}
+
 int main() {
     Queue q = create_queue();
+
+    is_empty(&q);   // 1 (true)
+
     enqueue(&q, 10);     // FRONT -> [10] <- BACK
     enqueue(&q, 20);     // FRONT -> [10] -> [20] <- BACK
     enqueue(&q, 30);     // FRONT -> [10] -> [20] -> [30] <- BACK
 
-    int a = dequeue(&q);    // a = 1, FRONT -> [20] -> [30] <- BACK
-    int b = dequeue(&q);    // b = 2, FRONT -> [30] <- BACK
-    int c = dequeue(&q);    // c = 3, FRONT -> NULL <- BACK
+    int a = peek(&q);   // a = 10, queue unchanged
+    int b = peek(&q);   // b = 10, queue unchanged
 
-    printf("Dequeued values: %d, %d, %d\n", a, b, c); // Output: Dequeued values: 10, 20, 30
+    is_empty(&q);   // 0 (false)
+
+    printf("Peeked values: %d, %d\n", a, b); // Output: Peeked values: 10, 10
+
+    int d = dequeue(&q);    // a = 1, FRONT -> [20] -> [30] <- BACK
+    int e = dequeue(&q);    // b = 2, FRONT -> [30] <- BACK
+    int f = dequeue(&q);    // c = 3, FRONT -> NULL <- BACK
+
+    printf("Dequeued values: %d, %d, %d\n", d, e, f); // Output: Dequeued values: 10, 20, 30
     return 0;
 }
