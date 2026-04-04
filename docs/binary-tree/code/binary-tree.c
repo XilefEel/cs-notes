@@ -102,6 +102,16 @@ void delete(BST *bst, int data) {
     bst->root = delete_node(bst->root, data);
 }
 
+void preorder(Node *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    printf("%d ", node->data);
+    preorder(node->left);
+    preorder(node->right);
+}
+
 int main() {
     BST bst = create_bst();
     insert(&bst, 5);
@@ -115,6 +125,8 @@ int main() {
     //     [3]   [7]
     //    /   \     \
     //  [1]   [4]   [10]
+
+    preorder(bst.root); // 5 3 1 4 7 10
 
     Node *result = search(bst.root, 4);
     if (result != NULL) {
