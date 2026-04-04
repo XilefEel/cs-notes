@@ -43,6 +43,22 @@ void insert(BST *bst, int data) {
     bst->root = insert_node(bst->root, data);
 }
 
+Node *search(Node *node, int data) {
+    if (node == NULL) {
+        return NULL;
+    }
+
+    if (data == node->data) {
+        return node;
+    }
+
+    if (data < node->data) {
+        return search(node->left, data);
+    } else {
+        return search(node->right, data);
+    }
+}
+
 int main() {
     BST bst = create_bst();
     insert(&bst, 5);
@@ -55,4 +71,18 @@ int main() {
     //    [3]   [7]
     //   /   \
     // [1]   [4]
+
+    Node *result = search(bst.root, 4);
+    if (result != NULL) {
+        printf("Found: %d\n", result->data);    // Found: 4
+    } else {
+        printf("Not found\n");
+    }
+
+    Node *missing = search(bst.root, 99);
+    if (missing != NULL) {
+        printf("Found: %d\n", missing->data);
+    } else {
+        printf("Not found\n");  // Not found
+    }
 }

@@ -35,6 +35,25 @@ impl BST {
             }
         }
     }
+
+    fn search(&self, data: i32) -> Option<&Node> {
+        Self::search_node(self.root.as_ref(), data)
+    }
+
+    fn search_node(node: Option<&Box<Node>>, data: i32) -> Option<&Node> {
+        match node {
+            None => None,
+            Some(current) => {
+                if data == current.data {
+                    Some(current)
+                } else if data < current.data {
+                    Self::search_node(current.left.as_ref(), data)
+                } else {
+                    Self::search_node(current.right.as_ref(), data)
+                }
+            }
+        }
+    }
 }
 
 fn main() {
@@ -49,4 +68,14 @@ fn main() {
     //    [3]   [7]
     //   /   \
     // [1]   [4]
+
+    match bst.search(4) {
+        Some(node) => println!("Found: {}", node.data), // Found: 4
+        None => println!("Not found"),
+    }
+
+    match bst.search(99) {
+        Some(node) => println!("Found: {}", node.data),
+        None => println!("Not found"), // Not found
+    }
 }
