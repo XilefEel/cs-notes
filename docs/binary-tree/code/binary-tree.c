@@ -59,6 +59,49 @@ Node *search(Node *node, int data) {
     }
 }
 
+Node *find_successor(Node *node) {
+    node = node->right;
+    while (node->left != NULL) {
+        node = node->left;
+    }
+    return node;
+}
+
+Node *delete_node(Node *node, int data) {
+    if (node == NULL) {
+        return NULL;
+    }
+
+    if (data < node->data) {
+        node->left = delete_node(node->left, data);
+    } else if (data > node->data) {
+        node->right = delete_node(node->right, data);
+    } else {
+        if (node->left == NULL) {
+            Node *temp = node->right;
+            free(node);
+            return temp;
+        }
+        if (node->right == NULL) {
+            Node *temp = node->left;
+            free(node);
+            return temp;
+        }
+
+        Node *successor = find_successor(node);
+
+        node->data = successor->data;
+
+        node->right = delete_node(node->right, successor->data);
+    }
+
+    return node;
+}
+
+void delete(BST *bst, int data) {
+    bst->root = delete_node(bst->root, data);
+}
+
 int main() {
     BST bst = create_bst();
     insert(&bst, 5);
@@ -66,11 +109,12 @@ int main() {
     insert(&bst, 7);
     insert(&bst, 1);
     insert(&bst, 4);
-    //       [5]
-    //      /   \
-    //    [3]   [7]
-    //   /   \
-    // [1]   [4]
+    insert(&bst, 10);
+    //        [5]
+    //       /   \
+    //     [3]   [7]
+    //    /   \     \
+    //  [1]   [4]   [10]
 
     Node *result = search(bst.root, 4);
     if (result != NULL) {
@@ -85,4 +129,25 @@ int main() {
     } else {
         printf("Not found\n");  // Not found
     }
+
+    delete(&bst, 1);    // Case 1: leaf node
+    //        [5]
+    //       /   \
+    //     [3]   [7]
+    //       \     \
+    //       [4]   [10]
+
+    delete(&bst, 3);    // Case 2: one child
+    //        [5]
+    //       /   \
+    //     [4]   [7]
+    //              \
+    //              [10]
+
+    delete(&bst, 5);    // Case 3: two children
+    //        [7]
+    //       /   \
+    //     [4]   [10]
+
+    return 0;
 }

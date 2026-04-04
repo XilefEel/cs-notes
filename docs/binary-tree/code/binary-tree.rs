@@ -54,6 +54,46 @@ impl BST {
             }
         }
     }
+
+    fn delete(&mut self, data: i32) {
+        self.root = Self::delete_node(self.root.take(), data);
+    }
+
+    fn find_successor(node: &Box<Node>) -> i32 {
+       let mut current = node.right.as_ref().unwrap();
+       while current.left.is_some() {
+           current = current.left.as_ref().unwrap();
+       }
+       current.data
+    }
+
+    fn delete_node(node: Option<Box<Node>>, data: i32) -> Option<Box<Node>> {
+        match node {
+            None => None,
+            Some(mut current) => {
+                if data < current.data {
+                    current.left = Self::delete_node(current.left.take(), data);
+                } else if data > current.data {
+                    current.right = Self::delete_node(current.right.take(), data);
+                } else {
+                    if current.left.is_none() {
+                        return current.right;
+                    }
+                    if current.right.is_none() {
+                        return current.left;
+                    }
+
+                    let successor_data = Self::find_successor(&current);
+
+                    current.data = successor_data;
+
+                    current.right = Self::delete_node(current.right.take(), successor_data);
+                }
+
+                Some(current)
+            }
+        }
+    }
 }
 
 fn main() {
@@ -63,11 +103,12 @@ fn main() {
     bst.insert(7);
     bst.insert(1);
     bst.insert(4);
-    //       [5]
-    //      /   \
-    //    [3]   [7]
-    //   /   \
-    // [1]   [4]
+    bst.insert(10);
+    //        [5]
+    //       /   \
+    //     [3]   [7]
+    //    /   \     \
+    //  [1]   [4]   [10]
 
     match bst.search(4) {
         Some(node) => println!("Found: {}", node.data), // Found: 4
@@ -78,4 +119,23 @@ fn main() {
         Some(node) => println!("Found: {}", node.data),
         None => println!("Not found"), // Not found
     }
+
+    bst.delete(1);  // Case 1: leaf node
+    //        [5]
+    //       /   \
+    //     [3]   [7]
+    //       \     \
+    //       [4]   [10]
+
+    bst.delete(3);  // Case 2: one child
+    //        [5]
+    //       /   \
+    //     [4]   [7]
+    //              \
+    //              [10]
+
+    bst.delete(5);  // Case 3: two children
+    //        [7]
+    //       /   \
+    //     [4]   [10]
 }
