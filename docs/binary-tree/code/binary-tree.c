@@ -122,6 +122,16 @@ void inorder(Node *node) {
     inorder(node->right);
 }
 
+void postorder(Node *node) {
+    if (node == NULL) {
+        return;
+    }
+
+    postorder(node->left);
+    postorder(node->right);
+    printf("%d ", node->data);
+}
+
 int main() {
     BST bst = create_bst();
     insert(&bst, 5);
@@ -136,9 +146,11 @@ int main() {
     //    /   \     \
     //  [1]   [4]   [10]
 
-    preorder(bst.root); // 5 3 1 4 7 10
+    preorder(bst.root);     // 5 3 1 4 7 10
     printf("\n");
-    inorder(bst.root);  // 1 3 4 5 7 10
+    inorder(bst.root);      // 1 3 4 5 7 10
+    printf("\n");
+    postorder(bst.root);    // 1 4 3 10 7 5
     printf("\n");
 
     Node *result = search(bst.root, 4);

@@ -124,6 +124,21 @@ impl BST {
             }
         }
     }
+
+    fn postorder(&self) {
+        Self::postorder_node(self.root.as_ref());
+    }
+
+    fn postorder_node(node: Option<&Box<Node>>) {
+        match node {
+            None => return,
+            Some(current) => {
+                Self::postorder_node(current.left.as_ref());
+                Self::postorder_node(current.right.as_ref());
+                print!("{} ", current.data);
+            }
+        }
+    }
 }
 
 fn main() {
@@ -143,6 +158,8 @@ fn main() {
     bst.preorder(); // 5 3 1 4 7 10
     println!();
     bst.inorder(); // 1 3 4 5 7 10
+    println!();
+    bst.postorder(); // 1 4 3 10 7 5
     println!();
 
     match bst.search(4) {
