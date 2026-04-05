@@ -1,3 +1,61 @@
+struct QueueNode<T> {
+    data: T,
+    next: Option<Box<QueueNode<T>>>,
+}
+
+struct Queue<T> {
+    front: Option<Box<QueueNode<T>>>,
+    back: *mut QueueNode<T>,
+    size: usize,
+}
+
+impl<T> Queue<T> {
+    fn new() -> Queue<T> {
+        Queue {
+            front: None,
+            back: std::ptr::null_mut(),
+            size: 0,
+        }
+    }
+
+    fn enqueue(&mut self, data: T) {
+        let mut node = Box::new(QueueNode { data, next: None });
+
+        let raw = &mut *node as *mut QueueNode<T>;
+
+        if self.back.is_null() {
+            self.front = Some(node);
+            self.back = raw;
+        } else {
+            unsafe {
+                (*self.back).next = Some(node);
+            }
+
+            self.back = raw;
+        }
+
+        self.size += 1;
+    }
+
+    fn dequeue(&mut self) -> Option<T> {
+        let node = self.front.take()?;
+
+        self.front = node.next;
+
+        if self.front.is_none() {
+            self.back = std::ptr::null_mut();
+        }
+
+        self.size -= 1;
+
+        Some(node.data)
+    }
+
+    fn is_empty(&self) -> bool {
+        self.size == 0
+    }
+}
+
 struct Node {
     data: i32,
     left: Option<Box<Node>>,
@@ -139,6 +197,31 @@ impl BST {
             }
         }
     }
+
+    fn level_order(&self) {
+        if self.root.is_none() {
+            return;
+        }
+
+        let mut q: Queue<*const Node> = Queue::new();
+
+        unsafe {
+            q.enqueue(self.root.as_deref().unwrap() as *const Node);
+
+            while !q.is_empty() {
+                let node = &*q.dequeue().unwrap();
+                print!("{} ", node.data);
+
+                if let Some(left) = node.left.as_deref() {
+                    q.enqueue(left as *const Node);
+                }
+
+                if let Some(right) = node.right.as_deref() {
+                    q.enqueue(right as *const Node);
+                }
+            }
+        }
+    }
 }
 
 fn main() {
@@ -160,6 +243,8 @@ fn main() {
     bst.inorder(); // 1 3 4 5 7 10
     println!();
     bst.postorder(); // 1 4 3 10 7 5
+    println!();
+    bst.level_order(); // 5 3 7 1 4 10
     println!();
 
     match bst.search(4) {

@@ -132,6 +132,77 @@ void postorder(Node *node) {
     printf("%d ", node->data);
 }
 
+typedef struct QueueNode {
+    Node *data;
+    struct QueueNode *next;
+} QueueNode;
+
+typedef struct {
+    QueueNode *front;
+    QueueNode *back;
+    int size;
+} Queue;
+
+Queue create_bfs_queue() {
+    Queue q;
+    q.front = NULL;
+    q.back = NULL;
+    q.size = 0;
+    return q;
+}
+
+void bfs_enqueue(Queue *q, Node *data) {
+    QueueNode *node = (QueueNode *)malloc(sizeof(QueueNode));
+    node->data = data;
+    node->next = NULL;
+    if (q->back == NULL) {
+        q->front = node;
+        q->back = node;
+    } else {
+        q->back->next = node;
+        q->back = node;
+    }
+    q->size++;
+}
+
+Node *bfs_dequeue(Queue *q) {
+    QueueNode *temp = q->front;
+    Node *data = temp->data;
+    q->front = q->front->next;
+    if (q->front == NULL) {
+        q->back = NULL;
+    }
+    free(temp);
+    q->size--;
+    return data;
+}
+
+int bfs_is_empty(Queue *q) {
+    return q->size == 0;
+}
+
+void level_order(BST *bst) {
+    if (bst->root == NULL) {
+        return;
+    }
+
+    Queue q = create_bfs_queue();
+    bfs_enqueue(&q, bst->root);
+
+    while (!bfs_is_empty(&q)) {
+        Node *node = bfs_dequeue(&q);
+        printf("%d ", node->data);
+
+        if (node->left != NULL) {
+            bfs_enqueue(&q, node->left);
+        }
+
+        if (node->right != NULL) {
+            bfs_enqueue(&q, node->right);
+        }
+    }
+}
+
 int main() {
     BST bst = create_bst();
     insert(&bst, 5);
@@ -151,6 +222,8 @@ int main() {
     inorder(bst.root);      // 1 3 4 5 7 10
     printf("\n");
     postorder(bst.root);    // 1 4 3 10 7 5
+    printf("\n");
+    level_order(&bst);      // 5 3 7 1 4 10
     printf("\n");
 
     Node *result = search(bst.root, 4);
