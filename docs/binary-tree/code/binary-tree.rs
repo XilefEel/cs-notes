@@ -222,6 +222,22 @@ impl BST {
             }
         }
     }
+
+    fn height(&self) -> i32 {
+        Self::height_node(self.root.as_ref())
+    }
+
+    fn height_node(node: Option<&Box<Node>>) -> i32 {
+        match node {
+            None => -1,
+            Some(current) => {
+                let left_height = Self::height_node(current.left.as_ref());
+                let right_height = Self::height_node(current.right.as_ref());
+
+                1 + left_height.max(right_height)
+            }
+        }
+    }
 }
 
 fn main() {
@@ -256,6 +272,8 @@ fn main() {
         Some(node) => println!("Found: {}", node.data),
         None => println!("Not found"), // Not found
     }
+
+    println!("{}", bst.height());   // 2
 
     bst.delete(1); // Case 1: leaf node
                    //        [5]

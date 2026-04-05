@@ -203,6 +203,18 @@ void level_order(BST *bst) {
     }
 }
 
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+
+int height(Node *node) {
+    if (node == NULL) {
+        return -1;
+    }
+
+    return 1 + max(height(node->left), height(node->right));
+}
+
 int main() {
     BST bst = create_bst();
     insert(&bst, 5);
@@ -239,6 +251,8 @@ int main() {
     } else {
         printf("Not found\n");  // Not found
     }
+
+    printf("%d\n", height(bst.root));   // 2
 
     delete(&bst, 1);    // Case 1: leaf node
     //        [5]
