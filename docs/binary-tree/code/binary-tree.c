@@ -239,6 +239,22 @@ int is_balanced(BST *bst) {
     return check_balanced(bst->root) != -1;
 }
 
+Node *lca(Node *node, int p, int q) {
+    if (node == NULL) {
+        return NULL;
+    }
+
+    if (p < node->data && q < node->data) {
+        return lca(node->left, p, q);
+    }
+
+    if (p > node->data && q > node->data) {
+        return lca(node->right, p, q);
+    }
+
+    return node;
+}
+
 
 int main() {
     BST bst = create_bst();
@@ -279,6 +295,15 @@ int main() {
 
     printf("%d\n", height(bst.root));   // 2
     printf("%d\n", is_balanced(&bst));  // 1 (true)
+
+    result = lca(bst.root, 1, 4);
+    printf("%d\n", result->data);   // 3
+
+    result = lca(bst.root, 1, 7);
+    printf("%d\n", result->data);   // 5
+
+    result = lca(bst.root, 3, 4);
+    printf("%d\n", result->data);   // 3
 
     delete(&bst, 1);    // Case 1: leaf node
     //        [5]

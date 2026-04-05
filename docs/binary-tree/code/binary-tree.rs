@@ -262,6 +262,27 @@ impl BST {
             }
         }
     }
+
+    fn lca(&self, p: i32, q: i32) -> Option<&Node> {
+        Self::lca_node(self.root.as_ref(), p, q)
+    }
+
+    fn lca_node(node: Option<&Box<Node>>, p: i32, q: i32) -> Option<&Node> {
+        match node {
+            None => None,
+            Some(current) => {
+                if p < current.data && q < current.data {
+                    return Self::lca_node(current.left.as_ref(), p, q);
+                }
+
+                if p > current.data && q > current.data {
+                    return Self::lca_node(current.right.as_ref(), p, q);
+                }
+
+                Some(current)
+            }
+        }
+    }
 }
 
 fn main() {
@@ -299,6 +320,18 @@ fn main() {
 
     println!("{}", bst.height()); // 2
     println!("{}", bst.is_balanced()); // true
+
+    if let Some(node) = bst.lca(1, 4) {
+        println!("{}", node.data); // 3
+    }
+
+    if let Some(node) = bst.lca(1, 7) {
+        println!("{}", node.data); // 5
+    }
+
+    if let Some(node) = bst.lca(3, 4) {
+        println!("{}", node.data); // 3
+    }
 
     bst.delete(1); // Case 1: leaf node
                    //        [5]
