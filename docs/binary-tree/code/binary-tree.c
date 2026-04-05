@@ -255,6 +255,22 @@ Node *lca(Node *node, int p, int q) {
     return node;
 }
 
+int is_valid_bst(Node *node, long min, long max) {
+    if (node == NULL) {
+        return 1;
+    }
+
+    if (node->data <= min || node->data >= max) {
+        return 0;
+    }
+
+    return is_valid_bst(node->left, min, node->data) &&
+           is_valid_bst(node->right, node->data, max);
+}
+
+int is_valid(BST *bst) {
+    return is_valid_bst(bst->root, LONG_MIN, LONG_MAX);
+}
 
 int main() {
     BST bst = create_bst();
@@ -330,6 +346,24 @@ int main() {
     insert(&unbalanced, 1);
 
     printf("%d\n", is_balanced(&unbalanced));   // 0 (false)
+
+    BST valid = create_bst();
+    insert(&valid, 5);
+    insert(&valid, 3);
+    insert(&valid, 7);
+    insert(&valid, 1);
+    insert(&valid, 4);
+
+    printf("%d\n", is_valid(&valid));   // 1 (true)
+
+    Node *root = create_node(5);
+    root->left = create_node(3);
+    root->left->right = create_node(9);  // 9 > 5, invalid!
+
+    BST invalid;
+    invalid.root = root;
+
+    printf("%d\n", is_valid(&invalid));  // 0 (false)
 
     return 0;
 }

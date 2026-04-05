@@ -283,6 +283,26 @@ impl BST {
             }
         }
     }
+
+    fn is_valid(&self) -> bool {
+        Self::is_valid_bst(self.root.as_ref(), i64::MIN, i64::MAX)
+    }
+
+    fn is_valid_bst(node: Option<&Box<Node>>, min: i64, max: i64) -> bool {
+        match node {
+            None => true,
+            Some(current) => {
+                let val = current.data as i64;
+
+                if val <= min || val >= max {
+                    return false;
+                }
+
+                Self::is_valid_bst(current.left.as_ref(), min, val)
+                    && Self::is_valid_bst(current.right.as_ref(), val, max)
+            }
+        }
+    }
 }
 
 fn main() {
@@ -351,4 +371,31 @@ fn main() {
                    //        [7]
                    //       /   \
                    //     [4]   [10]
+
+    let mut valid = BST::new();
+    valid.insert(5);
+    valid.insert(3);
+    valid.insert(7);
+    valid.insert(1);
+    valid.insert(4);
+
+    println!("{}", valid.is_valid()); // true
+
+    // Manually create an invalid BST
+    let mut invalid = BST::new();
+    invalid.root = Some(Box::new(Node {
+        data: 5,
+        left: Some(Box::new(Node {
+            data: 3,
+            left: None,
+            right: Some(Box::new(Node {
+                data: 9, // 9 > 5, invalid!
+                left: None,
+                right: None,
+            })),
+        })),
+        right: None,
+    }));
+
+    println!("{}", invalid.is_valid()); // false
 }
