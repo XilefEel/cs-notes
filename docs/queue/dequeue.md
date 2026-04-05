@@ -44,7 +44,7 @@ int dequeue(Queue *q) {
     // Free the old front node
     free(temp);
     q->size--;
-    
+
     // Return the dequeued data
     return data;
 }
@@ -93,7 +93,7 @@ impl<T> Queue<T> {
         }
 
         self.size -= 1;
-        
+
         // Return the dequeued data
         Some(node.data)
     }
@@ -124,11 +124,11 @@ Dequeuing only affects `front`, which is a safe `Option<Box<Node<T>>>`. We only 
 
 ## Key Difference
 
-|                 | C                           | Rust                          |
-| --------------- | --------------------------- | ----------------------------- |
-| Empty check     | `if (q->front == NULL)`     | `?` operator returns `None`   |
-| Save front      | `Node *temp = q->front`     | `let node = self.front.take()`|
-| Update front    | `q->front = q->front->next` | `self.front = node.next`      |
-| Sync back       | `q->back = NULL`            | `self.back = null_mut()`      |
-| Free node       | `free(temp)`                | Automatic                     |
-| Return value    | `int` (-1 on empty)         | `Option<T>`                   |
+|              | C                           | Rust                           |
+| ------------ | --------------------------- | ------------------------------ |
+| Empty check  | `if (q->front == NULL)`     | `?` operator returns `None`    |
+| Save front   | `Node *temp = q->front`     | `let node = self.front.take()` |
+| Update front | `q->front = q->front->next` | `self.front = node.next`       |
+| Sync back    | `q->back = NULL`            | `self.back = null_mut()`       |
+| Free node    | `free(temp)`                | Automatic                      |
+| Return value | `int` (-1 on empty)         | `Option<T>`                    |

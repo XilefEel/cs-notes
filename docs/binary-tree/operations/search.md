@@ -141,9 +141,9 @@ match bst.search(99) {
 
 ## Key Difference
 
-|              | C                        | Rust                              |
-| ------------ | ------------------------ | --------------------------------- |
-| Not found    | `return NULL`            | `None`                            |
-| Found        | `return node`            | `Some(current)`                   |
-| Borrow node  | Pointer access           | `.as_ref()` to borrow             |
-| Recurse      | `return search(...)`     | `Self::search_node(...)`          |
+|             | C                    | Rust                     |
+| ----------- | -------------------- | ------------------------ |
+| Not found   | `return NULL`        | `None`                   |
+| Found       | `return node`        | `Some(current)`          |
+| Borrow node | Pointer access       | `.as_ref()` to borrow    |
+| Recurse     | `return search(...)` | `Self::search_node(...)` |

@@ -46,6 +46,7 @@ Just like with our stack, `size` is optional but lets us check `isEmpty()` and g
 :::
 
 ## In Rust
+
 For these notes, we will not use Rust's `Vec` or `VecDeque` from the standard library, but instead implement our own queue from scratch (cuz it's more fun that way).
 
 But this is where things get interesting. Rust's ownership model means we can't have two pointers owning the same data. So we need to use a combination of `Option<Box<Node>>` for the front and a **raw pointer** for the back. Luckily, this isnt as _bad_ as doubly linked lists because we only need to point to the last node, not each node pointing the previous node.
@@ -85,7 +86,7 @@ let mut q: Queue<i32> = Queue::new();
 ::: info Why do we need a raw pointer for the back?
 `front` owns the linked list through `Box<Node>`, with each node owns the next one through `Option<Box<Node>>`. If `back` also tried to own the last node, we'd have two owners for the same node, which Rust doesn't allow.
 
-Instead, `back` is just a raw pointer that *points to* the last node without owning it. `front` owns the whole queue and `back` is just a shortcut to the end.
+Instead, `back` is just a raw pointer that _points to_ the last node without owning it. `front` owns the whole queue and `back` is just a shortcut to the end.
 :::
 
 ::: warning
@@ -94,10 +95,10 @@ Because `back` is a raw pointer, we need to be careful to keep it in sync with `
 
 ## Key Difference
 
-|                 | C                        | Rust                          |
-| --------------- | ------------------------ | ----------------------------- |
-| Empty queue     | `front = NULL`           | `front = None`                |
-| Front pointer   | `Node *front`            | `Option<Box<Node>>`           |
-| Back pointer    | `Node *back`             | `*mut Node` (raw pointer)     |
-| NULL equivalent | `NULL`                   | `std::ptr::null_mut()`        |
-| Size field      | `int size`               | `usize size`                  |
+|                 | C              | Rust                      |
+| --------------- | -------------- | ------------------------- |
+| Empty queue     | `front = NULL` | `front = None`            |
+| Front pointer   | `Node *front`  | `Option<Box<Node>>`       |
+| Back pointer    | `Node *back`   | `*mut Node` (raw pointer) |
+| NULL equivalent | `NULL`         | `std::ptr::null_mut()`    |
+| Size field      | `int size`     | `usize size`              |

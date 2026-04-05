@@ -7,7 +7,7 @@ A linked list is a data structure that stores a sequence of elements. Unlike an 
 ### Singly Linked List
 
 ```
-HEAD --> [data | next] --> [data | next] --> [data | next] --> NULL
+HEAD -> [data | next] -> [data | next] -> [data | next] -> NULL
 ```
 
 `[data | next]` represents a node in a linked list.
@@ -25,9 +25,9 @@ Each node only points forward to the next node. We can only traverse in one dire
 ### Doubly Linked List
 
 ```
-NULL <-- [prev | data | next] <-> [prev | data | next] <-> [prev | data | next] --> NULL
-                   ^
-                  HEAD
+NULL <- [prev | data | next] <-> [prev | data | next] <-> [prev | data | next] -> NULL
+                 ^
+                HEAD
 ```
 
 `prev` is a pointer (just like `head`) that points to the previous node.

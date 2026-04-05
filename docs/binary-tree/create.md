@@ -37,7 +37,6 @@ BST bst = create_bst();
 
 `create_bst()` returns a BST with `root = NULL`, representing an empty tree.
 
-
 ## In Rust
 
 ```rust
@@ -71,9 +70,9 @@ In Rust, a value can only have **one** owner. In a BST, each node is owned by ex
 
 ## Key Difference
 
-|               | C                    | Rust                    |
-| ------------- | -------------------- | ----------------------- |
-| Left child    | `Node *left`         | `Option<Box<Node>>`     |
-| Right child   | `Node *right`        | `Option<Box<Node>>`     |
-| Empty tree    | `root = NULL`        | `root = None`           |
-| Create        | `create_bst()`       | `BST::new()`            |
+|             | C              | Rust                |
+| ----------- | -------------- | ------------------- |
+| Left child  | `Node *left`   | `Option<Box<Node>>` |
+| Right child | `Node *right`  | `Option<Box<Node>>` |
+| Empty tree  | `root = NULL`  | `root = None`       |
+| Create      | `create_bst()` | `BST::new()`        |

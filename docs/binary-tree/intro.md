@@ -27,7 +27,9 @@ Unlike a linked list, stack, or queue, where each node points to only one next n
 [2] and [3] are siblings (they are both children of [1])
 [3], [4], and [5] are leaves
 ```
+
 Some important terms to know about binary trees:
+
 - **Root**: the topmost node of the tree, it has no parent
 - **Parent**: a node that has one or more children
 - **Child**: a node that has a parent

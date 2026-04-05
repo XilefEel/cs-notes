@@ -64,12 +64,12 @@ Search for 4 in the tree:
 
 ## BST vs Regular Binary Tree
 
-| | Binary Tree | BST |
-|---|---|---|
-| Node ordering | No rule | Left < Root < Right |
-| Search | O(n) | O(log n) average |
-| Insert | O(n) | O(log n) average |
-| Delete | O(n) | O(log n) average |
+|               | Binary Tree | BST                 |
+| ------------- | ----------- | ------------------- |
+| Node ordering | No rule     | Left < Root < Right |
+| Search        | O(n)        | O(log n) average    |
+| Insert        | O(n)        | O(log n) average    |
+| Delete        | O(n)        | O(log n) average    |
 
 ::: warning
 These time complexities assume the tree is **balanced**. If the tree becomes unbalanced, operations can degrade to O(n), the same as a linked list.

@@ -55,7 +55,6 @@ enqueue(&q, 30);     // FRONT -> [10] -> [20] -> [30] <- BACK
 
 `q->size++` increments the size counter.
 
-
 ## In Rust
 
 ```rust
@@ -107,10 +106,10 @@ In Rust, once we move a value, we can no longer access it. We need `raw` to upda
 
 ## Key Difference
 
-|                    | C                       | Rust                          |
-| ------------------ | ----------------------- | ----------------------------- |
-| Allocate node      | `malloc(sizeof(Node))`  | `Box::new(Node { ... })`      |
-| Empty check        | `q->back == NULL`       | `self.back.is_null()`         |
+|                    | C                       | Rust                             |
+| ------------------ | ----------------------- | -------------------------------- |
+| Allocate node      | `malloc(sizeof(Node))`  | `Box::new(Node { ... })`         |
+| Empty check        | `q->back == NULL`       | `self.back.is_null()`            |
 | Link to back       | `q->back->next = node`  | `(*self.back).next = Some(node)` |
-| Update back        | `q->back = node`        | `self.back = raw`             |
-| Allocation failure | Returns `NULL` silently | Panics immediately            |
+| Update back        | `q->back = node`        | `self.back = raw`                |
+| Allocation failure | Returns `NULL` silently | Panics immediately               |

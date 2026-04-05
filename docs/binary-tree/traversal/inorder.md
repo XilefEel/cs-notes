@@ -19,6 +19,7 @@ Inorder traversal of a BST always produces a **sorted sequence**. This is becaus
 ## The Approach
 
 At each node:
+
 1. **Recurse** into the left subtree
 2. **Visit** the current node
 3. **Recurse** into the right subtree
@@ -143,9 +144,9 @@ bst.inorder();  // 1 3 4 5 7 10
 
 ## Key Difference
 
-|                | C                        | Rust                              |
-| -------------- | ------------------------ | --------------------------------- |
-| Base case      | `if (node == NULL)`      | `match node { None => return }`   |
-| Visit node     | `printf("%d ", ...)`     | `print!("{} ", ...)`              |
-| Recurse        | `inorder(node->left)`    | `Self::inorder_node(...)`         |
-| Borrow node    | Pointer access           | `.as_ref()`                       |
+|             | C                     | Rust                            |
+| ----------- | --------------------- | ------------------------------- |
+| Base case   | `if (node == NULL)`   | `match node { None => return }` |
+| Visit node  | `printf("%d ", ...)`  | `print!("{} ", ...)`            |
+| Recurse     | `inorder(node->left)` | `Self::inorder_node(...)`       |
+| Borrow node | Pointer access        | `.as_ref()`                     |

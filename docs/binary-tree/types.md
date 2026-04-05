@@ -91,9 +91,9 @@ Balanced trees are important because they keep operations like search, insert, a
 
 ## Summary
 
-| Type      | Property                                         |
-| --------- | ------------------------------------------------ |
-| Full      | Every node has 0 or 2 children                   |
-| Complete  | All levels filled except last, filled left to right |
-| Perfect   | All levels completely filled                     |
-| Balanced  | Height difference between subtrees is at most 1  |
+| Type     | Property                                            |
+| -------- | --------------------------------------------------- |
+| Full     | Every node has 0 or 2 children                      |
+| Complete | All levels filled except last, filled left to right |
+| Perfect  | All levels completely filled                        |
+| Balanced | Height difference between subtrees is at most 1     |

@@ -10,6 +10,8 @@ export default defineConfig({
       { text: "Get Started", link: "/get-started" },
       { text: "Linked List", link: "/linked-list/intro" },
       { text: "Stack", link: "/stack/intro" },
+      { text: "Queue", link: "/queue/intro" },
+      { text: "Binary Tree", link: "/binary-tree/intro" },
     ],
 
     sidebar: [

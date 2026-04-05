@@ -70,7 +70,7 @@ int is_palindrome(Node *head) {
     Node *right = second;
 
     int result = 1;
-    
+
     // Check until the right half is exhausted
     while (right != NULL) {
         if (left->data != right->data) {
@@ -151,7 +151,7 @@ impl Node {
         // Compare both halves
         let mut l = left.as_ref();
         let mut r = right.as_ref();
-        
+
         // Check until the right half is exhausted
         while r.is_some() {
             if l.unwrap().data != r.unwrap().data {
@@ -202,7 +202,7 @@ We count the length first to know where to split. If we tried to do this in **on
 | ---------------- | ---- | ----- |
 | Check palindrome | O(n) | O(1)  |
 
-## Key Differences
+## Key Difference
 
 |                    | C                   | Rust                   |
 | ------------------ | ------------------- | ---------------------- |

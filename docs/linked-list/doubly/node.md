@@ -1,6 +1,6 @@
 # Nodes in Doubly Linked List
 
-A doubly linked node is similar to a singly linked node, but instead of only having one pointer `next`, it has **two** pointers: `next` (a pointer to the next node) and `prev` (a pointer to the previous node).
+A node in a doubly linked list is similar to a node in a singly linked list, but instead of only having one pointer `next`, it has **two** pointers: `next` (a pointer to the next node) and `prev` (a pointer to the previous node).
 
 ## In C
 

@@ -1,6 +1,6 @@
 # What is a Queue?
 
-From the last stack problem, we learned about queues for a bit. A queue is a data structure that also stores a sequence of elements, but unlike a stack, it follows **FIFO** (First In, First Out). The first element added is the first one removed, like a queue of people waiting in line.
+A queue is a data structure that also stores a sequence of elements, but unlike a stack, it follows **FIFO** (First In, First Out). The first element added is the first one removed, like a queue of people waiting in line.
 
 ## Structure
 
@@ -16,21 +16,21 @@ Elements are added to the **back** and removed from the **front**. Just like wit
 
 ## Core Operations
 
-| Operation     | Description                                | Time |
-| ------------- | ------------------------------------------ | ---- |
-| `enqueue(x)`  | Add an element to the back                 | O(1) |
-| `dequeue()`   | Remove and return the front element        | O(1) |
-| `peek()`      | Return the front element without removing  | O(1) |
-| `isEmpty()`   | Check if the queue is empty                | O(1) |
+| Operation    | Description                               | Time |
+| ------------ | ----------------------------------------- | ---- |
+| `enqueue(x)` | Add an element to the back                | O(1) |
+| `dequeue()`  | Remove and return the front element       | O(1) |
+| `peek()`     | Return the front element without removing | O(1) |
+| `isEmpty()`  | Check if the queue is empty               | O(1) |
 
 ## Queue vs Stack
 
-|         | Queue         | Stack           |
-|---------|---------------|-----------------|
-| Order   | FIFO          | LIFO            |
-| Add     | Back          | Top             |
-| Remove  | Front         | Top             |
-| Example | Waiting line  | Stack of plates |
+|         | Queue        | Stack           |
+| ------- | ------------ | --------------- |
+| Order   | FIFO         | LIFO            |
+| Add     | Back         | Top             |
+| Remove  | Front        | Top             |
+| Example | Waiting line | Stack of plates |
 
 ## When to use a Queue
 

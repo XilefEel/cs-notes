@@ -226,7 +226,7 @@ The four pointer updates happen in this order:
 The `if (current->next != NULL)` check is crucial! If we're inserting at the end, there's no next node to update and we'll be dereferencing a null pointer, leading to a crash.
 :::
 
-## Key Differences from Singly Linked Lists
+## Key Difference
 
 | Operation         | Singly Linked     | Doubly Linked       | Why?                          |
 | ----------------- | ----------------- | ------------------- | ----------------------------- |

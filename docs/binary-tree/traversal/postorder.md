@@ -19,6 +19,7 @@ Postorder traversal is useful when we need to **delete** a tree because it visit
 ## The Approach
 
 At each node:
+
 1. **Recurse** into the left subtree
 2. **Recurse** into the right subtree
 3. **Visit** the current node
@@ -139,9 +140,9 @@ bst.postorder();  // 1 4 3 10 7 5
 
 ## Key Difference
 
-|                | C                         | Rust                              |
-| -------------- | ------------------------- | --------------------------------- |
-| Base case      | `if (node == NULL)`       | `match node { None => return }`   |
-| Visit node     | `printf("%d ", ...)`      | `print!("{} ", ...)`              |
-| Recurse        | `postorder(node->left)`   | `Self::postorder_node(...)`       |
-| Borrow node    | Pointer access            | `.as_ref()`                       |
+|             | C                       | Rust                            |
+| ----------- | ----------------------- | ------------------------------- |
+| Base case   | `if (node == NULL)`     | `match node { None => return }` |
+| Visit node  | `printf("%d ", ...)`    | `print!("{} ", ...)`            |
+| Recurse     | `postorder(node->left)` | `Self::postorder_node(...)`     |
+| Borrow node | Pointer access          | `.as_ref()`                     |

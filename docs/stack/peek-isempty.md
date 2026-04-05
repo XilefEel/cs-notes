@@ -90,16 +90,17 @@ match self.top.as_ref() {
     None => None,
 }
 ```
+
 :::
 
 ### Key Difference
 
-|             | C                       | Rust                                  |
-| ----------- | ----------------------- | ------------------------------------- |
-| Empty check | `if (s->top == NULL)`   | Handled by `Option`                   |
-| Return type | `int` (-1 on empty)     | `Option<i32>`                         |
-| Access top  | `s->top->data`          | `self.top.as_ref().map(\|n\| n.data)` |
-| Mutability  | `Stack *s` (mutable)    | `&self` (read-only)                   |
+|             | C                     | Rust                                  |
+| ----------- | --------------------- | ------------------------------------- |
+| Empty check | `if (s->top == NULL)` | Handled by `Option`                   |
+| Return type | `int` (-1 on empty)   | `Option<i32>`                         |
+| Access top  | `s->top->data`        | `self.top.as_ref().map(\|n\| n.data)` |
+| Mutability  | `Stack *s` (mutable)  | `&self` (read-only)                   |
 
 ## Is Empty
 
@@ -133,11 +134,13 @@ is_empty(&s);   // 0 (false)
 
 ::: details Alternative: Without a size field
 If we didn't have a `size` field, we could check if the stack is empty by checking if `top` is `NULL`:
+
 ```c
 int is_empty(Stack *s) {
     return s->top == NULL;
 }
 ```
+
 :::
 
 ### In Rust
@@ -168,11 +171,12 @@ fn is_empty(&self) -> bool {
     self.top.is_none()
 }
 ```
+
 :::
 
 ### Key Difference
 
-|              | C                       | Rust                  |
-| ------------ | ----------------------- | --------------------- |
-| Empty check  | `s->size == 0`          | `self.size == 0`      |
-| Return type  | `int` (1 or 0)          | `bool`                |
+|             | C              | Rust             |
+| ----------- | -------------- | ---------------- |
+| Empty check | `s->size == 0` | `self.size == 0` |
+| Return type | `int` (1 or 0) | `bool`           |

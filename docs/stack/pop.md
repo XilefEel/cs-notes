@@ -31,22 +31,22 @@ int pop(Stack *s) {
         printf("Stack is empty\n");
         return -1;
     }
-    
+
     // Save the current top
     Node *temp = s->top;
-    
+
     // Save the data to return later
     int data = temp->data;
-    
+
     // Point top to the next node
     s->top = s->top->next;
-    
+
     // Decrement the size
     s->size--;
-    
+
     // Free the old top
     free(temp);
-    
+
     // Return the popped data
     return data;
 }
@@ -122,17 +122,20 @@ let d = s.pop();    // d = NONE, stack is empty
 
 ::: info What is the ? operator?
 The `?` operator is a shorthand for returning early if a value is `None`. So, instead of writing:
+
 ```rust
 let node = match self.top.take() {
     Some(node) => node,
     None => return None,
 };
 ```
+
 We can write `self.top.take()?` and Rust handles the early return automatically. This makes the code cleaner and more concise, unlike in the C version where we have to manually check for `NULL` and return `-1`.
 :::
 
 ::: tip
 Our `pop()` method returns `Option<i32>`, meaning that if we want to use the value directly, we have to **unwrap** it, for example:
+
 ```rust
 let a = s.pop().unwrap();   // This will panic! if the stack is empty
 
@@ -147,15 +150,16 @@ match s.pop() {
     None => println!("Stack is empty"),
 }
 ```
+
 :::
 
 ## Key Difference
 
-|                 | C                       | Rust                        |
-| --------------- | ----------------------- | --------------------------- |
-| Empty check     | `if (s->top == NULL)`   | `?` operator returns `None` |
-| Save top        | `Node *temp = s->top`   | `self.top.take()`           |
-| Update top      | `s->top = s->top->next` | `self.top = node.next`      |
-| Decrement size  | `s->size--`             | `self.size -= 1`            |
-| Free node       | `free(temp)`            | Automatic                   |
-| Return value    | `int` (-1 on empty)     | `Option<i32>`               |
+|                | C                       | Rust                        |
+| -------------- | ----------------------- | --------------------------- |
+| Empty check    | `if (s->top == NULL)`   | `?` operator returns `None` |
+| Save top       | `Node *temp = s->top`   | `self.top.take()`           |
+| Update top     | `s->top = s->top->next` | `self.top = node.next`      |
+| Decrement size | `s->size--`             | `self.size -= 1`            |
+| Free node      | `free(temp)`            | Automatic                   |
+| Return value   | `int` (-1 on empty)     | `Option<i32>`               |

@@ -73,7 +73,7 @@ int min_pop(MinStack *ms) {
 
 int get_min(MinStack *ms) {
     if (is_empty(&ms->min_stack)) return -1; // or some sentinel value
-    
+
     return peek(&ms->min_stack);
 }
 
@@ -170,7 +170,6 @@ Just like in C, `MinStack` contains two stacks. `stack` is for the main values a
 
 `if Some(&data) == self.min_stack.peek()` wraps `data` in `Some(&data)` to match `Option<&i32>` that `peek()` returns.
 
-
 ## Complexity
 
 | Operation | Time | Space |
@@ -181,11 +180,11 @@ Just like in C, `MinStack` contains two stacks. `stack` is for the main values a
 
 The min stack uses **O(n)** space in the worst case, since we could push `n` elements that are all the same value or strictly decreasing. But each operation runs in **O(1)** time.
 
-## Key Differences
+## Key Difference
 
-|                 | C                                      | Rust                                   |
-| --------------- | -------------------------------------- | -------------------------------------- |
-| Two stacks      | `Stack stack, min_stack`               | `Stack<i32> stack, min_stack`          |
-| Peek min        | `peek(&ms->min_stack)`                 | `self.min_stack.peek()`                |
-| Compare min     | `data == peek(&ms->min_stack)`         | `Some(&data) == self.min_stack.peek()` |
-| Get min         | `int` (returns -1 on empty)            | `Option<&i32>`                         |
+|             | C                              | Rust                                   |
+| ----------- | ------------------------------ | -------------------------------------- |
+| Two stacks  | `Stack stack, min_stack`       | `Stack<i32> stack, min_stack`          |
+| Peek min    | `peek(&ms->min_stack)`         | `self.min_stack.peek()`                |
+| Compare min | `data == peek(&ms->min_stack)` | `Some(&data) == self.min_stack.peek()` |
+| Get min     | `int` (returns -1 on empty)    | `Option<&i32>`                         |

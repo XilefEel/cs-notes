@@ -82,8 +82,8 @@ We use `usize` instead of `i32` for size because a stack can **never** have a ne
 
 ## Key Difference
 
-|                 | C                       | Rust                                |
-| --------------- | ----------------------- | ----------------------------------- |
-| Empty stack     | `Stack s = create_stack()` | `let s = Stack::new()`           |
-| Top pointer     | `Node *top`             | `top: Option<Box<Node>>`                 |
-| Size field      | `int size`              | `usize size`                        |
+|             | C                          | Rust                     |
+| ----------- | -------------------------- | ------------------------ |
+| Empty stack | `Stack s = create_stack()` | `let s = Stack::new()`   |
+| Top pointer | `Node *top`                | `top: Option<Box<Node>>` |
+| Size field  | `int size`                 | `usize size`             |

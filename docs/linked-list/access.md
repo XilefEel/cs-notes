@@ -43,11 +43,15 @@ if (node != NULL) {
 
 `while (current != NULL)` loops as long as `current` isn't `NULL`.
 
-If we reached the target `index`, then we return `current`, which is the node we are currently in.
+`if (i == index)` checks if we've reached the target `index`. If so we return `current`, which is the pointer to the node at that index.
 
 `current = current->next` is the line that let us traverse through the list. It reassigns the node we are **currently** in to the node after it. Essentially, we **follow** the pointer to the **next node**, moving one step forward through the list.
 
 We return `NULL` if the index is out of bounds, so the caller must always check before using the result.
+
+::: tip
+Alternatively, we could return `-1` or some other sentinel value to indicate an error, but `NULL` is the standard way to represent "no node" in C.
+:::
 
 ::: warning
 Forgetting to check for `NULL` before using the returned pointer and dereferencing it will **crash** the program with a segfault.
@@ -88,7 +92,7 @@ if let Some(node) = Node::get(&head, 2) {
 
 `while let Some(node) = current` is Rust's way of writing `while (current != NULL)` in C, but it also automatically **unwraps** the `Option<Box<Node>>` and gives us access to the current **node** safely.
 
-Just like in C, if we reached the target `index`, then we return `Some(node)`.
+`if (i == index)` checks if we've reached the target `index`, just like in C. If so we return `Some(node)`.
 
 We return `None` if the index is out of bounds, but unlike C, the caller **cannot** use the result without checking it first.
 

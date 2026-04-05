@@ -5,6 +5,7 @@ Deleting a node from a BST is the most complex operation because we need to main
 ## The Three Cases
 
 **Case 1: Node has no children (leaf node)**. Simply remove it.
+
 ```
 Delete [1]:
       [5]                  [5]
@@ -15,6 +16,7 @@ Delete [1]:
 ```
 
 **Case 2: Node has one child**. Replace the node with its only child.
+
 ```
 Delete [3]:
       [5]                  [5]
@@ -25,6 +27,7 @@ Delete [3]:
 ```
 
 **Case 3: Node has two children**. Find the **inorder successor**, which is the smallest node in the right subtree. Copy its value into the current node, then delete the inorder successor.
+
 ```
 Delete [5]:
       [5]                  [6]
@@ -36,9 +39,10 @@ Delete [5]:
 
 ::: info What is the inorder successor?
 The **inorder successor** of a node is the smallest node in its **right subtree**. It is guaranteed to be the next largest value after the current node. We use it because replacing the deleted node with its inorder successor maintains the BST property since:
+
 - It's larger than everything in the left subtree
 - It's smaller than everything else in the right subtree
-:::
+  :::
 
 ## The Approach
 
@@ -166,7 +170,7 @@ impl BST {
     fn delete(&mut self, data: i32) {
         self.root = Self::delete_node(self.root.take(), data);
     }
-    
+
     // Helper to find the inorder successor
     fn find_successor(node: &Box<Node>) -> i32 {
        let mut current = node.right.as_ref().unwrap();
@@ -175,7 +179,7 @@ impl BST {
        }
        current.data
     }
-    
+
     // Recursively delete a node
     fn delete_node(node: Option<Box<Node>>, data: i32) -> Option<Box<Node>> {
         match node {
@@ -273,10 +277,10 @@ We only need the successor's **value** to copy into the current node, so we don'
 
 ## Key Difference
 
-|                   | C                              | Rust                                  |
-| ----------------- | ------------------------------ | ------------------------------------- |
-| Find minimum      | Iterative `while` loop         | Iterative `while` loop                |
-| Case 1 & 2        | `return temp` after `free()`   | `return current.right/left`           |
-| Copy successor    | `node->data = successor->data` | `current.data = successor_data`       |
-| Free node         | `free(node)`                   | Automatic                             |
-| Base case         | `return NULL`                  | `None`                                |
+|                | C                              | Rust                            |
+| -------------- | ------------------------------ | ------------------------------- |
+| Find minimum   | Iterative `while` loop         | Iterative `while` loop          |
+| Case 1 & 2     | `return temp` after `free()`   | `return current.right/left`     |
+| Copy successor | `node->data = successor->data` | `current.data = successor_data` |
+| Free node      | `free(node)`                   | Automatic                       |
+| Base case      | `return NULL`                  | `None`                          |

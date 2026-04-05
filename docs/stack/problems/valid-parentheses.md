@@ -100,7 +100,7 @@ int char_is_empty(CharStack *s) {
 // Check if the parentheses in the string are balanced
 int is_balanced(char *str) {
     CharStack s = create_char_stack();
-    
+
     int len = strlen(str);
     for (int i = 0; i < len; i++) {
         char c = str[i];
@@ -109,14 +109,14 @@ int is_balanced(char *str) {
         if (c == '(' || c == '[' || c == '{') {
             char_push(&s, c);
         }
-        
+
         // If closing brackets, check if they match the top
         else if (c == ')' || c == ']' || c == '}') {
             // If stack is empty, there's no matching opening bracket
             if (char_is_empty(&s)) {
                 return 0;
             }
-            
+
             char top = char_pop(&s);
 
             // Check if the brackets match
@@ -254,7 +254,7 @@ When we write `Stack<char>`, Rust creates a version of `Stack` where `T` is repl
 :::
 
 ::: tip
-After introducing generics, our previous stack still works perfectly! We just need to replace `Stack::new()` with `Stack::<i32>::new()` wherever it was used before. 
+After introducing generics, our previous stack still works perfectly! We just need to replace `Stack::new()` with `Stack::<i32>::new()` wherever it was used before.
 :::
 
 ## Complexity
@@ -263,12 +263,11 @@ After introducing generics, our previous stack still works perfectly! We just ne
 | -------------- | ---- | ----- |
 | Check balanced | O(n) | O(n)  |
 
-
 ## Key Difference
 
-|                | C                            | Rust                     |
-| -------------- | ---------------------------- | ------------------------ |
-| Generic stack  | Not possible, duplicate code | `Stack<T>`               |
-| Iterate string | `for` with `strlen`          | `str.chars()`            |
-| Match brackets | `if/else if`                 | `match`                  |
-| Empty check    | `char_is_empty(&s)`          | `s.is_empty()`           |
+|                | C                            | Rust           |
+| -------------- | ---------------------------- | -------------- |
+| Generic stack  | Not possible, duplicate code | `Stack<T>`     |
+| Iterate string | `for` with `strlen`          | `str.chars()`  |
+| Match brackets | `if/else if`                 | `match`        |
+| Empty check    | `char_is_empty(&s)`          | `s.is_empty()` |

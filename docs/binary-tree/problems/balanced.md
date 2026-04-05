@@ -10,7 +10,7 @@ Balanced:                   Not balanced:
     /   \                     /
   [1]   [4]                 [1]
 
-Height diff at [5] = 0      Height diff at [5] = 2 
+Height diff at [5] = 0      Height diff at [5] = 2
 ```
 
 ## The Approach
@@ -170,8 +170,8 @@ println!("{}", unbalanced.is_balanced());  // false
 
 ## Key Difference
 
-|                   | C                                  | Rust                                    |
-| ----------------- | ---------------------------------- | --------------------------------------- |
-| Absolute value    | `abs(left_height - right_height)`  | `(left_height - right_height).abs()`    |
-| Return balanced   | `check_balanced(...) != -1`        | `Self::check_balanced(...) != -1`       |
-| Sentinel value    | `-1`                               | `-1`                                    |
+|                 | C                                 | Rust                                 |
+| --------------- | --------------------------------- | ------------------------------------ |
+| Absolute value  | `abs(left_height - right_height)` | `(left_height - right_height).abs()` |
+| Return balanced | `check_balanced(...) != -1`       | `Self::check_balanced(...) != -1`    |
+| Sentinel value  | `-1`                              | `-1`                                 |

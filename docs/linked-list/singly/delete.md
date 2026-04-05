@@ -232,7 +232,7 @@ For the single-node case, we check `if node.next.is_none()` and call `delete_at_
 
 Once we're at the second-to-last node, we set `current.next = None`, which removes the last node and Rust will automatically drop it.
 
-:::info What is as_ref()?
+::: info What is as_ref()?
 `as_ref()` lets us borrow the value inside an `Option` instead of moving it out. This is useful when we only want to **look** at the data, not modify or take it. So instead of owning the value, we get a **reference** to it.
 :::
 

@@ -216,7 +216,7 @@ In our case, we use it to convert `Option<&mut Box<Node>>` to `Option<&mut Node>
 | ------------------- | ---- | ----- |
 | Remove nth from end | O(n) | O(1)  |
 
-## Key Differences
+## Key Difference
 
 |             | C                                       | Rust                                             |
 | ----------- | --------------------------------------- | ------------------------------------------------ |

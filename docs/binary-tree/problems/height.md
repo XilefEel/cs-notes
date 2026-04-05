@@ -68,6 +68,7 @@ insert(&bst, 10);
 
 printf("%d\n", height(bst.root));   // 2
 ```
+
 `int max(int a, int b)` is a helper function to find the maximum of two integers.
 
 `if (node == NULL) return -1` is the base case, since an empty node has a height of `-1`.
@@ -132,8 +133,8 @@ println!("{}", bst.height());   // 2
 
 ## Key Difference
 
-|                | C                                    | Rust                          |
-| -------------- | ------------------------------------ | ----------------------------- |
-| Base case      | `return -1`                          | `None => -1`                  |
-| Max height     | Ternary operator `a > b ? a : b`     | `.max()`                      |
-| Return type    | `int`                                | `i32`                         |
+|             | C                                | Rust         |
+| ----------- | -------------------------------- | ------------ |
+| Base case   | `return -1`                      | `None => -1` |
+| Max height  | Ternary operator `a > b ? a : b` | `.max()`     |
+| Return type | `int`                            | `i32`        |

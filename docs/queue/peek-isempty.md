@@ -90,11 +90,11 @@ Note that `println!` and most Rust operations auto-dereference, so in practice y
 
 ### Key Difference
 
-|             | C                        | Rust                                    |
-| ----------- | ------------------------ | --------------------------------------- |
-| Empty check | `if (q->front == NULL)`  | Handled by `Option`                     |
-| Return type | `int` (-1 on empty)      | `Option<&T>`                            |
-| Access front| `q->front->data`         | `self.front.as_ref().map(\|n\| &n.data)`|
+|              | C                       | Rust                                     |
+| ------------ | ----------------------- | ---------------------------------------- |
+| Empty check  | `if (q->front == NULL)` | Handled by `Option`                      |
+| Return type  | `int` (-1 on empty)     | `Option<&T>`                             |
+| Access front | `q->front->data`        | `self.front.as_ref().map(\|n\| &n.data)` |
 
 ## Is Empty
 
@@ -128,11 +128,13 @@ is_empty(&q);   // 0 (false)
 
 ::: details Alternative: Without a size field
 If we didn't have a `size` field, we could check if the queue is empty by checking if `front` is `NULL`:
+
 ```c
 int is_empty(Queue *q) {
     return q->front == NULL;
 }
 ```
+
 :::
 
 ### In Rust
@@ -156,16 +158,18 @@ q.is_empty();   // false
 
 ::: details Alternative: Without a size field
 If we didn't have a `size` field, we could check if the queue is empty by checking if `front` is `None`:
+
 ```rust
 fn is_empty(&self) -> bool {
     self.front.is_none()
 }
 ```
+
 :::
 
 ### Key Difference
 
-|             | C                | Rust              |
-| ----------- | ---------------- | ----------------- |
-| Empty check | `q->size == 0`   | `self.size == 0`  |
-| Return type | `int` (1 or 0)   | `bool`            |
+|             | C              | Rust             |
+| ----------- | -------------- | ---------------- |
+| Empty check | `q->size == 0` | `self.size == 0` |
+| Return type | `int` (1 or 0) | `bool`           |

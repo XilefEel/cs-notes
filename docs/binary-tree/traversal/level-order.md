@@ -109,7 +109,7 @@ void level_order(BST *bst) {
     }
 
     BFSQueue q = create_bfs_queue();
-    
+
     // Enqueue the root node to start the traversal
     bfs_enqueue(&q, bst->root);
 
@@ -207,7 +207,7 @@ bst.level_order();  // 5 3 7 1 4 10
 `node.left.as_deref()` borrows the left child without taking ownership so we can enqueue a pointer to it.
 
 ::: info What is *const Node?
-`*const Node` is a raw pointer type that points to a `Node` but does not have any ownership to it. It is used here to store pointers to nodes in the queue without taking ownership of them, since we just want to read the nodes without modifying them. If we used `*mut Node`, it would imply we might modify the nodes, which is not what we are doing.
+`*const Node`is a raw pointer type that points to a`Node`but does not have any ownership to it. It is used here to store pointers to nodes in the queue without taking ownership of them, since we just want to read the nodes without modifying them. If we used`\*mut Node`, it would imply we might modify the nodes, which is not what we are doing.
 
 We use `unsafe` blocks to dereference these raw pointers when we need to access the node data or its children.
 :::
@@ -231,8 +231,8 @@ Space is O(w) where `w` is the maximum width of the tree or simply the maximum n
 
 ## Key Difference
 
-|                | C                           | Rust                              |
-| -------------- | --------------------------- | --------------------------------- |
-| Queue type     | `BFSQueue` of `Node *`      | `Queue<*const Node>`              |
-| Dequeue        | `dequeue(&q)`               | `q.dequeue().unwrap()`            |
-| Check children | `if (node->left != NULL)`   | `if let Some(left) = ...`         |
+|                | C                         | Rust                      |
+| -------------- | ------------------------- | ------------------------- |
+| Queue type     | `BFSQueue` of `Node *`    | `Queue<*const Node>`      |
+| Dequeue        | `dequeue(&q)`             | `q.dequeue().unwrap()`    |
+| Check children | `if (node->left != NULL)` | `if let Some(left) = ...` |

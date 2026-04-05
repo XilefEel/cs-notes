@@ -28,7 +28,7 @@ pop out_stack -> 1
 
 Enqueue 4:
 in_stack:   [4]
-out_stack:  [3] -> [2] 
+out_stack:  [3] -> [2]
 
 Dequeue:
 out_stack is not empty, just pop:
@@ -174,17 +174,17 @@ Just like in C, `while let Some(data) = self.in_stack.pop()` pours all elements 
 
 ## Complexity
 
-| Operation | Time       | Space |
-| --------- | ---------- | ----- |
-| enqueue   | O(1)       | O(1)  |
+| Operation | Time           | Space |
+| --------- | -------------- | ----- |
+| enqueue   | O(1)           | O(1)  |
 | dequeue   | O(1) amortized | O(n)  |
 
 `dequeue` is O(1) **amortized**, since each element is moved from `in_stack` to `out_stack` at most once, so the average cost per operation is O(1) even though a single dequeue can be O(n) when pouring.
 
 ## Key Difference
 
-|               | C                                   | Rust                                    |
-| ------------- | ----------------------------------- | --------------------------------------- |
-| Pour loop     | `while (!is_empty(&q->in_stack))`     | `while let Some(data) = self.in_stack.pop()` |
-| Dequeue       | `return pop(&q->out_stack)`            | `self.out_stack.pop()`                     |
-| Empty check   | `is_empty(&q->out_stack)`              | `self.out_stack.is_empty()`                |
+|             | C                                 | Rust                                         |
+| ----------- | --------------------------------- | -------------------------------------------- |
+| Pour loop   | `while (!is_empty(&q->in_stack))` | `while let Some(data) = self.in_stack.pop()` |
+| Dequeue     | `return pop(&q->out_stack)`       | `self.out_stack.pop()`                       |
+| Empty check | `is_empty(&q->out_stack)`         | `self.out_stack.is_empty()`                  |

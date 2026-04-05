@@ -8,7 +8,7 @@ There are three ways to insert a new node into a singly linked list:
 
 ## Insert at Head
 
-Adding a node to the front of the linked list is the simplest and fastest operation. We don't need to traverse the list at all, since  `head` is always accessible using our **head pointer**.
+Adding a node to the front of the linked list is the simplest and fastest operation. We don't need to traverse the list at all, since `head` is always accessible using our **head pointer**.
 
 ```
 Before: HEAD -> [10] -> [20] -> NULL
@@ -49,7 +49,7 @@ insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 
 Notice that we pass `Node **head` (a pointer to a pointer) in the function signature and `&head` (an address) when calling it. This is because we need to modify the **original** `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address.
 
-:::tip
+::: tip
 Before, when we traversed through a list, we only used `Node *head` because we were **not** changing where head points to. We were simply **moving** a local copy of the pointer through the list to read or print each node. If we used `Node *head` instead, the function would only modify a **local copy**, so the caller's head wouldn't change.
 :::
 
@@ -63,7 +63,7 @@ We **must** set `new_node->next = *head` before updating `*head = new_node`. If 
 
 ### In Rust
 
-Unlike in C where we modify `head` in place, in Rust, we must **consume** or **move** the old head and **return** a new node that points to it. This might feel weird at first, but it's how Rust's ownership system works, we can't have **two things owning or pointing the same nod**e.
+Unlike in C where we modify `head` in place, in Rust, we must **consume** or **move** the old head and **return** a new node that points to it. This might feel weird at first, but it's how Rust's ownership system works, we can't have **two things owning or pointing the same node**.
 
 ```rust
 impl Node {

@@ -4,7 +4,7 @@ A linked list can have a **cycle**.
 
 A cycle in a linked list occurs when a node's `next` pointer points back to a **previous** node, creating a **loop**. This means we can keep following `next` pointers forever without reaching `NULL`.
 
-Our job is to detect wheter a given linked list contains a **cycle** without using **extra space** (like a hash table to track visited nodes).
+Our job is to detect whether a given linked list contains a **cycle** without using **extra space** (like a hash table to track visited nodes).
 
 For example:
 

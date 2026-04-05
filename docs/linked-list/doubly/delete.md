@@ -238,7 +238,7 @@ Unlike singly linked lists where we stop at `index - 1`, we can traverse directl
 Always check `if (current->prev != NULL)` and `if (current->next != NULL)` to avoid dereferencing `NULL` when deleting edge nodes.
 :::
 
-## Key Differences from Singly Linked Lists
+## Key Difference
 
 | Operation       | Singly Linked     | Doubly Linked     | Why?                                 |
 | --------------- | ----------------- | ----------------- | ------------------------------------ |

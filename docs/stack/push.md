@@ -25,13 +25,13 @@ void push(Stack *s, int data) {
     // Create a new node
     Node *node = (Node *)malloc(sizeof(Node));
     node->data = data;
-    
+
     // Point the new node to the old top
     node->next = s->top;
-    
+
     // Update top to point to the new node
     s->top = node;
-    
+
     // Increment the size
     s->size++;
 }
@@ -65,10 +65,10 @@ impl Stack {
             data,
             next: self.top.take(), // Take ownership of the current top and set it as the next node
         });
-        
+
         // Update top to point to the new node
         self.top = Some(node);
-        
+
         // Increment the size
         self.size += 1;
     }
@@ -91,10 +91,10 @@ s.push(30);  // TOP -> [30] -> [20] -> [10] -> NONE
 
 ## Key Difference
 
-|                    | C                       | Rust                      |
-| ------------------ | ----------------------- | ------------------------- |
-| Allocate node      | `malloc(sizeof(Node))`  | `Box::new(Node { ... })`  |
-| Link to old top    | `node->next = s->top`   | `next: self.top.take()`   |
-| Update top         | `s->top = node`         | `self.top = Some(node)`   |
-| Increment size     | `s->size++`             | `self.size += 1`          |
-| Allocation failure | Returns `NULL` silently | Panics immediately        |
+|                    | C                       | Rust                     |
+| ------------------ | ----------------------- | ------------------------ |
+| Allocate node      | `malloc(sizeof(Node))`  | `Box::new(Node { ... })` |
+| Link to old top    | `node->next = s->top`   | `next: self.top.take()`  |
+| Update top         | `s->top = node`         | `self.top = Some(node)`  |
+| Increment size     | `s->size++`             | `self.size += 1`         |
+| Allocation failure | Returns `NULL` silently | Panics immediately       |

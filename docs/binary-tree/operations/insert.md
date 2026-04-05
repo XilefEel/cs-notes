@@ -137,7 +137,7 @@ impl BST {
     fn insert(&mut self, data: i32) {
         self.root = Self::insert_node(self.root.take(), data);
     }
-    
+
     // Helper function to recursively insert a node
     fn insert_node(node: Option<Box<Node>>, data: i32) -> Option<Box<Node>> {
         match node {
@@ -154,7 +154,7 @@ impl BST {
                 } else if data > current.data {
                     current.right = Self::insert_node(current.right.take(), data);
                 }
-                
+
                 // Return the current node (unchanged if data already exists)
                 Some(current)
             }
@@ -203,9 +203,9 @@ The worst case is O(n) when the tree is completely unbalanced. For example, inse
 
 ## Key Difference
 
-|                  | C                              | Rust                                  |
-| ---------------- | ------------------------------ | ------------------------------------- |
-| Base case        | `if (node == NULL)`            | `match node { None => ... }`          |
-| Recurse left     | `node->left = insert_node(...)` | `current.left = Self::insert_node(...)` |
-| Move child       | Pointer assignment             | `.take()` to transfer ownership       |
-| Return node      | `return node`                  | `Some(current)`                       |
+|              | C                               | Rust                                    |
+| ------------ | ------------------------------- | --------------------------------------- |
+| Base case    | `if (node == NULL)`             | `match node { None => ... }`            |
+| Recurse left | `node->left = insert_node(...)` | `current.left = Self::insert_node(...)` |
+| Move child   | Pointer assignment              | `.take()` to transfer ownership         |
+| Return node  | `return node`                   | `Some(current)`                         |

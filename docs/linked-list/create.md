@@ -44,8 +44,10 @@ head = a;
 After linking, the linked list looks like this:
 
 ```
-HEAD --> [1 | next] --> [2 | next] --> [3 | NULL]
+HEAD -> [1 | next] -> [2 | next] -> [3 | NULL]
 ```
+
+`Node *create_node(int data)` takes an integer `data` and creates a new node on the heap with that data. It returns a **pointer** to the newly created node.
 
 `a->next = b` links node `a` to node `b` by storing `b`'s memory address in `a`'s next pointer. Same goes with node `b` and node `c`.
 
@@ -53,7 +55,6 @@ HEAD --> [1 | next] --> [2 | next] --> [3 | NULL]
 
 ::: warning
 `malloc` can fail and return `NULL` if the system is out of memory. In production code we should always check if `node` is `NULL` before using it to avoid dereferencing a `NULL` pointer, which would crash the program.
-
 :::
 
 ## In Rust
@@ -82,13 +83,13 @@ let head = Some(a);
 After linking, the list looks like this:
 
 ```
-head --> [1 | Some] --> [2 | Some] --> [3 | None]
+HEAD -> [1 | SOME] -> [2 | SOME] -> [3 | NONE]
 ```
 
 Notice that we link the nodes in **reverse order** (we wrote `b.next = Some(c)` before `a.next = Some(b)`). This is because of a concept in Rust known as **ownership**. Once we move `b` into `a.next`, we can no longer access `b` directly to set its `next`.
 
 ::: info What is impl?
-`impl` stands for "implementation". It lets we define **methods** (functions) that belong to a specific **type**.
+`impl` stands for "implementation". It lets us define **methods** (functions) that belong to a specific **type**.
 
 In C, if we want functions for a `Node`, we write standalone functions like this:
 

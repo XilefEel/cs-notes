@@ -26,12 +26,12 @@ Elements can only be **pushed** onto the top or **popped** off the top. We canno
 
 ## Core Operations
 
-| Operation   | Description                        | Time |
-| ----------- | ---------------------------------- | ---- |
-| `push(x)`   | Add an element to the top          | O(1) |
-| `pop()`     | Remove and return the top element  | O(1) |
+| Operation   | Description                                | Time |
+| ----------- | ------------------------------------------ | ---- |
+| `push(x)`   | Add an element to the top                  | O(1) |
+| `pop()`     | Remove and return the top element          | O(1) |
 | `peek()`    | Return the top element without removing it | O(1) |
-| `isEmpty()` | Check if the stack is empty        | O(1) |
+| `isEmpty()` | Check if the stack is empty                | O(1) |
 
 ## When to use a Stack
 

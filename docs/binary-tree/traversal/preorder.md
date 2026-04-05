@@ -15,6 +15,7 @@ Preorder: 5, 3, 1, 4, 7, 10
 ## The Approach
 
 At each node:
+
 1. **Visit** the current node
 2. **Recurse** into the left subtree
 3. **Recurse** into the right subtree
@@ -141,9 +142,9 @@ Space is O(h) where `h` is the height of the tree. This is the maximum depth of 
 
 ## Key Difference
 
-|                | C                        | Rust                              |
-| -------------- | ------------------------ | --------------------------------- |
-| Base case      | `if (node == NULL)`      | `match node { None => return }`   |
-| Visit node     | `printf("%d ", ...)`     | `print!("{} ", ...)`              |
-| Recurse        | `preorder(node->left)`   | `Self::preorder_node(...)`        |
-| Borrow node    | Pointer access           | `.as_ref()`                       |
+|             | C                      | Rust                            |
+| ----------- | ---------------------- | ------------------------------- |
+| Base case   | `if (node == NULL)`    | `match node { None => return }` |
+| Visit node  | `printf("%d ", ...)`   | `print!("{} ", ...)`            |
+| Recurse     | `preorder(node->left)` | `Self::preorder_node(...)`      |
+| Borrow node | Pointer access         | `.as_ref()`                     |
