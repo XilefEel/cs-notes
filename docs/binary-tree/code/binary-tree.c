@@ -205,7 +205,7 @@ void level_order(BST *bst) {
 
 int max(int a, int b) {
     return a > b ? a : b;
-}
+};
 
 int height(Node *node) {
     if (node == NULL) {
@@ -214,6 +214,31 @@ int height(Node *node) {
 
     return 1 + max(height(node->left), height(node->right));
 }
+
+
+int check_balanced(Node *node) {
+    if (node == NULL) {
+        return 0;
+    }
+
+    int left_height = check_balanced(node->left);
+    int right_height = check_balanced(node->right);
+
+    if (left_height == -1 || right_height == -1) {
+        return -1;
+    }
+
+    if (abs(left_height - right_height) > 1) {
+        return -1;
+    }
+
+    return 1 + max(left_height, right_height);
+}
+
+int is_balanced(BST *bst) {
+    return check_balanced(bst->root) != -1;
+}
+
 
 int main() {
     BST bst = create_bst();
@@ -253,6 +278,7 @@ int main() {
     }
 
     printf("%d\n", height(bst.root));   // 2
+    printf("%d\n", is_balanced(&bst));  // 1 (true)
 
     delete(&bst, 1);    // Case 1: leaf node
     //        [5]
@@ -272,6 +298,13 @@ int main() {
     //        [7]
     //       /   \
     //     [4]   [10]
+
+    BST unbalanced = create_bst();
+    insert(&unbalanced, 5);
+    insert(&unbalanced, 3);
+    insert(&unbalanced, 1);
+
+    printf("%d\n", is_balanced(&unbalanced));   // 0 (false)
 
     return 0;
 }

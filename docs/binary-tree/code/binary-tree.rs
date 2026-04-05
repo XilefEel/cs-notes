@@ -238,6 +238,30 @@ impl BST {
             }
         }
     }
+
+    fn is_balanced(&self) -> bool {
+        Self::check_balanced(self.root.as_ref()) != -1
+    }
+
+    fn check_balanced(node: Option<&Box<Node>>) -> i32 {
+        match node {
+            None => 0,
+            Some(current) => {
+                let left_height = Self::check_balanced(current.left.as_ref());
+                let right_height = Self::check_balanced(current.right.as_ref());
+
+                if left_height == -1 || right_height == -1 {
+                    return -1;
+                }
+
+                if (left_height - right_height).abs() > 1 {
+                    return -1;
+                }
+
+                1 + left_height.max(right_height)
+            }
+        }
+    }
 }
 
 fn main() {
@@ -273,7 +297,8 @@ fn main() {
         None => println!("Not found"), // Not found
     }
 
-    println!("{}", bst.height());   // 2
+    println!("{}", bst.height()); // 2
+    println!("{}", bst.is_balanced()); // true
 
     bst.delete(1); // Case 1: leaf node
                    //        [5]
