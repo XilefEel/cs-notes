@@ -10,9 +10,26 @@ typedef struct Node {
     struct Node *next;  // Pointer to the next node
     struct Node *prev;  // Pointer to the previous node
 } Node;
+
+// Creates a new node on the heap
+Node* create_node(int data) {
+    // Allocate memory for a new node
+    Node *node = (Node *)malloc(sizeof(Node));
+
+    // Set the data
+    node->data = data;
+
+    // Initially, the next and prev doesn't point to anything
+    node->next = NULL;
+    node->prev = NULL;
+
+    return node;
+}
 ```
 
 The `prev` pointer lets us traverse backwards through the list, which is the main advantage of doubly linked lists.
+
+`node->prev = NULL;` initializes the `prev` pointer to `NULL`, since a new node doesn't have a previous node until we link it into the list.
 
 ## In Rust?
 
@@ -21,7 +38,7 @@ Yeah imma be honest, I tried to implement this in Rust, but then John Rust (Ferr
 So... for doubly linked lists, **no Rust version**.
 
 ::: tip Why Doubly Linked Lists Break Rust
-Each node needs both `next` and `prev` pointers. But if Node A points to Node B's `next`, and Node B points to Node A's `prev`, we'd have **circular ownership**.
+Each node needs both `next` and `prev` pointers. But if Node A points to Node B, and Node B points to Node A, we'd have **circular ownership**.
 
-Rust's entire safety model is built on **single ownership**. Doubly linked lists fundamentally violate this. It _is_ possible to make them work with `Rc<RefCell<Node>>` or raw pointers, but it's very painful and un-idiomatic.
+Rust's entire safety model is built on **single ownership**. Doubly linked lists fundamentally violate this. It _is_ possible to make them work with `Rc<RefCell<Node>>` or by spamming raw pointers and `unsafe` code, but it's very painful and un-idiomatic.
 :::

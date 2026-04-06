@@ -69,13 +69,9 @@ delete_at_head(&head);      // NULL <- [20] <-> [10] -> NULL
 
 `*head = (*head)->next` moves the head pointer to the next node.
 
-`if (*head != NULL)` checks if there's still a node in the list after deleting. If yes, we set its `prev` to `NULL` since it's now the new head.
+`if (*head != NULL)` checks if there's still a node in the list after deleting. If there is, we set its `prev` to `NULL` since it's now the new head.
 
 `free(temp)` deallocates the old head.
-
-::: warning
-We have to update the new head's `prev` pointer to `NULL`. Forgetting this breaks backward traversal.
-:::
 
 ## Delete at Tail
 
@@ -235,14 +231,13 @@ Unlike singly linked lists where we stop at `index - 1`, we can traverse directl
 `free(current)` deallocates the target node.
 
 ::: warning
-Always check `if (current->prev != NULL)` and `if (current->next != NULL)` to avoid dereferencing `NULL` when deleting edge nodes.
+Always check `if (current->prev != NULL)` and `if (current->next != NULL)` to avoid dereferencing `NULL` when deleting at the head or tail respectively.
 :::
 
 ## Key Difference
 
-| Operation       | Singly Linked     | Doubly Linked     | Why?                                 |
-| --------------- | ----------------- | ----------------- | ------------------------------------ |
-| Delete at head  | 2 pointer updates | 3 pointer updates | Must update new head's `prev`        |
-| Delete at tail  | 2 pointer updates | 3 pointer updates | Can access second-to-last via `prev` |
-| Delete at index | 2 pointer updates | 4 pointer updates | Both directions need updating        |
-| Memory overhead | Lower             | Higher            | Extra `prev` pointer per node        |
+| Operation       | Singly Linked     | Doubly Linked     |
+| --------------- | ----------------- | ----------------- | 
+| Delete at head  | 2 pointer updates | 3 pointer updates | 
+| Delete at tail  | 2 pointer updates | 3 pointer updates | 
+| Delete at index | 2 pointer updates | 4 pointer updates |

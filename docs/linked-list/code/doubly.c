@@ -4,7 +4,7 @@
 typedef struct Node {
     int data;
     struct Node *next;
-    struct Node *prev;  
+    struct Node *prev;
 } Node;
 
 
@@ -44,7 +44,6 @@ void free_list(Node *head) {
 
 void insert_at_head(Node **head, int data) {
     Node *new_node = create_node(data);
-    new_node->prev = NULL;
     new_node->next = *head;
 
     if (*head != NULL) {
@@ -60,7 +59,6 @@ void insert_at_tail(Node **head, int data) {
     new_node->next = NULL;
 
     if (*head == NULL) {
-        new_node->prev = NULL;
         *head = new_node;
         return;
     }

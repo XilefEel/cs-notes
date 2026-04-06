@@ -38,9 +38,6 @@ void insert_at_head(Node **head, int data) {
     // Create a new node
     Node *new_node = create_node(data);
 
-    // New head has no previous node
-    new_node->prev = NULL;
-
     // Point the new node to the old head
     new_node->next = *head;
 
@@ -65,7 +62,7 @@ insert_at_head(&head, 30);  // HEAD -> [30] <-> [20] <-> [10] -> NULL
 `(*head)->prev = new_node` updates the old head's `prev` to point to the new node.
 
 ::: warning
-Don't forget to update `prev` pointers! Forgetting this is a common bug that breaks backwards traversal.
+The `if (*head != NULL)` check is necessary to avoid dereferencing a null pointer when the list is empty, since `head` would be `NULL` and we would be dereferencing a null pointer, leading to a crash.
 :::
 
 ## Insert at Tail
@@ -104,7 +101,6 @@ void insert_at_tail(Node **head, int data) {
 
     // If list is empty, new node becomes the head
     if (*head == NULL) {
-        new_node->prev = NULL;  // Don't forget to update prev
         *head = new_node;
         return;
     }
@@ -215,23 +211,23 @@ insert_at_index(&head, 20, 1);  // HEAD -> [10] <-> [20] <-> [30] -> NULL
 
 We stop at `index - 1` because we need access to the node **before** the insertion point to rewire its pointers.
 
-The four pointer updates happen in this order:
+`new_node->next = current->next` makes `new node` point forward to the node `current` was pointing to.
 
-1. `new_node->next = current->next` makes `new node` point forward to the node `current` was pointing to.
-2. `new_node->prev = current` updates `new node` to point backward to `current`.
-3. `current->next->prev = new_node` makes the node after `new node` point back to it.
-4. Finally, `current->next = new_node` points `current` forward to the `new node`.
+`new_node->prev = current` makes `new node` to point backward to `current`.
+
+`current->next->prev = new_node` makes the node after `new node` point back to it.
+
+Finally, `current->next = new_node` points `current` forward to the `new node`.
 
 ::: warning
-The `if (current->next != NULL)` check is crucial! If we're inserting at the end, there's no next node to update and we'll be dereferencing a null pointer, leading to a crash.
+The `if (current->next != NULL)` check is crucial, since if we're inserting at the end, there's no next node to update and we'll be dereferencing a null pointer, leading to a crash.
 :::
 
 ## Key Difference
 
-| Operation         | Singly Linked     | Doubly Linked       | Why?                          |
-| ----------------- | ----------------- | ------------------- | ----------------------------- |
-| Pointers per node | 1 (`next`)        | 2 (`next` + `prev`) | Need bidirectional links      |
-| Insert at head    | 2 pointer updates | 3 pointer updates   | Must update old head's `prev` |
-| Insert at tail    | 2 pointer updates | 3 pointer updates   | Must link backward            |
-| Insert at index   | 2 pointer updates | 4 pointer updates   | Both directions need updating |
-| Memory overhead   | Lower             | Higher              | Extra `prev` pointer per node |
+| Operation         | Singly Linked     | Doubly Linked       |
+| ----------------- | ----------------- | ------------------- |
+| Pointers per node | 1 (`next`)        | 2 (`next` + `prev`) |
+| Insert at head    | 2 pointer updates | 3 pointer updates   |
+| Insert at tail    | 2 pointer updates | 3 pointer updates   |       
+| Insert at index   | 2 pointer updates | 4 pointer updates   |
