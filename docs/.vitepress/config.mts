@@ -86,6 +86,10 @@ export default defineConfig({
                 text: "Check if Palindrome",
                 link: "/linked-list/problems/palindrome",
               },
+              {
+                text: "Priority Queue",
+                link: "/linked-list/problems/priority-queue",
+              },
             ],
           },
         ],

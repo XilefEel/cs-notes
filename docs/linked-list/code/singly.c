@@ -303,6 +303,58 @@ int is_palindrome(Node *head) {
     return result;
 }
 
+typedef enum {
+    TOP = 0,
+    HIGH = 1,
+    NORMAL = 2,
+    LOW = 3,
+} Priority;
+
+typedef struct PriorityNode {
+    int data;
+    Priority priority;
+    struct PriorityNode *next;
+} PriorityNode;
+
+PriorityNode *create_priority_node(int data, Priority priority) {
+    PriorityNode *node = (PriorityNode *)malloc(sizeof(PriorityNode));
+    node->data = data;
+    node->priority = priority;
+    node->next = NULL;
+    return node;
+}
+
+void enqueue(PriorityNode **head, int data, Priority priority) {
+    PriorityNode *node = create_priority_node(data, priority);
+
+    if (*head == NULL || node->priority < (*head)->priority) {
+        node->next = *head;
+        *head = node;
+        return;
+    }
+
+    PriorityNode *current = *head;
+    while (current->next != NULL && current->next->priority <= priority) {
+        current = current->next;
+    }
+
+    node->next = current->next;
+    current->next = node;
+}
+
+int dequeue(PriorityNode **head) {
+    if (*head == NULL) {
+        printf("Queue is empty\n");
+        return -1;
+    }
+
+    PriorityNode *temp = *head;
+    int data = temp->data;
+    *head = (*head)->next;
+    free(temp);
+    return data;
+}
+
 int main() {
     Node *head = NULL;
 
@@ -385,6 +437,21 @@ int main() {
     } else {
         printf("Not a palindrome\n");
     }
+
+    PriorityNode *priority_queue = NULL;
+    enqueue(&priority_queue, 5, NORMAL);
+    enqueue(&priority_queue, 3, HIGH);
+    enqueue(&priority_queue, 8, LOW);
+    enqueue(&priority_queue, 1, NORMAL);
+    enqueue(&priority_queue, 4, HIGH);
+    enqueue(&priority_queue, 7, LOW);
+    enqueue(&priority_queue, 2, TOP);
+
+    // [2:TOP] -> [3:HIGH] -> [4:HIGH] -> [5:NORMAL] -> [1:NORMAL] -> [8:LOW] -> [7:LOW]
+
+    printf("%d\n", dequeue(&priority_queue));  // 2 (TOP)
+    printf("%d\n", dequeue(&priority_queue));  // 3 (HIGH)
+    printf("%d\n", dequeue(&priority_queue));  // 4 (HIGH)
 
     return 0;
 }

@@ -297,6 +297,61 @@ impl Node {
     }
 }
 
+#[derive(PartialEq, PartialOrd, Eq, Ord)]
+enum Priority {
+    Top = 0,
+    High = 1,
+    Normal = 2,
+    Low = 3,
+}
+
+struct PriorityNode {
+    data: i32,
+    priority: Priority,
+    next: Option<Box<PriorityNode>>,
+}
+
+fn create_node(data: i32, priority: Priority) -> Box<PriorityNode> {
+    Box::new(PriorityNode {
+        data,
+        priority,
+        next: None,
+    })
+}
+
+fn enqueue(
+    head: Option<Box<PriorityNode>>,
+    data: i32,
+    priority: Priority,
+) -> Option<Box<PriorityNode>> {
+    let mut node = create_node(data, priority);
+
+    match head {
+        None => Some(node),
+        Some(current) if node.priority < current.priority => {
+            node.next = Some(current);
+            Some(node)
+        }
+        Some(mut current) => {
+            let mut walker = &mut current;
+            while walker.next.is_some() && walker.next.as_ref().unwrap().priority <= node.priority {
+                walker = walker.next.as_mut().unwrap();
+            }
+
+            node.next = walker.next.take();
+            walker.next = Some(node);
+
+            Some(current)
+        }
+    }
+}
+
+fn dequeue(head: &mut Option<Box<PriorityNode>>) -> Option<i32> {
+    let node = head.take()?;
+    *head = node.next;
+    Some(node.data)
+}
+
 fn main() {
     let mut head = None;
 
@@ -361,4 +416,24 @@ fn main() {
     } else {
         println!("Not a palindrome");
     }
+
+    let mut head = None;
+    head = enqueue(head, 5, Priority::Normal);
+    head = enqueue(head, 3, Priority::High);
+    head = enqueue(head, 8, Priority::Low);
+    head = enqueue(head, 1, Priority::Normal);
+    head = enqueue(head, 4, Priority::High);
+    head = enqueue(head, 7, Priority::Low);
+    head = enqueue(head, 2, Priority::Top);
+
+    // [2:Top] -> [3:High] -> [4:High] -> [5:Normal] -> [1:Normal] -> [8:Low] -> [7:Low]
+
+    let data = dequeue(&mut head);
+    println!("{}", data.unwrap()); // 2 (Top)
+
+    let data = dequeue(&mut head);
+    println!("{}", data.unwrap()); // 3 (High)
+
+    let data = dequeue(&mut head);
+    println!("{}", data.unwrap()); // 4 (High)
 }
