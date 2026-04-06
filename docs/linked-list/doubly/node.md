@@ -29,7 +29,7 @@ Node* create_node(int data) {
 
 The `prev` pointer lets us traverse backwards through the list, which is the main advantage of doubly linked lists.
 
-`node->prev = NULL;` initializes the `prev` pointer to `NULL`, since a new node doesn't have a previous node until we link it into the list.
+We now also have to do `node->prev = NULL` to initialize the `prev` pointer to `NULL`.
 
 ## In Rust?
 

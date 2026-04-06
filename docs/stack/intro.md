@@ -1,6 +1,6 @@
 # What is a Stack?
 
-A stack is a data structure that stores a sequence of elements, but unlike an array or linked list, we can only access elements from **one end**, which is the **top**.
+A stack is a data structure that stores a sequence of elements, but unlike an array or a [linked list](../linked-list/intro.md), we can only access elements from **one end**, which is the **top**.
 
 This is called **LIFO** (Last In, First Out). The **last element** we put in is the **first one** that gets out, like a stack of pancakes.
 

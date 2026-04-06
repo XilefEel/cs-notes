@@ -1,6 +1,6 @@
 # Enqueuing an Element
 
-Enqueuing adds a new element to the **back** of the queue. Enqueuing an element is also very similar to inserting a node at the head of a linked list.
+Enqueuing adds a new element to the **back** of the queue. Enqueuing an element is also very similar to inserting a node at the head of a [linked list](../linked-list/singly/insert.md).
 
 ```
 Before: FRONT -> [10] -> [20] -> [30] <- BACK

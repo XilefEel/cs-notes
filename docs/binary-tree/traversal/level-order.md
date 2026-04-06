@@ -1,6 +1,6 @@
 # Level Order Traversal (BFS)
 
-Level order traversal visits nodes **level by level**, from left to right. Unlike the previous three traversals which used recursion, level order uses a **queue**.
+Level order traversal visits nodes **level by level**, from left to right. Unlike the previous three traversals which used recursion, level order uses a [queue](../../queue/intro.md).
 
 ```
         [5]

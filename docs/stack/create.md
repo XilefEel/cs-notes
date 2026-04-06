@@ -32,14 +32,14 @@ Stack create_stack() {
 Stack s = create_stack();
 ```
 
-`Node` is the same node we used in our linked list. It holds data and a pointer to the next node, which can be thought as the node "below" it.
+`Node` is the same node that we used in our linked list. It has an `int data` field to store the value and a `next` pointer to point to the next node in the stack, which can be thought as the node "below" it.
 
-`Stack` wraps a `top` pointer and a `size` counter. We don't need to allocate the stack itself on the heap, just the nodes inside it.
+`Stack` wraps a `top` pointer and a `size` counter.
 
 `create_stack()` returns a stack with `top = NULL` and `size = 0`, representing an empty stack.
 
 ::: info Why a linked list?
-A stack is just an **abstract idea**, it's just LIFO access. We need an actual data structure to implement this concept. We use a **linked list** because pushing and popping from the top is O(1), since we can just update the `top` pointer. With an array, we'd have to worry about resizing when it fills up.
+A stack is just an **abstract idea**. We need an actual data structure to implement this concept. We use a **linked list** because pushing and popping from the top is O(1), since we can just update the `top` pointer. If we used an array, we'd have to worry about resizing when it fills up.
 :::
 
 ::: tip
@@ -47,6 +47,8 @@ A stack is just an **abstract idea**, it's just LIFO access. We need an actual d
 :::
 
 ## In Rust
+
+For these notes, we will not use Rust's `Vec` or `VecDeque` from the standard library, but instead implement our own stack from scratch (cuz it's more fun that way).
 
 ```rust
 struct Node {

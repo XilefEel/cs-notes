@@ -1,6 +1,6 @@
 # Peek and Is Empty
 
-**Peek** returns the element at the top of the stack **without** removing it.
+**Peek** returns the element at the top of the stack **without** removing it. Peeking is very simmilar to popping, but we don't need to modify the stack at all.
 
 **Is empty** checks if the stack has **no elements**.
 
@@ -39,7 +39,7 @@ int b = peek(&s);   // b = 30, stack unchanged
 
 `if (s->top == NULL)` checks if the stack is empty before peeking.
 
-`return s->top->data` returns the data of the top node without modifying it.
+`return s->top->data` simply returns the data of the top node without modifying it.
 
 ::: warning
 Just like `pop()`, we return `-1` when the stack is empty, which is problematic if the stack can contain negative numbers. In production code, we'd want to handle this differently.

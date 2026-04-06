@@ -1,6 +1,6 @@
 # What is a Queue?
 
-A queue is a data structure that also stores a sequence of elements, but unlike a stack, it follows **FIFO** (First In, First Out). The first element added is the first one removed, like a queue of people waiting in line.
+A queue is a data structure that also stores a sequence of elements, but unlike a [stack](../stack/intro.md), it follows **FIFO** (First In, First Out). The first element added is the first one removed, like a queue of people waiting in line.
 
 ## Structure
 
@@ -35,6 +35,6 @@ Elements are added to the **back** and removed from the **front**. Just like wit
 ## When to use a Queue
 
 - You need to process elements in the order they arrived
-- You are implementing breadth-first search (BFS)
+- You are implementing [breadth-first search (BFS)](../binary-tree/traversal/level-order.md)
 - You need to buffer or schedule tasks
 - You are simulating real world lines or queues

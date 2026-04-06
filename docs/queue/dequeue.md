@@ -1,6 +1,6 @@
 # Dequeuing an Element
 
-Dequeuing removes the element at the **front** of the queue and returns it.
+Dequeuing removes the element at the **front** of the queue and returns it. Dequeuing is also similar to deleting the head node of a [linked list](../linked-list/singly/delete.md), but we also need to **return** the dequeued data and **sync** the back pointer if the queue becomes empty.
 
 ```
 Before: FRONT -> [10] -> [20] -> [30] -> [40] <- BACK

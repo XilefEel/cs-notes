@@ -1,6 +1,6 @@
 # Popping an Element
 
-Popping removes the element at the **top** of the stack and returns it. Popping an element is similar to deleting the head node of a linked list, but we also need to **return** the data the old top node contained.
+Popping removes the element at the **top** of the stack and returns it. Popping an element is similar to deleting the head node of a [linked list](../linked-list/singly/delete.md), but we also need to **return** the data the old top node contained.
 
 ```
 Before: TOP -> [30] -> [20] -> [10] -> NULL

@@ -2,7 +2,7 @@
 
 A **binary tree** is a data structure where each node has at most **two children**, a **left child** and a **right child**.
 
-Unlike a linked list, stack, or queue, where each node points to only one next node, a binary tree branches in **two directions**, forming a tree-like structure.
+Unlike a [linked list](../linked-list/intro.md), [stack](../stack/intro.md), or [queue](../queue/intro.md), where each node points to only one next node, a binary tree branches in **two directions**, forming a tree-like structure.
 
 ```
             [1]

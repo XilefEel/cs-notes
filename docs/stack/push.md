@@ -1,6 +1,6 @@
 # Pushing an Element
 
-Pushing adds a new element to the **top** of the stack. Pushing an element is very similar to inserting a node at the head of a linked list.
+Pushing adds a new element to the **top** of the stack. Pushing an element is very similar to inserting a node at the head of a [linked list](../linked-list/singly/insert.md).
 
 ```
 Before: TOP -> [10] -> [20] -> NULL

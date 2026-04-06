@@ -2,7 +2,7 @@
 
 A **priority queue** is a data structure where each element has a **priority**, and elements are dequeued in order of priority rather than insertion order.
 
-The challenge is to create a priority queue using only a singly linked list.
+The challenge is to create a priority queue using only a **singly linked list**.
 
 ```
 Enqueue elements with priorities:

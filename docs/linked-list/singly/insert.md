@@ -49,13 +49,13 @@ insert_at_head(&head, 30);  // HEAD -> [30] -> [20] -> [10] -> NULL
 
 Notice that we pass `Node **head` (a pointer to a pointer) in the function signature and `&head` (an address) when calling it. This is because we need to modify the **original** `head` variable. The `&` gives us the address of `head`, and `Node **` receives that address.
 
-::: tip
-Before, when we traversed through a list, we only used `Node *head` because we were **not** changing where head points to. We were simply **moving** a local copy of the pointer through the list to read or print each node. If we used `Node *head` instead, the function would only modify a **local copy**, so the caller's head wouldn't change.
-:::
-
 `new_node->next = *head` makes the new node point to the old head.
 
 `*head = new_node` updates the head pointer to point to the new node.
+
+::: tip
+Before, when we traversed through a list, we only used `Node *head` because we were **not** changing where head points to. We were simply **moving** a local copy of the pointer through the list to read or print each node. If we used `Node *head` instead, the function would only modify a **local copy**, so the caller's head wouldn't change.
+:::
 
 ::: warning Order matters!
 We **must** set `new_node->next = *head` before updating `*head = new_node`. If we update `*head` first, we lose **access** to the old head, and the new node will point to itself instead of the rest of the list.

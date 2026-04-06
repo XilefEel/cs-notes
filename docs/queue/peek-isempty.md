@@ -1,5 +1,7 @@
 # Peek and Is Empty
 
+Peeking and checking if empty in a queue are similar to peeking and checking if empty in a [stack](../stack/peek-isempty.md).
+
 **Peek** returns the element at the **front** of the queue **without** removing it.
 
 **Is empty** checks if the queue has **no elements**.
