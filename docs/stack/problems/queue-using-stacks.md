@@ -1,6 +1,6 @@
 # Implement a Queue Using Two Stacks
 
-A [queue](../queue/intro.md) is a data structure that follows **FIFO** (First In, First Out), which means the first element added is the first one removed.
+A [queue](../../queue/intro.md) is a data structure that follows **FIFO** (First In, First Out), which means the first element added is the first one removed.
 
 Our goal is to implement a queue using two stacks, which as we know follows **LIFO** (the opposite of FIFO).
 
