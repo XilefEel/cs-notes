@@ -1,6 +1,6 @@
 # Inserting a Node
 
-Inserting a node into a BST is different from inserting into a linked list because we need to maintain the BST property. This means finding the correct position that maintains the property that smaller values go left, larger values go right.
+Inserting a node into a BST is different from inserting into a linked list because we need to maintain the BST property.
 
 ```
 Insert 5, 3, 7, 1, 4 into an empty BST:
@@ -123,6 +123,8 @@ Result:
 
 ::: info Why return the node?
 Instead of modifying the tree directly with pointers, we can return the node at each level and let the parent relink it. This makes the recursive logic clean since each call either returns the same node unchanged or a new node if we've reached the insertion point.
+
+Another approach is to pass a double pointer (`Node **node`) so we can modify the tree in place, but this can be more error-prone and less intuitive.
 :::
 
 ::: warning

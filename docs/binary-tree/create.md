@@ -31,9 +31,9 @@ BST create_bst() {
 BST bst = create_bst();
 ```
 
-`left` points to the left child of the node.
+`left` is a pointer that points to the left child of the node.
 
-`right` points to the right child of the node.
+`right` is a pointer that points to the right child of the node.
 
 `create_bst()` returns a BST with `root = NULL`, representing an empty tree.
 
@@ -65,7 +65,7 @@ let mut bst = BST::new();
 `BST::new()` returns a BST with `root = None`, representing an empty tree.
 
 ::: info Ownership in a BST
-In Rust, a value can only have **one** owner. In a BST, each node is owned by exactly **one parent**. There are no cycles, no shared ownership, just a clean tree of ownership flowing from root to leaves. This is why `Option<Box<Node>>` works perfectly here, unlike a doubly linked list where `prev` pointers would create cycles of ownership that the borrow checker rejects.
+In Rust, a value can only have **one** owner. In a BST, each node is owned by exactly **one parent**, so there are no cycles, no shared ownership, just a clean tree of ownership flowing from root to leaves, unlike a [doubly linked list](../linked-list/doubly/node.md) where `prev` pointers would create cycles of ownership that the borrow checker rejects.
 :::
 
 ## Key Difference

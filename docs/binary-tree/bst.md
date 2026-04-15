@@ -37,21 +37,24 @@ Valid BST:              Invalid BST:
      /   \                /   \
    [3]   [10]           [3]   [10]
   /   \                /   \
-[1]  [6]             [1]   [9]  <- [9] > [8], invalid BST!
+[1]  [6]             [1]   [9]
+    /   \                 /   \
+  [4]   [7]             [4]   [7]
 ```
+The right tree is invalid since `[9]` is greater than its parent `[3]`, but it's also greater than the root `[8]`, so it should be in the right subtree of `[8]`, not the left.
 
 ::: tip
-A common mistake is only checking if the left child is less than the parent and the right child is greater. But a valid BST must satisfy this for the **entire subtree**, not just the immediate children. `[9]` is greater than its parent `[3]`, but it's also greater than the root `[8]`, so it should be in the right subtree of `[8]`, not the left.
+A common mistake is only checking if the left child is less than the parent and the right child is greater. But a valid BST must satisfy this for the **entire subtree**, not just the immediate children. 
 :::
 
 ## Why is this useful?
 
-Because the left subtree contains **only smaller** values and the right subtree contains **only larger** values, we can perform **efficient** search, insertion, and deletion operations.
+Because the left subtree contains only **smaller** values and the right subtree contains only **larger** values, we can perform **efficient** search, insertion, and deletion operations.
 
-For example, when we want to search for a value in the tree, at each node we can decide to go **left or right** based on the value we're looking for, eliminating half the tree at each step, just like binary search.
+For example, when we want to search for a value in the tree, we can compare it with the current node and decide whether to go **left** or **right**. This allows us eliminate half the tree at each step, and lead to an average time complexity of **O(log n)**.
 
 ```
-Search for 4 in the tree:
+Search for 4:
 
         [8]         4 < 8, go left
        /   \
@@ -72,5 +75,5 @@ Search for 4 in the tree:
 | Delete        | O(n)        | O(log n) average    |
 
 ::: warning
-These time complexities assume the tree is **balanced**. If the tree becomes unbalanced, operations can degrade to O(n), the same as a linked list.
+These time complexities assume the tree is **balanced**. If the tree becomes unbalanced, operations can degrade to O(n).
 :::

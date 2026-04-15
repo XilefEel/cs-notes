@@ -13,7 +13,7 @@ Inorder: 1, 3, 4, 5, 7, 10
 ```
 
 ::: tip
-Inorder traversal of a BST always produces a **sorted sequence**. This is because we always visit the left (smaller) subtree before the current node, and the right (larger) subtree after.
+Inorder traversal of a BST always produces a **sorted sequence**. This is because we always visit the left (smaller) subtree before the current node, then the right (larger) subtree after.
 :::
 
 ## The Approach

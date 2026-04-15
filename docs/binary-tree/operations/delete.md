@@ -42,7 +42,7 @@ The **inorder successor** of a node is the smallest node in its **right subtree*
 
 - It's larger than everything in the left subtree
 - It's smaller than everything else in the right subtree
-  :::
+:::
 
 ## The Approach
 
@@ -255,7 +255,7 @@ bst.delete(5);  // Case 3: two children
 //     [4]   [10]
 ```
 
-`if current.left.is_none() { return current.right }` handles Case 1 and Case 2 with only a right child, returning `current.right` which may be `None`.
+`if current.left.is_none() { return current.right }` handles Case 1 and Case 2 with only a right child, returning `current.right` which may be `None`, just like in C.
 
 `if current.right.is_none() { return current.left }` handles Case 2 with only a left child.
 

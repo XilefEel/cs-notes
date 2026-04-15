@@ -198,7 +198,7 @@ bst.insert(10);
 bst.level_order();  // 5 3 7 1 4 10
 ```
 
-`Queue<*const Node>` creates a queue that stores raw pointers to nodes — we store pointers rather than owned nodes since the tree already owns them.
+`Queue<*const Node>` creates a queue that stores raw pointers to nodes. We use raw pointers because we want to store references to nodes without taking ownership.
 
 `self.root.as_deref().unwrap() as *const Node` gets a raw pointer to the root node without taking ownership.
 
@@ -207,7 +207,7 @@ bst.level_order();  // 5 3 7 1 4 10
 `node.left.as_deref()` borrows the left child without taking ownership so we can enqueue a pointer to it.
 
 ::: info What is *const Node?
-`*const Node`is a raw pointer type that points to a`Node`but does not have any ownership to it. It is used here to store pointers to nodes in the queue without taking ownership of them, since we just want to read the nodes without modifying them. If we used`\*mut Node`, it would imply we might modify the nodes, which is not what we are doing.
+`*const Node`is a raw pointer type that points to a `Node` but does not have any ownership to it. It is used here to store pointers to nodes in the queue without taking ownership of them, since we just want to read the nodes without modifying them. If we used `*mut Node`, it would imply we might modify the nodes, which is not what we are doing.
 
 We use `unsafe` blocks to dereference these raw pointers when we need to access the node data or its children.
 :::

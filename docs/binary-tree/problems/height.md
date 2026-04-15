@@ -80,7 +80,7 @@ printf("%d\n", height(bst.root));   // 2
 `1 + max(height(node->left), height(node->right))` returns `1` plus the height of the taller subtree.
 
 ::: info Why -1 for empty nodes?
-If a tree with only 2 nodes (root and one child) has a height of `1` (only one edge), and a single node has a height of `0` (no edges), then an empty node must have a height of `-1` to maintain this relationship. Since we return `-1` for `NULL` and add `1` when returning, a single leaf node returns `1 + max(-1, -1) = 0`. This is consistent with the definition that height counts edges, not nodes.
+If a tree with only 2 nodes (root and one child) has a height of `1` (only one edge), and a single node has a height of `0` (no edges), then an empty node must have a height of `-1` to maintain this relationship. Since we return `-1` for `NULL` and add `1` when returning, a single leaf node returns `1 + max(-1, -1) = 0`.
 :::
 
 ## In Rust
