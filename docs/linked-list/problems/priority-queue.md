@@ -1,24 +1,24 @@
 # Implementing a Priority Queue
 
-A **priority queue** is a data structure where each element has a **priority**, and elements are dequeued in order of priority rather than insertion order.
+A **priority queue** is just like a normal [queue](../../queue/intro), but each element has a **priority**, and elements are dequeued in order of their priority (highest priority first). If two elements have the same priority, they are dequeued in the order they were enqueued. 
 
 The challenge is to create a priority queue using only a **singly linked list**.
 
 ```
-Enqueue elements with priorities:
-
 enqueue(2, TOP):    HEAD -> [2:TOP] -> NULL
 enqueue(5, NORMAL): HEAD -> [2:TOP] -> [5:NORMAL] -> NULL
 enqueue(3, HIGH):   HEAD -> [2:TOP] -> [3:HIGH] -> [5:NORMAL] -> NULL
 enqueue(8, LOW):    HEAD -> [2:TOP] -> [3:HIGH] -> [5:NORMAL] -> [8:LOW] -> NULL
 enqueue(1, NORMAL): HEAD -> [2:TOP] -> [3:HIGH] -> [5:NORMAL] -> [1:NORMAL] -> [8:LOW] -> NULL
 
-dequeue() -> 2  (always the head, highest priority)
+dequeue() -> 2
+dequeue() -> 3
+dequeue() -> 5
 ```
 
 ## The Approach
 
-We maintain a **sorted linked list** by priority. When we insert a new element:
+We maintain a linked list that is **sorted by priority**. When we insert a new element:
 
 - If the list is empty or the new element has **higher priority** than the head, insert at the head
 - Otherwise, traverse until we find the correct position and insert there
@@ -73,15 +73,23 @@ void enqueue(Node **head, int data, Priority priority) {
 }
 
 int dequeue(Node **head) {
+    // If the queue is empty, there is nothing to dequeue
     if (*head == NULL) {
         printf("Queue is empty\n");
         return -1;
     }
-
+    
+    // Save the head node
     Node *temp = *head;
     int data = temp->data;
+    
+    // Update head to point to the next node
     *head = (*head)->next;
+    
+    // Free the old head node
     free(temp);
+    
+    // Return the dequeued data
     return data;
 }
 
@@ -97,20 +105,24 @@ enqueue(&head, 2, TOP);
 
 // HEAD -> [2:TOP] -> [3:HIGH] -> [4:HIGH] -> [5:NORMAL] -> [1:NORMAL] -> [8:LOW] -> [7:LOW] -> NULL
 
-printf("%d\n", dequeue(&head));  // 2 (TOP)
-printf("%d\n", dequeue(&head));  // 3 (HIGH)
-printf("%d\n", dequeue(&head));  // 4 (HIGH)
+printf("%d\n", dequeue(&head));     // 2 (TOP)
+printf("%d\n", dequeue(&head));     // 3 (HIGH)
+printf("%d\n", dequeue(&head));     // 4 (HIGH)
 ```
 
 `typedef enum` defines the priority levels as named constants. `TOP = 0` has the highest priority since lower numbers come first in the sorted list.
 
 `if (node->priority < (*head)->priority)` inserts at the head directly if the new node has a strictly higher priority than the current head.
 
-We traverse using `while (current->next != NULL && current->next->priority <= priority)` until we find a node with lower priority, then we insert before it.
+We traverse using `while (current->next != NULL && current->next->priority <= priority)` until we find a node with lower priority.
 
 `node->next = current->next` and `current->next = node` relinks the node into the correct position.
 
 `dequeue()` simply removes and returns the head.
+
+::: tip
+The enum is not strictly necessary here. We could just use integers for priority, but using an enum makes the code more readable and less error-prone.
+:::
 
 ::: info Why lower number = higher priority?
 We use lower numbers for higher priorities so that we can just sort in ascending order, which naturally gives us highest priority first. If we used higher numbers for higher priorities, we'd have to sort in descending order.
@@ -171,8 +183,13 @@ fn enqueue(head: Option<Box<Node>>, data: i32, priority: Priority) -> Option<Box
 }
 
 fn dequeue(head: &mut Option<Box<Node>>) -> Option<i32> {
+    // Take ownership of the head node
     let node = head.take()?;
+    
+    // Update head to point to the next node
     *head = node.next;
+    
+    // Return the dequeued data
     Some(node.data)
 }
 
@@ -206,7 +223,7 @@ We use `while walker.next.is_some() && walker.next.as_ref().unwrap().priority <=
 
 `node.next = walker.next.take()` and `walker.next = Some(node)` relinks the node into the correct position.
 
-`dequeue` takes `&mut head` so the function can modify it directly. It's the same reason C uses `Node **head` instead of `Node *head`.
+`dequeue` takes `&mut head` so the function can modify it directly, just like how we pass `Node **head` in C.
 
 `head.take()` takes ownership of the head node, leaving `head` as `None`. The `?` returns `None` early if the queue is empty.
 
