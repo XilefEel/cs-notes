@@ -12,6 +12,7 @@ export default defineConfig({
       { text: "Stack", link: "/stack/intro" },
       { text: "Queue", link: "/queue/intro" },
       { text: "Binary Tree", link: "/binary-tree/intro" },
+      { text: "Heap", link: "/heap/intro" },
     ],
 
     sidebar: [
@@ -203,35 +204,35 @@ export default defineConfig({
               },
             ],
           },
+        ],
+      },
+      {
+        text: "Heap",
+        items: [
+          { text: "What is a Heap?", link: "/heap/intro" },
+          { text: "Types of Heaps", link: "/heap/types" },
+          { text: "Heap as an Array", link: "/heap/array-representation" },
+          { text: "Creating a Heap", link: "/heap/create" },
+          { text: "Inserting an Element", link: "/heap/insert" },
+          { text: "Deleting an Element", link: "/heap/delete" },
           {
-            text: "Heap",
+            text: "Peek and Checking if Empty",
+            link: "/heap/peek-isempty",
+          },
+          {
+            text: "Common Problems and Solutions",
             items: [
-              { text: "What is a Heap?", link: "/heap/intro" },
-              { text: "Types of Heaps", link: "/heap/types" },
-              { text: "Heap as an Array", link: "/heap/array-representation" },
-              { text: "Creating a Heap", link: "/heap/create" },
-              { text: "Inserting an Element", link: "/heap/insert" },
-              { text: "Deleting an Element", link: "/heap/delete" },
               {
-                text: "Peek and Checking if Empty",
-                link: "/heap/peek-isempty",
+                text: "Kth Largest Element",
+                link: "/heap/problems/kth-largest",
               },
               {
-                text: "Common Problems and Solutions",
-                items: [
-                  {
-                    text: "Kth Largest Element",
-                    link: "/heap/problems/kth-largest",
-                  },
-                  {
-                    text: "Merge K Sorted Lists",
-                    link: "/heap/problems/merge-k-sorted",
-                  },
-                  {
-                    text: "Top K Frequent Elements",
-                    link: "/heap/problems/top-k-frequent",
-                  },
-                ],
+                text: "Merge K Sorted Lists",
+                link: "/heap/problems/merge-k-sorted",
+              },
+              {
+                text: "Top K Frequent Elements",
+                link: "/heap/problems/top-k-frequent",
               },
             ],
           },
