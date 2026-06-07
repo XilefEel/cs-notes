@@ -15,6 +15,14 @@ impl<T: Default + PartialOrd, F: Fn(&T, &T) -> bool> Heap<T, F> {
         i / 2
     }
 
+    fn left_child_index(i: usize) -> usize {
+        2 * i
+    }
+
+    fn right_child_index(i: usize) -> usize {
+        2 * i + 1
+    }
+
     fn upheap(&mut self, index: usize) {
         if index <= 1 {
             return;
@@ -35,6 +43,48 @@ impl<T: Default + PartialOrd, F: Fn(&T, &T) -> bool> Heap<T, F> {
         let last = self.data.len() - 1;
         self.upheap(last);
     }
+
+    fn downheap(&mut self, index: usize) {
+        if Self::left_child_index(index) >= self.data.len() {
+            return;
+        }
+
+        let left_child_index = Self::left_child_index(index);
+        let right_child_index = Self::right_child_index(index);
+
+        let mut priority_index = index;
+
+        if (self.comparator)(&self.data[left_child_index], &self.data[priority_index]) {
+            priority_index = left_child_index;
+        }
+
+        if right_child_index < self.data.len()
+            && (self.comparator)(&self.data[right_child_index], &self.data[priority_index])
+        {
+            priority_index = right_child_index;
+        }
+
+        if priority_index == index {
+            return;
+        }
+
+        self.data.swap(index, priority_index);
+        self.downheap(priority_index);
+    }
+
+    fn pop(&mut self) -> Option<T> {
+        if self.data.len() <= 1 {
+            return None;
+        }
+
+        let last = self.data.len() - 1;
+        self.data.swap(1, last);
+        let removed = self.data.pop();
+
+        self.downheap(1);
+
+        removed
+    }
 }
 
 fn main() {
@@ -51,6 +101,14 @@ fn main() {
         println!("{}", max_heap.data[i]);
     }
 
+    max_heap.pop(); // returns Some(9), heap: [_, 8, 3, 5, 1, 2]
+    max_heap.pop(); // returns Some(8), heap: [_, 5, 3, 2, 1]
+    max_heap.pop(); // returns Some(5), heap: [_, 3, 1, 2]
+
+    for i in 1..max_heap.data.len() {
+        println!("{}", max_heap.data[i]);
+    }
+
     let mut min_heap = Heap::new(|a: &i32, b: &i32| a < b);
 
     min_heap.insert(5); // [_, 5]
@@ -59,6 +117,14 @@ fn main() {
     min_heap.insert(1); // [_, 1, 3, 8, 5]
     min_heap.insert(2); // [_, 1, 2, 8, 5, 3]
     min_heap.insert(9); // [_, 1, 2, 8, 5, 3, 9]
+
+    for i in 1..min_heap.data.len() {
+        println!("{}", min_heap.data[i]);
+    }
+
+    min_heap.pop(); // returns Some(1), heap: [_, 2, 3, 8, 5, 9]
+    min_heap.pop(); // returns Some(2), heap: [_, 3, 5, 8, 9]
+    min_heap.pop(); // returns Some(3), heap: [_, 5, 9, 8]
 
     for i in 1..min_heap.data.len() {
         println!("{}", min_heap.data[i]);
