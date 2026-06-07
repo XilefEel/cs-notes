@@ -89,9 +89,24 @@ int pop(Heap *heap) {
     return removed;
 }
 
+int peek(Heap *heap) {
+    if (heap->size == 0) {
+        printf("Heap is empty\n");
+        return -1;
+    }
+
+    return heap->data[1];
+}
+
+int is_empty(Heap *heap) {
+    return heap->size == 0;
+}
+
 int main() {
     Heap max_heap = create_heap(10);
     Heap min_heap = create_heap(10);
+
+    is_empty(&max_heap); // 1 (true)
 
     insert(&max_heap, 5);   // [_, 5]
     insert(&max_heap, 3);   // [_, 5, 3]
@@ -100,19 +115,13 @@ int main() {
     insert(&max_heap, 2);   // [_, 8, 3, 5, 1, 2]
     insert(&max_heap, 9);   // [_, 9, 3, 8, 1, 2, 5]
 
-    for (int i = 1; i <= max_heap.size; i++) {
-        printf("%d ", max_heap.data[i]);
-    }
+    is_empty(&max_heap); // 0 (false)
 
-    printf("\n");
+    peek(&max_heap);    // returns 9
 
     pop(&max_heap);     // returns 9, heap: [_, 8, 3, 5, 1, 2]
     pop(&max_heap);     // returns 8, heap: [_, 5, 3, 2, 1]
     pop(&max_heap);     // returns 5, heap: [_, 3, 1, 2]
-
-    for (int i = 1; i <= max_heap.size; i++) {
-        printf("%d ", max_heap.data[i]);
-    }
 
     return 0;
 }

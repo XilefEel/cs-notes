@@ -85,10 +85,23 @@ impl<T: Default + PartialOrd, F: Fn(&T, &T) -> bool> Heap<T, F> {
 
         removed
     }
+
+    fn peek(&self) -> Option<&T> {
+        if self.data.len() <= 1 {
+            return None;
+        }
+        Some(&self.data[1])
+    }
+
+    fn is_empty(&self) -> bool {
+        self.data.len() <= 1
+    }
 }
 
 fn main() {
     let mut max_heap = Heap::new(|a: &i32, b: &i32| a > b);
+
+    max_heap.is_empty(); // true
 
     max_heap.insert(5); // [_, 5]
     max_heap.insert(3); // [_, 5, 3]
@@ -97,17 +110,13 @@ fn main() {
     max_heap.insert(2); // [_, 8, 3, 5, 1, 2]
     max_heap.insert(9); // [_, 9, 3, 8, 1, 2, 5]
 
-    for i in 1..max_heap.data.len() {
-        println!("{}", max_heap.data[i]);
-    }
+    max_heap.is_empty(); // false
+
+    max_heap.peek(); // returns Some(9)
 
     max_heap.pop(); // returns Some(9), heap: [_, 8, 3, 5, 1, 2]
     max_heap.pop(); // returns Some(8), heap: [_, 5, 3, 2, 1]
     max_heap.pop(); // returns Some(5), heap: [_, 3, 1, 2]
-
-    for i in 1..max_heap.data.len() {
-        println!("{}", max_heap.data[i]);
-    }
 
     let mut min_heap = Heap::new(|a: &i32, b: &i32| a < b);
 
@@ -118,15 +127,7 @@ fn main() {
     min_heap.insert(2); // [_, 1, 2, 8, 5, 3]
     min_heap.insert(9); // [_, 1, 2, 8, 5, 3, 9]
 
-    for i in 1..min_heap.data.len() {
-        println!("{}", min_heap.data[i]);
-    }
-
     min_heap.pop(); // returns Some(1), heap: [_, 2, 3, 8, 5, 9]
     min_heap.pop(); // returns Some(2), heap: [_, 3, 5, 8, 9]
     min_heap.pop(); // returns Some(3), heap: [_, 5, 9, 8]
-
-    for i in 1..min_heap.data.len() {
-        println!("{}", min_heap.data[i]);
-    }
 }
