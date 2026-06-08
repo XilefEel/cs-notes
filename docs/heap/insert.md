@@ -1,34 +1,14 @@
 # Inserting an Element
 
-Inserting an element into a heap is done in two steps. First, we add the new element to the **end** of the array. Then we restore the heap property by **bubbling it up** until it's in the right position. This process is called **upheap** or **heapify up**.
+Inserting an element into a heap is different from inserting into a binary tree because we need to maintain the **complete binary tree** property as well as the **heap property**.
 
 ```
-Before:
-        [5]
-       /   \
-     [3]   [8]
-    /   \
-  [1]  [2]
-
-Insert 9 into an existing max heap:
-
-Step 1: add to end        Step 2: upheap(6)         Step 3: upheap(3)
-        [5]                       [5]                       [9]
-       /   \                     /   \                     /   \
-     [3]   [8]                 [3]   [9]                 [3]   [8]
-    /   \  /                  /   \  /                  /   \  /
-  [1]  [2][9]               [1]  [2][8]               [1]  [2][5]
-
-Add [9] at index 6        9 > 8, swap with parent    9 > 5, swap with parent
-
-Step 4: upheap(1)
-        [9]
-       /   \
-     [3]   [8]
-    /   \  /
-  [1]  [2][5]
-
-index <= 1, stop!
+Insert [9] into the max heap:
+        [8]                       [9]
+       /   \                     /   \
+     [3]   [5]      ->         [3]   [8]
+    /   \                     /   \  /
+  [1]  [2]                  [1]  [2][5]
 ```
 
 ## The Approach
@@ -37,6 +17,8 @@ index <= 1, stop!
 - Compare the element with its **parent** using the formula `parentIndex = index / 2`
 - If the element violates the heap property, **swap** it with its parent
 - Repeat until we reach the **root** or the heap property is satisfied
+
+The process of restoring the heap property by **bubbling it up** until it's in the right position is called **upheap** or **heapify up**.
 
 ## In C
 

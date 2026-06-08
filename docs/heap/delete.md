@@ -1,28 +1,14 @@
 # Deleting an Element
 
-Deleting (or popping) from a heap is more complex than inserting because we have to maintain the complete binary tree structure and the heap property after removal. Deleting from a heap always removes the **root**, but we can't just remove it and leave a gap, so we replace it with the **last element** in the heap and then perform a **downheap** operation to restore the heap property.
+Deleting (or popping) from a heap always removes the **root**, but we can't just remove it and leave a gap, and we still have to maintain the complete binary tree property and the heap property.
 
 ```
-Delete root from a max heap:
-
-Step 1: save root, move last element to root
-        [9]                       [5]
+Pop the root [9]:
+        [9]                       [8]
        /   \                     /   \
-     [3]   [8]      ->         [3]   [8]
+     [3]   [8]      ->         [3]   [5]
     /   \  /                  /   \
   [1]  [2][5]               [1]   [2]
-
-Save [9], move [5] to root, shrink size
-
-Step 2: downheap(1)           Step 3: downheap(3)
-        [8]                           [8]
-       /   \                         /   \
-     [3]   [5]          ->         [3]   [5]
-    /   \                         /   \
-  [1]   [2]                     [1]   [2]
-
-5 < 8, swap with largest        no children, stop!
-child [8]
 ```
 
 ## The Approach
@@ -32,6 +18,8 @@ child [8]
 - Compare the new root with its **children**
 - Swap with the **largest child** (max heap) or **smallest child** (min heap) if it violates the heap property
 - Repeat until we reach a **leaf** or the heap property is satisfied
+
+The process of restoring the heap property by **bubbling it down** until it's in the right position is called **downheap** or **heapify down**.
 
 ## In C
 
