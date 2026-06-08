@@ -227,12 +227,20 @@ export default defineConfig({
                 link: "/heap/problems/kth-largest",
               },
               {
-                text: "Merge K Sorted Lists",
-                link: "/heap/problems/merge-k-sorted",
-              },
-              {
                 text: "Top K Frequent Elements",
                 link: "/heap/problems/top-k-frequent",
+              },
+              {
+                text: "Heap Sort",
+                link: "/heap/problems/heap-sort",
+              },
+              {
+                text: "Sort a Nearly Sorted Array",
+                link: "/heap/problems/nearly-sorted",
+              },
+              {
+                text: "Running Median",
+                link: "/heap/problems/running-median",
               },
             ],
           },
