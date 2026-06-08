@@ -98,6 +98,20 @@ impl<T: Default + PartialOrd, F: Fn(&T, &T) -> bool> Heap<T, F> {
     }
 }
 
+fn kth_largest(arr: &[i32], k: usize) -> Option<i32> {
+    let mut min_heap = Heap::new(|a: &i32, b: &i32| a < b);
+
+    for &val in arr {
+        min_heap.insert(val);
+
+        if min_heap.data.len() - 1 > k {
+            min_heap.pop();
+        }
+    }
+
+    min_heap.peek().copied()
+}
+
 fn main() {
     let mut max_heap = Heap::new(|a: &i32, b: &i32| a > b);
 
@@ -130,4 +144,10 @@ fn main() {
     min_heap.pop(); // returns Some(1), heap: [_, 2, 3, 8, 5, 9]
     min_heap.pop(); // returns Some(2), heap: [_, 3, 5, 8, 9]
     min_heap.pop(); // returns Some(3), heap: [_, 5, 9, 8]
+
+    let arr = [3, 1, 5, 12, 2, 8];
+    let k = 2;
+
+    let result = kth_largest(&arr, k);
+    println!("{:?}", result); // Some(8)
 }

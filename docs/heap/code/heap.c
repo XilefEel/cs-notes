@@ -33,7 +33,7 @@ int getRightChildIndex(int i) {
     return 2 * i + 1;
 }
 
-void upheap(Heap *heap, int index) {
+void upheap_max(Heap *heap, int index) {
     if (index <= 1) return;
 
     int parentIndex = getParentIndex(index);
@@ -41,17 +41,17 @@ void upheap(Heap *heap, int index) {
     if (heap->data[index] <= heap->data[parentIndex]) return;
 
     swap(&heap->data[index], &heap->data[parentIndex]);
-    upheap(heap, parentIndex);
+    upheap_max(heap, parentIndex);
 }
 
-void insert(Heap *heap, int value) {
+void insert_max(Heap *heap, int value) {
     heap->size++;
     heap->data[heap->size] = value;
 
-    upheap(heap, heap->size);
+    upheap_max(heap, heap->size);
 }
 
-void downheap(Heap *heap, int index) {
+void downheap_max(Heap *heap, int index) {
     if (getLeftChildIndex(index) > heap->size) return;
 
     int leftChildIndex = getLeftChildIndex(index);
@@ -73,10 +73,10 @@ void downheap(Heap *heap, int index) {
     if (largestIndex == index) return;
 
     swap(&heap->data[index], &heap->data[largestIndex]);
-    downheap(heap, largestIndex);
+    downheap_max(heap, largestIndex);
 }
 
-int pop(Heap *heap) {
+int pop_max(Heap *heap) {
     if (heap->size == 0) return -1;
 
     int removed = heap->data[1];
@@ -84,7 +84,63 @@ int pop(Heap *heap) {
     heap->data[1] = heap->data[heap->size];
     heap->size--;
 
-    downheap(heap, 1);
+    downheap_max(heap, 1);
+
+    return removed;
+}
+
+void upheap_min(Heap *heap, int index) {
+    if (index <= 1) return;
+
+    int parentIndex = getParentIndex(index);
+
+    if (heap->data[index] >= heap->data[parentIndex]) return;
+
+    swap(&heap->data[index], &heap->data[parentIndex]);
+    upheap_min(heap, parentIndex);
+}
+
+void insert_min(Heap *heap, int value) {
+    heap->size++;
+    heap->data[heap->size] = value;
+
+    upheap_min(heap, heap->size);
+}
+
+void downheap_min(Heap *heap, int index) {
+    if (getLeftChildIndex(index) > heap->size) return;
+
+    int leftChildIndex = getLeftChildIndex(index);
+    int rightChildIndex = getRightChildIndex(index);
+
+    int smallestIndex = index;
+
+    if (heap->data[leftChildIndex] < heap->data[smallestIndex]) {
+        smallestIndex = leftChildIndex;
+    }
+
+    if (
+        rightChildIndex <= heap->size &&
+        heap->data[rightChildIndex] < heap->data[smallestIndex]
+    ) {
+        smallestIndex = rightChildIndex;
+    }
+
+    if (smallestIndex == index) return;
+
+    swap(&heap->data[index], &heap->data[smallestIndex]);
+    downheap_min(heap, smallestIndex);
+}
+
+int pop_min(Heap *heap) {
+    if (heap->size == 0) return -1;
+
+    int removed = heap->data[1];
+
+    heap->data[1] = heap->data[heap->size];
+    heap->size--;
+
+    downheap_min(heap, 1);
 
     return removed;
 }
@@ -102,26 +158,41 @@ int is_empty(Heap *heap) {
     return heap->size == 0;
 }
 
+int kth_largest(int *arr, int n, int k) {
+    Heap min_heap = create_heap(k);
+
+    for (int i = 0; i < n; i++) {
+        insert_min(&min_heap, arr[i]);
+
+        if (min_heap.size > k) {
+            pop_min(&min_heap);
+        }
+    }
+
+    return peek(&min_heap);
+}
+
 int main() {
     Heap max_heap = create_heap(10);
     Heap min_heap = create_heap(10);
 
-    is_empty(&max_heap); // 1 (true)
+    insert_max(&max_heap, 5);   // [_, 5]
+    insert_max(&max_heap, 3);   // [_, 5, 3]
+    insert_max(&max_heap, 8);   // [_, 8, 3, 5]
+    insert_max(&max_heap, 1);   // [_, 8, 3, 5, 1]
+    insert_max(&max_heap, 2);   // [_, 8, 3, 5, 1, 2]
+    insert_max(&max_heap, 9);   // [_, 9, 3, 8, 1, 2, 5]
 
-    insert(&max_heap, 5);   // [_, 5]
-    insert(&max_heap, 3);   // [_, 5, 3]
-    insert(&max_heap, 8);   // [_, 8, 3, 5]
-    insert(&max_heap, 1);   // [_, 8, 3, 5, 1]
-    insert(&max_heap, 2);   // [_, 8, 3, 5, 1, 2]
-    insert(&max_heap, 9);   // [_, 9, 3, 8, 1, 2, 5]
+    pop_max(&max_heap);     // returns 9, heap: [_, 8, 3, 5, 1, 2]
+    pop_max(&max_heap);     // returns 8, heap: [_, 5, 3, 2, 1]
+    pop_max(&max_heap);     // returns 5, heap: [_, 3, 1, 2]
 
-    is_empty(&max_heap); // 0 (false)
+    int arr[] = {3, 1, 5, 12, 2, 8};
+    int n = 6;
+    int k = 2;
 
-    peek(&max_heap);    // returns 9
-
-    pop(&max_heap);     // returns 9, heap: [_, 8, 3, 5, 1, 2]
-    pop(&max_heap);     // returns 8, heap: [_, 5, 3, 2, 1]
-    pop(&max_heap);     // returns 5, heap: [_, 3, 1, 2]
+    int result = kth_largest(arr, n, k);
+    printf("%d\n", result);  // 8
 
     return 0;
 }
