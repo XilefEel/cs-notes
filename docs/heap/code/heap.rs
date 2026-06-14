@@ -127,6 +127,29 @@ fn heap_sort(arr: &[i32]) -> Vec<i32> {
     result
 }
 
+fn sort_nearly_sorted(arr: &[i32], k: usize) -> Vec<i32> {
+    let mut min_heap = Heap::new(|a: &i32, b: &i32| a < b);
+
+    for &val in arr.iter().take(k + 1) {
+        min_heap.insert(val);
+    }
+
+    let mut result = Vec::new();
+
+    for &val in arr.iter().skip(k + 1) {
+        if let Some(min) = min_heap.pop() {
+            result.push(min);
+        }
+        min_heap.insert(val);
+    }
+
+    while let Some(val) = min_heap.pop() {
+        result.push(val);
+    }
+
+    result
+}
+
 fn main() {
     let mut max_heap = Heap::new(|a: &i32, b: &i32| a > b);
 
@@ -170,4 +193,10 @@ fn main() {
     let sorted = heap_sort(&unsorted);
 
     println!("{:?}", sorted); // [1, 2, 3, 5, 8]
+
+    let nearly_sorted = [3, 2, 1, 5, 4, 7, 6];
+    let k = 2;
+
+    let sorted_2 = sort_nearly_sorted(&nearly_sorted, k);
+    println!("{:?}", sorted_2); // [1, 2, 3, 4, 5, 6, 7]
 }

@@ -187,6 +187,30 @@ int *heap_sort(int *arr, int n) {
     return result;
 }
 
+int *sort_nearly_sorted(int *arr, int n, int k, int *result_size) {
+    Heap min_heap = create_heap(k + 1);
+
+    int i;
+    for (i = 0; i <= k && i < n; i++) {
+        insert_min(&min_heap, arr[i]);
+    }
+
+    *result_size = n;
+    int *result = (int *)malloc(n * sizeof(int));
+    int idx = 0;
+
+    while (i < n) {
+        result[idx++] = pop_min(&min_heap);
+        insert_min(&min_heap, arr[i++]);
+    }
+
+    while (min_heap.size > 0) {
+        result[idx++] = pop_min(&min_heap);
+    }
+
+    return result;
+}
+
 int main() {
     Heap max_heap = create_heap(10);
     Heap min_heap = create_heap(10);
@@ -216,6 +240,18 @@ int main() {
 
     // result: [1, 2, 3, 5, 8]
     for (int i = 0; i < n; i++) {
+        printf("%d ", sorted[i]);
+    }
+
+    int nearly_sorted[] = {3, 2, 1, 5, 4, 7, 6};
+    n = 7;
+    k = 2;
+
+    int result_size;
+    sorted = sort_nearly_sorted(nearly_sorted, n, k, &result_size);
+
+    // result: [1, 2, 3, 4, 5, 6, 7]
+    for (int i = 0; i < result_size; i++) {
         printf("%d ", sorted[i]);
     }
 
