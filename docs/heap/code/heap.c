@@ -172,6 +172,21 @@ int kth_largest(int *arr, int n, int k) {
     return peek(&min_heap);
 }
 
+int *heap_sort(int *arr, int n) {
+    Heap min_heap = create_heap(n);
+
+    for (int i = 0; i < n; i++) {
+        insert_min(&min_heap, arr[i]);
+    }
+
+    int *result = (int *)malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++) {
+        result[i] = pop_min(&min_heap);
+    }
+
+    return result;
+}
+
 int main() {
     Heap max_heap = create_heap(10);
     Heap min_heap = create_heap(10);
@@ -192,7 +207,17 @@ int main() {
     int k = 2;
 
     int result = kth_largest(arr, n, k);
-    printf("%d\n", result);  // 8
+    printf("%d\n", result); // 8
+
+    int unsorted[] = {3, 1, 5, 2, 8};
+    n = 5;
+
+    int *sorted = heap_sort(unsorted, n);
+
+    // result: [1, 2, 3, 5, 8]
+    for (int i = 0; i < n; i++) {
+        printf("%d ", sorted[i]);
+    }
 
     return 0;
 }

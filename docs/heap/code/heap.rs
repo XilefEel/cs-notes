@@ -112,6 +112,21 @@ fn kth_largest(arr: &[i32], k: usize) -> Option<i32> {
     min_heap.peek().copied()
 }
 
+fn heap_sort(arr: &[i32]) -> Vec<i32> {
+    let mut min_heap = Heap::new(|a: &i32, b: &i32| a < b);
+
+    for &val in arr {
+        min_heap.insert(val);
+    }
+
+    let mut result = Vec::new();
+    while let Some(val) = min_heap.pop() {
+        result.push(val);
+    }
+
+    result
+}
+
 fn main() {
     let mut max_heap = Heap::new(|a: &i32, b: &i32| a > b);
 
@@ -150,4 +165,9 @@ fn main() {
 
     let result = kth_largest(&arr, k);
     println!("{:?}", result); // Some(8)
+
+    let unsorted = [3, 1, 5, 2, 8];
+    let sorted = heap_sort(&unsorted);
+
+    println!("{:?}", sorted); // [1, 2, 3, 5, 8]
 }
