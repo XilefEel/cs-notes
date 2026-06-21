@@ -13,6 +13,7 @@ export default defineConfig({
       { text: "Queue", link: "/queue/intro" },
       { text: "Binary Tree", link: "/binary-tree/intro" },
       { text: "Heap", link: "/heap/intro" },
+      { text: "AVL Tree", link: "/avl-tree/intro" },
     ],
 
     sidebar: [
@@ -244,6 +245,32 @@ export default defineConfig({
               },
             ],
           },
+        ],
+      },
+      {
+        text: "AVL Tree",
+        items: [
+          { text: "What is an AVL Tree?", link: "/avl-tree/intro" },
+          {
+            text: "What is a Balance Factor?",
+            link: "/avl-tree/balance-factor",
+          },
+          { text: "Creating an AVL Tree", link: "/avl-tree/create" },
+          {
+            text: "Rotations",
+            items: [
+              {
+                text: "Left and Right Rotation",
+                link: "/avl-tree/rotations/left-right",
+              },
+              {
+                text: "Left-Right and Right-Left Rotation",
+                link: "/avl-tree/rotations/left-right-right-left",
+              },
+            ],
+          },
+          { text: "Inserting a Node", link: "/avl-tree/insert" },
+          { text: "Deleting a Node", link: "/avl-tree/delete" },
         ],
       },
     ],
