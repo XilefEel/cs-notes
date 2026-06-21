@@ -168,12 +168,6 @@ Node *rotate_left(Node *y) {
 
 `y->right = T2` moves the saved subtree to the right of the old root.
 
-`update_height(y)` updates the old root's height first since it is now lower in the tree.
-
-`update_height(x)` updates the new root's height after since it depends on the old root's height.
-
-`return x` returns the new root so the parent can relink it.
-
 ### In Rust
 
 ```rust
@@ -200,11 +194,7 @@ impl AVLTree {
 
 `y.right = t2` attaches the saved subtree to the right of the old root.
 
-`update_height(&mut y)` updates the old root's height first since it is now lower in the tree.
-
 `x.left = Some(y)` makes the old root the left child of the new root, wrapping in `Some`.
-
-`update_height(&mut x)` updates the new root's height after.
 
 ## Key Difference
 
