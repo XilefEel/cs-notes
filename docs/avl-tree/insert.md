@@ -1,6 +1,6 @@
 # Inserting a Node
 
-Inserting a node into an AVL tree is similar to [inserting into a BST](../../binary-tree/operations/insert.md), but after every insertion we **update the height** and **rebalance** the node if needed. This ensures the tree stays balanced at all times.
+Inserting a node into an AVL tree is similar to [inserting into a BST](../binary-tree/operations/insert.md), but after every insertion we **update the height** and **rebalance** the node if needed. This ensures the tree stays balanced at all times.
 
 ```
 Insert 1, 2, 3 into an AVL tree:
@@ -15,8 +15,8 @@ Insert 1, 2, 3 into an AVL tree:
 
 ## The Approach
 
-- We recursively traverse the tree to find the correct place to insert, just like a BST
-- When we reach an empty spot, we create a new node and return it
+- We recursively traverse the tree to find the right place to insert, just like in a BST
+- When we reach an empty spot, we create a new node there
 - On the way back up the call stack, we **update the height** of each node
 - If its balance factor falls outside **-1, 0, or 1**, we **rebalance** it
 
