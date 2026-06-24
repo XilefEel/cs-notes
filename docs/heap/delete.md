@@ -13,11 +13,11 @@ Pop the root [9]:
 
 ## The Approach
 
-- Save the **root** element to return it later
-- Move the **last element** to the root and shrink the size by 1
+- We first save the **root** element to return it later
+- Then we move the **last element** to the root and shrink the size by 1
 - Compare the new root with its **children**
 - Swap with the **largest child** (max heap) or **smallest child** (min heap) if it violates the heap property
-- Repeat until we reach a **leaf** or the heap property is satisfied
+- Then repeat until we reach a **leaf** or the heap property is satisfied
 
 The process of restoring the heap property by **bubbling it down** until it's in the right position is called **downheap** or **heapify down**.
 

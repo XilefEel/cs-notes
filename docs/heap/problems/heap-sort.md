@@ -12,9 +12,9 @@ Result: [1, 2, 3, 5, 8]
 
 Heap sort is pretty straightforward:
 
-- Insert each element from the array into a **min heap**
-- Pop each element out one by one into the result array
-- The result is the array sorted in **ascending order** since the min heap always pops the smallest element first
+- We insert each element from the array into a **min heap**
+- We then pop each element out one by one into the result array
+- The result is the array is guranteed to be sorted in **ascending order** since the min heap always pops the smallest element first
 
 ```
 Array: [3, 1, 5, 2, 8]

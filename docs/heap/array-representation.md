@@ -78,11 +78,11 @@ Array: [_, 9, 7, 8, 3, 4]      Array: [_, 9, 7, 8, ?, 4]
         0  1  2  3  4  5               0  1  2  3  4  5
 ```
 
-In the right tree, index `4` has no node but index `5` does. The index trick breaks down because the mapping is no longer predictable.
+In the right tree, index `4` has no node but index `5` does, which breaks the mapping. This is why heaps must always be complete binary trees.
 
 ## Why Not Use Pointers?
 
-You might wonder why we don't just use nodes with `left` and `right` pointers like we did for the BST. We could, but the array approach has many clear advantages:
+We could use `left` and `right` pointers like we did for the BST, but the array approach has many clear advantages:
 
 |                  | Array                        | Nodes with pointers          |
 | ---------------- | ---------------------------- | ---------------------------- |

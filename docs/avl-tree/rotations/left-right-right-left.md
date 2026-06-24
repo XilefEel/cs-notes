@@ -18,8 +18,8 @@ A left-right rotation is used when the tree is **left heavy** but the **left chi
 
 ### The Approach
 
-- **Left rotate** the left child first to convert it into a left-left case
-- Then **right rotate** the root to restore balance
+- We **left rotate** the left child first to convert it into a left-left case
+- Then we **right rotate** the root to restore balance
 
 ```
 Before:                      left rotate [x]:               right rotate [z]:
@@ -60,9 +60,7 @@ impl AVLTree {
 
 `y.left.take().unwrap()` takes ownership of the left child so we can rotate it.
 
-`Self::rotate_left(left)` left rotates the left child, returning the new subtree root.
-
-`y.left = Some(...)` reattaches the rotated subtree as the new left child.
+`y.left = Some(Self::rotate_left(left))` left rotates the left child and reattaches the rotated subtree as the new left child.
 
 `Self::rotate_right(y)` right rotates the root and returns the new root.
 
@@ -81,8 +79,10 @@ A right-left rotation is the mirror image of a left-right rotation. It is used w
 
 ### The Approach
 
-- **Right rotate** the right child first to convert it into a right-right case
-- Then **left rotate** the root to restore balance
+We do the opposite of the left-right rotation:
+
+- We **right rotate** the right child first to convert it into a right-right case
+- Then we **left rotate** the root to restore balance
 
 ```
 Before:                   right rotate [x]:                 left rotate [z]:
@@ -123,9 +123,7 @@ impl AVLTree {
 
 `y.right.take().unwrap()` takes ownership of the right child so we can rotate it.
 
-`Self::rotate_right(right)` right rotates the right child, returning the new subtree root.
-
-`y.right = Some(...)` reattaches the rotated subtree as the new right child.
+`y.right = Some(Self::rotate_right(right))` right rotates the right child and reattaches the rotated subtree as the new right child.
 
 `Self::rotate_left(y)` left rotates the root and returns the new root.
 

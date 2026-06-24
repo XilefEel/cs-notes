@@ -87,7 +87,7 @@ let mut min_heap = Heap::new(|a: &i32, b: &i32| a < b);
 `Heap::new()` takes a comparator closure and returns an empty heap. `|a: &i32, b: &i32| a > b` creates a max heap, while `|a: &i32, b: &i32| a < b` creates a min heap.
 
 ::: info Why use a closure instead of two separate structs?
-We could have separate `MaxHeap` and `MinHeap` structs, but they would share identical code differing only in one comparison. By storing the comparator as a closure, one struct handles both cases cleanly — the behavior is decided at the time of creation, not in the struct definition.
+We could have separate `MaxHeap` and `MinHeap` structs, but they would share identical code differing only the comparison. By storing the comparator as a closure, one struct can handle both cases.
 :::
 
 ## Key Difference

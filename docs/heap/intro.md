@@ -58,8 +58,8 @@ Complete (valid heap shape):    Not complete (invalid heap shape):
         [9]                             [9]
        /   \                           /   \
      [7]   [8]                       [7]   [8]
-    /   \                                \
-  [3]   [4]                              [4]
+    /   \                               \
+  [3]   [4]                             [4]
 ```
 
 The right tree is invalid because the last level is not filled left to right (`[4]` is a right child with no left sibling).

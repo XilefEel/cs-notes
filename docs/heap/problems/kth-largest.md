@@ -15,7 +15,13 @@ Sorted descending: [12, 8, 5, 3, 2, 1]
 
 The naive approach is to sort the array in descending order and return the element at index `K-1`. This works but has a `O(n log n)` time complexity.
 
-The better approach is to maintain a **min heap of size K**. As we insert elements, whenever the heap grows beyond size `K`, we pop the smallest element out. At the end, the root is the guaranteed to be the Kth largest element. The reason why is because if we always keep only the **K largest elements** seen so far, the smallest of those (the root of the min heap) is by definition the Kth largest.
+The better approach is to maintain a **min heap of size K**:
+
+- Insert all the elements one by one
+- Whenever the heap grows beyond size `K`, we pop the smallest element out
+- At the end, the root is the guaranteed to be the Kth largest element
+ 
+The reason why is because if we always keep only the **K largest elements** seen so far, the smallest of those (the root of the min heap) is by definition the Kth largest.
 
 ```
 K = 2, Array: [3, 1, 5, 12, 2, 8]

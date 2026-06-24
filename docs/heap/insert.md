@@ -13,10 +13,10 @@ Insert [9] into the max heap:
 
 ## The Approach
 
-- Add the new element at the **end** of the array, incrementing the size
+- We add the new element at the **end** of the array, incrementing the size
 - Compare the element with its **parent** using the formula `parentIndex = index / 2`
-- If the element violates the heap property, **swap** it with its parent
-- Repeat until we reach the **root** or the heap property is satisfied
+- If the element violates the heap property, we **swap** it with its parent
+- We repeat until we reach the **root** or the heap property is satisfied
 
 The process of restoring the heap property by **bubbling it up** until it's in the right position is called **upheap** or **heapify up**.
 

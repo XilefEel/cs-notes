@@ -13,12 +13,12 @@ Sorted: [1, 2, 3, 4, 5, 6, 7]
 
 The naive approach is to just sort the entire array using a standard sorting algorithm, which would take `O(n log n)` time. But we can do better by taking advantage of the fact that the array is nearly sorted.
 
-Since every element is at most `K` positions away, the correct element for position `i` must be somewhere in the window `[i, i + K]`. We maintain a **min heap of size K + 1** and slide it across the array:
+Since every element is at most `K` positions away, the correct element for position `i` must be somewhere in the window `[i, i + K]`. We can maintain a **min heap of size K + 1** and slide it across the array:
 
 - Insert the first `K + 1` elements into a **min heap**
-- Pop the root into the result, which is guaranteed to be the next smallest element
+- Then pop the root into the result, which is guaranteed to be the next smallest element
 - Insert the next element from the array into the heap
-- Repeat until the array is exhausted, then pop the remaining elements
+- We repeat until the array is exhausted, then pop the remaining elements
 
 ```
 K = 2, Array: [3, 2, 1, 5, 4, 7, 6]
