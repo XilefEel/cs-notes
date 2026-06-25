@@ -44,6 +44,7 @@ void upheap(Heap *heap, int index) {
 
     swap(&heap->data[index], &heap->data[parentIndex]);
 
+    // Recurse upward
     upheap(heap, parentIndex);
 }
 
@@ -65,13 +66,13 @@ insert(&max_heap, 2);   // [_, 8, 3, 5, 1, 2]
 insert(&max_heap, 9);   // [_, 9, 3, 8, 1, 2, 5]
 ```
 
-`heap->size++` increments the size before inserting so the new element lands at the next available index.
+We have to do `heap->size++` to increment the size before inserting so that the new element lands at the next available index.
 
 `heap->data[heap->size] = value` places the new element at the end of the array.
 
 `upheap(heap, heap->size)` starts the upheap process from the newly inserted element, which is always at index `size`.
 
-`if (index <= 1)` is the base case when we have reached the root, so we stop.
+We check if we are at the root with `if (index <= 1)`, and if so, we stop.
 
 `if (heap->data[index] <= heap->data[parentIndex])` is the base case when the heap property is already satisfied, so we also stop.
 
@@ -105,6 +106,8 @@ impl<T: Default + PartialOrd, F: Fn(&T, &T) -> bool> Heap<T, F> {
         }
 
         self.data.swap(index, parent_index);
+
+        // Recurse upward
         self.upheap(parent_index);
     }
 

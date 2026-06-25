@@ -81,11 +81,11 @@ for (int i = 0; i < result_size; i++) {
 
 `create_heap(k + 1)` creates a min heap with capacity `k + 1` since we only ever hold `k + 1` elements at a time.
 
-`for (i = 0; i <= k && i < n; i++)` inserts the first `k + 1` elements into the heap to fill the initial window.
+We insert the first `k + 1` elements using `for (i = 0; i <= k && i < n; i++)` to fill the initial window.
 
-`result[idx++] = pop(&min_heap)` pops the smallest element in the current window into the result.
+`result[idx++] = pop(&min_heap)` pops the smallest element in the current window into the result and increments the index.
 
-`insert(&min_heap, arr[i++])` slides the window forward by inserting the next element.
+`insert(&min_heap, arr[i++])` inserts the next element from the array into the heap and increments `i` to slide the window forward.
 
 The final `while` loop pops the remaining elements from the heap after the array is exhausted.
 
@@ -130,9 +130,7 @@ let result = sort_nearly_sorted(&arr, k);
 println!("{:?}", result);   // [1, 2, 3, 4, 5, 6, 7]
 ```
 
-`arr.iter().take(k + 1)` takes the first `k + 1` elements from the array to fill the initial window.
-
-`arr.iter().skip(k + 1)` skips the first `k + 1` elements since they are already in the heap.
+`arr.iter().take(k + 1)` takes the first `k + 1` elements from the array to fill the initial window, while `arr.iter().skip(k + 1)` skips the first `k + 1` elements since they are already in the heap.
 
 `if let Some(min) = min_heap.pop()` pops the smallest element in the current window into the result.
 

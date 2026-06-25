@@ -90,9 +90,9 @@ pop(&max_heap);     // returns 8, heap: [_, 5, 3, 2, 1]
 pop(&max_heap);     // returns 5, heap: [_, 3, 1, 2]
 ```
 
-`int removed = heap->data[1]` saves the root element so that we can return it at the end.
+We save the root using `int removed = heap->data[1]` so that we can return it at the end.
 
-`heap->data[1] = heap->data[heap->size]` moves the last element to the root.
+`heap->data[1] = heap->data[heap->size]` moves the last element to the root by setting the root's value to the last element's value.
 
 `downheap(heap, 1)` starts the downheap process from the root.
 
@@ -100,7 +100,7 @@ pop(&max_heap);     // returns 5, heap: [_, 3, 1, 2]
 
 `int largestIndex = index` assumes the current node is the largest before challenging with children.
 
-`leftChildIndex <= heap->size && heap->data[leftChildIndex] > heap->data[largestIndex]` checks if the left child exists and is larger than the current largest. Same thing for the right child.
+`heap->data[leftChildIndex] > heap->data[largestIndex]` checks if the left child exists and is larger than the current largest. We do the same thing for the right child.
 
 `if (largestIndex == index) return` is the base case when the heap property is already satisfied, so we stop.
 
@@ -213,13 +213,13 @@ min_heap.pop();   // returns Some(3), heap: [_, 5, 9, 8]
 
 `if self.data.len() <= 1` is the base case for an empty heap since index `0` is always occupied by the dummy value.
 
-`self.data.pop()` removes and returns the last element as `Option<T>`, which is the old root.
+We remove the last element using `self.data.pop()` and return it as `Option<T>`, which is the old root.
 
 Unlike in C, we use `priority_index` instead of `largestIndex` because the same logic applies for both max and min heaps, so we just call it "priority" to be more generic.
 
 `Self::left_child_index(index) >= self.data.len()` is the base case when there are no children.
 
-`(self.comparator)(&self.data[left_child_index], &self.data[priority_index])` checks if the left child has higher priority than the current largest. Same thing for the right child.
+`(self.comparator)(&self.data[left_child_index], &self.data[priority_index])` uses our comparator closure to determine which child has higher priority.
 
 ::: info Why swap before pop?
 We can't remove the root directly without breaking the array structure. Instead we swap the root with the last element so the old root is now at the end, then `pop()` removes it cleanly from the back of the `Vec`.

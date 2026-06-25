@@ -105,7 +105,7 @@ println!("{:?}", result);   // [1, 2, 3, 5, 8]
 
 `Heap::new(|a: &i32, b: &i32| a < b)` creates a min heap for ascending order.
 
-`for &val in arr` iterates over the array, inserting each element into the min heap.
+`for &val in arr` iterates through each element in the array and inserts it into the min heap.
 
 `while let Some(val) = min_heap.pop()` pops elements one by one until the heap is empty.
 

@@ -69,11 +69,10 @@ printf("%d\n", result);  // 8
 
 `insert(&min_heap, arr[i])` inserts the current element into the min heap.
 
-`if (min_heap.size > k)` checks if the heap has grown beyond `k` elements.
+We check if the heap has grown beyond `k` elements with `if (min_heap.size > k)`. If so
+we use `pop(&min_heap)` to remove the smallest element, keeping only the `k` largest elements seen so far.
 
-`pop(&min_heap)` removes the smallest element, keeping only the `k` largest elements seen so far.
-
-`peek(&min_heap)` returns the root, which is the Kth largest element.
+`peek(&min_heap)` gives us the root of the min heap, which is guranteed to be the Kth largest element.
 
 ::: info Why use a min heap instead of a max heap?
 It might seem counterintuitive to use a min heap to find the Kth largest. But by keeping only the `K` largest elements in a min heap, the root is always the smallest of those `K` elements, which is exactly the Kth largest. A max heap would give us the largest element instantly but wouldn't help us track the Kth largest efficiently.
@@ -113,11 +112,9 @@ println!("{:?}", result);   // Some(8)
 
 `Heap::new(|a: &i32, b: &i32| a < b)` creates a min heap by passing a comparator that returns `true` when the left element is smaller.
 
-`min_heap.data.len() - 1 > k` checks if the heap has grown beyond `k` elements, subtracting `1` to account for the dummy value at index `0`.
+`min_heap.data.len() - 1 > k` checks if the heap has grown beyond `k` elements. We have to subtract `1` to account for the dummy value at index `0`.
 
-`min_heap.pop()` removes the smallest element, keeping only the `k` largest elements seen so far.
-
-`.copied()` converts the `Option<&i32>` from `min_heap.peek()` to `Option<i32>` since `i32` is cheap to copy.
+The `.copied()` after `min_heap.peek()` converts the `Option<&i32>` to `Option<i32>` since `i32` is cheap to copy.
 
 :::info What is .copied()?
 `.copied()` is a method on `Option<&T>` that converts it to `Option<T>` by copying the value inside. It is equivalent to `.map(|x| *x)`, it just dereferences the reference and wraps it back in `Some<T>`. It only works when `T` implements `Copy`, which `i32` does since it is a primitive type.
