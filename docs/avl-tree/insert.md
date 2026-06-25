@@ -102,13 +102,11 @@ impl AVLTree {
 }
 ```
 
-`update_height(&mut n)` updates the height of the node before checking the balance factor.
-
-`Self::get_balance_factor(Some(&n))` gets the balance factor of the current node.
+`Self::get_balance_factor(Some(&n))` gets the balance factor of the current node. We wrap `&n` in `Some` because `get_balance_factor()` takes an `Option<&Node>`.
 
 `n.left.take().unwrap()` takes ownership of the left child and unwraps it, so we can pass it into the rotation function.
 
-`n.left = Some(Self::rotate_left(left))` reattaches the rotated left child. Same for the right child in the right-left case.
+`n.left = Some(Self::rotate_left(left))` threattaches the rotated left child and wraps it in `Some`. Same for the right child in the right-left case.
 
 ## Insert
 
@@ -171,7 +169,7 @@ insert(&tree, 5);
 //                [5]
 ```
 
-`rebalance(node)` updates the height and rebalances the node on the way back up the call stack.
+The code is basically the same as insertion in a BST, but we call `rebalance(node)` on the way back up the call stack to ensure the tree remains balanced.
 
 ### In Rust
 
@@ -229,14 +227,7 @@ tree.insert(5);
 //                [5]
 ```
 
-`None => Box::new(Node { ... })` is the base case where we create and return the new node directly as a `Box<Node>`.
-
-`current.left.take()` moves the left child out so we can pass it into the recursive call.
-
-`Some(Self::insert_node(...))` wraps the returned `Box<Node>` back in `Some` to reattach it.
-
-`self.root = Some(Self::insert_node(self.root.take(), data))` takes ownership of the root, inserts into it, and assigns the result back wrapped in `Some`.
-
+Just like in C, the code is basically the same as insertion in a BST, but we call `Self::rebalance(current)` to update the height and rebalance the node on the way back up the call stack.
 
 ## Complexity
 

@@ -97,6 +97,8 @@ delete(&tree, 3);
 //    [2]
 ```
 
+Just like in insertion, the code is basically the same as deletion in a BST, but we call `rebalance(node)` on the way back up the call stack to ensure the tree remains balanced.
+
 ## In Rust
 
 ```rust
@@ -175,6 +177,8 @@ tree.delete(3)
 //      /
 //    [2]
 ```
+
+Just like in C, the code is basically the same as deletion in a BST, but we call `Self::rebalance(current)` on the way back up the call stack to ensure the tree remains balanced.
 
 ## Complexity
 

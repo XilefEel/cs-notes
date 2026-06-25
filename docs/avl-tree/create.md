@@ -37,13 +37,9 @@ AVLTree create_avl_tree() {
 AVLTree tree = create_avl_tree();
 ```
 
-`int height` stores the height of the node, initialized to `0` since a new node is always a leaf.
+Unlike our BST node, we now have `int height` to store the height of the node.
 
-`node->left = NULL` and `node->right = NULL` initialize the children to `NULL` since a new node has no children.
-
-`create_node()` allocates a new node with height `0` and no children.
-
-`create_avl_tree()` returns an empty tree with `root = NULL`.
+`create_node()` allocates memory for a new node with height `0` since it has no children.
 
 ## In Rust
 
@@ -68,10 +64,6 @@ impl AVLTree {
 // Usage
 let mut tree = AVLTree::new();
 ```
-
-`left: None` and `right: None` initialize the children to `None` since a new node has no children.
-
-`AVLTree::new()` returns an empty tree with `root = None`.
 
 ## Key Difference
 

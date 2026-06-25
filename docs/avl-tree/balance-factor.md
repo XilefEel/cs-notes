@@ -48,17 +48,17 @@ A balance factor outside **-1, 0, or 1** means the tree needs to be rotated. The
 **Right Heavy (balance factor < -1):**
 ```
   [1]           <- bf = -2, unbalanced!
-    \
-    [2]         <- bf = -1
-      \
-      [3]       <- bf = 0
+     \
+     [2]        <- bf = -1
+        \
+        [3]     <- bf = 0
 ```
 
 **Left-Right (left child is right heavy):**
 ```
-      [3]       <- bf = 2, unbalanced!
-     /
-   [1]          <- bf = -1
+     [3]        <- bf = 2, unbalanced!
+    /
+  [1]           <- bf = -1
      \
      [2]        <- bf = 0
 ```
@@ -66,9 +66,9 @@ A balance factor outside **-1, 0, or 1** means the tree needs to be rotated. The
 **Right-Left (right child is left heavy):**
 ```
   [1]           <- bf = -2, unbalanced!
-    \
-    [3]         <- bf = 1
-   /
+     \
+     [3]        <- bf = 1
+    /
   [2]           <- bf = 0
 ```
 
@@ -118,9 +118,11 @@ void update_height(Node *node) {
 }
 ```
 
-`height(node)` returns `-1` for `NULL` nodes since the height of an empty tree is defined as `-1`.
+`height(node)` returns `-1` for `NULL` nodes since the height of an empty tree is defined as `-1`. If it's not `NULL`, we just return the stored height of the node.
 
-`update_height(node)` recalculates the height of a node based on its children's heights.
+We return `height(left) - height(right)` to get the balance factor of a node.
+
+`update_height(node)` recalculates the height of a node based on its children's heights using the ternary operator `(left_height > right_height ? left_height : right_height)` to find the maximum.
 
 ## In Rust
 
@@ -149,12 +151,13 @@ impl AVLTree {
     }
 }
 ```
+`height` takes an `Option<&Box<Node>>` because we want to handle the case where the node might be `None` (empty) and we only want to read the height without taking ownership of the node.
 
 `match node { None => -1, Some(n) => n.height }` returns `-1` for empty nodes and the stored height otherwise.
 
-`Self::height(n.left.as_ref()) - Self::height(n.right.as_ref())` computes the balance factor by subtracting right height from left height.
+We use `as_ref()` in `Self::height(n.left.as_ref()) - Self::height(n.right.as_ref())` because `n.left` and `n.right` are `Option<Box<Node>>`, and we need to convert them to `Option<&Box<Node>>` to pass to the `height` function.
 
-`left_height.max(right_height)` returns the maximum of the two heights. Alternatively, we could use `std::cmp::max(left_height, right_height)`.
+`left_height.max(right_height)` returns the maximum of the two heights. We could alternatively use `std::cmp::max(left_height, right_height)` to achieve the same result.
 
 ## Key Difference
 
