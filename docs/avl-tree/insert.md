@@ -70,7 +70,7 @@ Node *rebalance(Node *n) {
 ```rust
 impl AVLTree {
     fn rebalance(mut n: Box<Node>) -> Box<Node> {
-        update_height(&mut n);
+        Self::update_height(&mut n);
         let bf = Self::get_balance_factor(Some(&n));
 
         // Left-left case: single right rotation

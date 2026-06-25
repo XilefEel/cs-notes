@@ -54,7 +54,7 @@ Node *delete_node(Node *node, int data) {
         // Case 3: two children, replace with inorder successor
         Node *successor = find_successor(node);
         node->data = successor->data;
-        node->left = delete_node(node->right, successor->data);
+        node->right = delete_node(node->right, successor->data);
     }
 
     return rebalance(node);
@@ -132,7 +132,7 @@ impl AVLTree {
                     // Case 3: two children, replace with inorder successor
                     let successor_data = Self::find_successor(&current);
                     current.data = successor_data;
-                    current.left = Self::delete_node(current.left.take(), successor_data);
+                    current.right = Self::delete_node(current.right.take(), successor_data);
                 }
 
                 Some(Self::rebalance(current))

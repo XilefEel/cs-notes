@@ -82,10 +82,10 @@ impl AVLTree {
 
         // Perform rotation
         y.left = t2;
-        update_height(&mut y);
+        Self::update_height(&mut y);
 
         x.right = Some(y);
-        update_height(&mut x);
+        Self::update_height(&mut x);
 
         x
     }
@@ -178,10 +178,10 @@ impl AVLTree {
 
         // Perform rotation
         y.right = t2;
-        update_height(&mut y);
+        Self::update_height(&mut y);
 
         x.left = Some(y);
-        update_height(&mut x);
+        Self::update_height(&mut x);
 
         x
     }
